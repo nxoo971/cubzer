@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:41 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/10 19:18:10 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/12 22:47:45 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	key_hook(int keycode, t_data *data)
 		move_horizontal(data, - 1);
 	if (keycode == RIGHT || keycode == D)
 		move_horizontal(data, + 1);
-	draw_map(data);
+	draw_minimap(data);
 	//print_map(*data);
 	return (0);
 }
@@ -66,16 +66,14 @@ int	key_hook(int keycode, t_data *data)
 static
 int	lunch_game(t_data *data)
 {
-	data -> mlx_ptr = mlx_init();
-	if (!data -> mlx_ptr)
+	if (init_mlx(data))
 		return (EXIT_FAILURE);
-	data -> win_ptr = mlx_new_window(data -> mlx_ptr, WIDTH, HEIGHT, "CubZer");
-	if (!data -> win_ptr)
-	{
-		free(data -> mlx_ptr);
+	if (init_map(data))
 		return (EXIT_FAILURE);
-	}
 	draw(data);
+	if (init_minimap(data))
+		return (EXIT_FAILURE);
+	draw_minimap(data);
 	mlx_hook(data -> win_ptr, CLOSE, 0, & quit, data);
 	mlx_hook(data -> win_ptr, 1, 1UL << 0, & key_hook, data);
 	mlx_key_hook(data -> win_ptr, & key_hook, data);
@@ -96,8 +94,8 @@ int	main(int ac, char **av, char **env)
 	{
 		testgetp(& data);
 		print_map(data);
-		//lunch_game(& data);
-		start_game(& data);
+		lunch_game(& data);
+		// start_game(& data);
 	}
 	else
 		ft_printf("{blue}-->{yellow}Parsing: {red}%d{reset}\n", ret);

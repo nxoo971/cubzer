@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 02:12:14 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/04 04:29:14 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/12 21:37:48 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "cub3d.h"
 
 # define EXTENSION	".cub"
+# define BLOC_SIZE	16
 # define KEY_SIZE	6
 
 # define WALL	'1'

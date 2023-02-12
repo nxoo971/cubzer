@@ -6,11 +6,12 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 02:50:08 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/04 04:27:51 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/11 23:01:09 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./includes/cub3d.h"
+#include <stdio.h>
 
 # define SPACES " \t"
 # define RESET "\033[0m"

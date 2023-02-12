@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:57 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/08 17:59:30 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/12 22:40:00 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,24 +93,27 @@ typedef struct s_data
 }	t_data;
 
 /*
-	DIRECTORY:	./parsing
+	DIRECTORY:	./init
 */
-//	parse.c
+//	init.c
+int		init_mlx(t_data *data);
+int		init_map(t_data *data);
+int		init_minimap(t_data *data);
 
 /*
 	DIRECTORY:	./move
 */
 //	movements.c
-void BresenhamLine(t_mlx mlx, int x1, int y1, int x2, int y2);
+void	BresenhamLine(t_mlx mlx, int x1, int y1, int x2, int y2);
 void	move_vertical(t_data *data, int add);
 void	move_horizontal(t_data *data, int add);
 
 /*
-	DIRECTORY:	./move
+	DIRECTORY:	./draw
 */
-//	movements.c
+//	draw.c
 void	draw(t_data* data);
-void	draw_map(t_data *data);
+void	draw_minimap(t_data *data);
 
 /*
 	DIRECTORY:	./color

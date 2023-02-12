@@ -3,18 +3,15 @@
 #===============================================================================#
 
 PARSING_DIR	= parsing
+INIT_DIR	= init
 MAP_DIR		= $(PARSING_DIR)/map
 MOVE_DIR	= move
 DRAW_DIR	= draw
 COLOR_DIR	= color
 FREE_DIR	= free
 
-INIT_DIRS	= $(PARSING_DIR)\
-			$(MAP_DIR)\
-			$(FREE_DIR)\
-			
-
-SRC_FILES =	$(addprefix $(MAP_DIR)/, parse_map.c parse_map_utils.c set_infos.c valid_map.c) \
+SRC_FILES = $(addprefix $(INIT_DIR)/, init.c) \
+			$(addprefix $(MAP_DIR)/, parse_map.c parse_map_utils.c set_infos.c valid_map.c) \
 			$(addprefix $(MOVE_DIR)/, movements.c) \
 			$(addprefix $(DRAW_DIR)/, draw.c) \
 			$(addprefix $(COLOR_DIR)/, color.c) \
@@ -25,7 +22,7 @@ SRC_FILES =	$(addprefix $(MAP_DIR)/, parse_map.c parse_map_utils.c set_infos.c v
 #									OBJETS										#
  #=============================================================================#
 
-OBJS_DIR = objets
+OBJS_DIR = objects
 OBJS = $(SRC_FILES:%.c=$(OBJS_DIR)/%.o)
 DEPS = $(SRC_FILES:%.c=$(OBJS_DIR)/%.d)
 
@@ -46,7 +43,7 @@ CIFLAGS = -Iincludes -I$(LIB_DIR)/includes
 CLFLAGS = -L$(LIB_DIR) -lft
 MLX_DIR = mlx
 MLX = $(MLX_DIR)/libmlx.a
-MLXFLAGS = -L. -lXext -L. -lX11 -lm
+MLXFLAGS = -L. -lXext -lX11 -lm
 
  #=============================================================================#
 #									MAKEFILE									#
@@ -66,6 +63,7 @@ $(OBJS_DIR) :
 	$(MAKE) -C $(LIB_DIR)
 	mkdir $(OBJS_DIR)
 	mkdir $(OBJS_DIR)/$(PARSING_DIR)
+	mkdir $(OBJS_DIR)/$(INIT_DIR)
 	mkdir $(OBJS_DIR)/$(MAP_DIR)
 	mkdir $(OBJS_DIR)/$(MOVE_DIR)
 	mkdir $(OBJS_DIR)/$(DRAW_DIR)

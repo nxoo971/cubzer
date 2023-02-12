@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 03:28:27 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/10 02:41:09 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/12 22:36:00 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,56 +93,28 @@ void	draw_ray(t_data *data)
 								(HEIGHT / 4) - ((data -> map.height *  SIZE_BLOC) / 2));
 }
 
-void	draw_map(t_data *data)
+void	draw_bloc(t_mlx mlx, const int y, const int x, const int color)
 {
-	const int	height = data -> map.height;
-	const int	width = data -> map.width;
-	int			color;
-	char		**map;
-	int			minimap_height, minimap_width;
+	for (int h = 0; h < BLOC_SIZE; h++)
+		for (int w = 0; w < BLOC_SIZE; w++)
+			mlx_put_pixel(mlx, w + (x * BLOC_SIZE), h + (y * BLOC_SIZE), color);
+}
+
+void	draw_minimap(t_data *data)
+{
+	const int			height = data -> map.height;
+	const int			width = data -> map.width;
+	static const int	colors[2] = {0x17B39B, 0xDB0FFF};
+	char				**map;
 
 	map = data -> map.map;
-	int size = SIZE_BLOC;
-	minimap_height = height * size;
-	minimap_width = width * size;
-	if (data -> img_map)
-		mlx_destroy_image(data -> mlx_ptr, data -> img_map);
-	data -> img_map = mlx_new_image(data -> mlx_ptr, minimap_width, minimap_height);
-	data -> img_addr = mlx_get_data_addr(data -> img_map, & data -> mlx.bits_per_pixel, & data -> mlx.line_length, & data -> mlx.endian);
 	data -> mlx.img = data -> img_map;
 	data -> mlx.addr = data -> img_addr;
-	for (size_t y = 0; y < height; y++)
-		for (size_t x = 0; x < map[y][x]; x++)
-			for (size_t t = 0; t < size; t++)
-				for (size_t r = 0; r < size; r++)
-				{
-					if (map[y][x] == WALL)
-						color = set_rgb((int [3]){205, 53, 45});
-					if (map[y][x] == BLANK)
-						color = set_rgb((int [3]){25, 79, 126});
-					if (map[y][x] == 'N')
-						color = set_rgb((int [3]){55, 12, 53});
-					mlx_put_pixel(data -> mlx, r + (x * size), t + (y * size), color);
-				}
-	draw_ray(data);
-	//ft_printf("Premier rayon touchant un mur: \n");
-	//ft_printf("\tbegin_vertical: %d | end_vertical: %d\n", data->ray.begin_vertical, data->ray.end_vertical);
-	//ft_printf("\tbegin_horizontal: %d | end_horizontal: %d\n", data->ray.begin_horizontal, data->ray.end_horizontal);
-	//ft_printf("\tOppose: %d | Adjacent: %d\n", data->ray.oppose, data->ray.adjacent);
-	//ft_printf("\t\tIntersection au player\n"); // a finir intersection
-	//ft_printf("\t\t\tOppose: %d | Adjacent: %d\n", abs((data->player.x * SIZE_BLOC) - data->ray.oppose), abs((data->player.x * SIZE_BLOC) - data->ray.adjacent));
-	//ft_printf("end x %d | end y %d\n", data->ray.end_horizontal, data->ray.end_vertical);
-	//ft_printf("start x %d\n", data->ray.begin_horizontal);
-	//ft_printf("data->player.x %d\n", data->player.x);
-	//printf("\t\t\thypo: %f\n", sqrt(pow(data->ray.end_horizontal * SIZE_BLOC, 2) + pow(data->ray.end_vertical * SIZE_BLOC, 2)));
-	//printf("\t\t\thypo pas bloc: %f\n", sqrt(pow(data->ray.end_horizontal, 2) + pow(data->ray.end_vertical, 2)));
-	//printf("\t\t\tverif: %f\n", sqrt((pow(data->ray.end_horizontal, 2) + pow(data->ray.end_vertical, 2)) - pow(data->ray.end_horizontal, 2)));
-	////printf("\tHypothenuse: %d \n", (int)pow(11, 2));// + pow(data->ray.adjacent, 2)));
-	//ft_printf("Position du player:\n");
-	//ft_printf("\ty: %d | x: %d\n", data -> player.y, data -> player.x);
-	//ft_printf("\t---> y: %d | x: %d\n\n\n", data -> player.y, data -> player.x - data->ray.begin_horizontal);
-	//ft_printf("\tTaille de la map\n");
-	//ft_printf("\tHeight: %d | Width: %d\n", data -> map.height, data -> map.width);
+	for (int y = 0; y < height; y++)
+		for (int x = 0; map[y][x]; x++)
+				draw_bloc(data -> mlx, y, x, colors[map[y][x] == WALL]);
+	draw_bloc(data -> mlx, data -> player.y, data -> player.x, 0xF4FF0F);
+	mlx_put_image_to_window(data -> mlx_ptr, data -> win_ptr, data -> mlx.img, 0, 0);
 }
 
 void        BresenhamLine(t_mlx mlx, int x0, int y0, int x1, int y1)
@@ -162,25 +134,15 @@ void        BresenhamLine(t_mlx mlx, int x0, int y0, int x1, int y1)
 
 void	draw(t_data *data)
 {
-	int		floor;
-	int		ceil;
+	const int	mid = HEIGHT / 2;
+	int			*colors;
+	int			color;
 
-	ceil = set_rgb(data -> map.color_ceil);
-	floor = set_rgb(data -> map.color_floor);
-	data -> img = mlx_new_image(data -> mlx_ptr, WIDTH, HEIGHT);
-	data -> addr = mlx_get_data_addr(data -> img, & data -> mlx.bits_per_pixel, & data -> mlx.line_length, & data -> mlx.endian);
+	colors = (int [2]){set_rgb(data -> map.color_ceil), set_rgb(data -> map.color_floor)};
 	data -> mlx.img = data -> img;
 	data -> mlx.addr = data -> addr;
-	for (int i = 0; i < WIDTH; i++)
-	{
-		for (int j = 0; j < HEIGHT; j++)
-		{
-			if (j > HEIGHT / 2)
-				mlx_put_pixel(data -> mlx, i, j, ceil);
-			else
-				mlx_put_pixel(data -> mlx, i, j, floor);
-		}
-	}
+	for (int y = 0; y < HEIGHT; y++)
+		for (int x = 0; x < WIDTH; x++)
+			mlx_put_pixel(data -> mlx, x, y, colors[y >= mid]);
 	mlx_put_image_to_window(data -> mlx_ptr, data -> win_ptr, data -> mlx.img, 0, 0);
-	draw_map(data);
 }
