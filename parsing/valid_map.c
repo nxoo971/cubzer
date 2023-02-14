@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./../../includes/cub3d.h"
+#include "./../includes/cub3d.h"
 
 static
 int	set_map(t_map *map, const char *src_map)

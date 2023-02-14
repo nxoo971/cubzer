@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:57 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/12 22:40:00 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/14 03:25:23 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,12 @@
 # include "./../mlx/mlx/mlx.h"
 # include "map.h"
 
-# define SIZE_BLOC	15
 # define WIDTH	1280
 # define HEIGHT	720
+
+# define GAME_WIDTH		WIDTH - (WIDTH / 4)
+# define GAME_HEIGHT	HEIGHT - (HEIGHT / 2)
+
 # define FOV			90.0f
 # define WALL_HEIGHT	50.0f
 # define NUM_WALLS		5
@@ -37,16 +40,25 @@ enum {
 	A		= 97,
 	S		= 115,
 	D		= 100,
+	H		= 104,
+	Y		= 121
+};
+
+enum {
+	MLX_IMG_MAP,
+	MLX_IMG_MINIMAP,
+	MLX_IMG_GAME,
 };
 
 typedef struct s_mlx
 {
 	void	*img;
 	void	*addr;
+	int		index;
 
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
+	int		bits_per_pixel[3];
+	int		line_length[3];
+	int		endian[3];
 }	t_mlx;
 
 typedef struct s_player
@@ -63,12 +75,6 @@ typedef struct s_ray
 	int		begin_horizontal;
 	int		end_horizontal;
 
-	int		vertical_y;
-	int		vertical_x;
-
-	int		horizontal_y;
-	int		horizontal_x;
-
 	int		oppose; // vertical
 	int		adjacent; // horizon
 	int		hypothenuse;
@@ -84,7 +90,10 @@ typedef struct s_data
 	void		*addr;
 
 	void		*img_map;
-	void		*img_addr;
+	void		*map_addr;
+
+	void		*img_game;
+	void		*game_addr;
 
 	t_mlx		mlx;
 	t_map		map;
@@ -99,12 +108,12 @@ typedef struct s_data
 int		init_mlx(t_data *data);
 int		init_map(t_data *data);
 int		init_minimap(t_data *data);
+int		init_gameplay(t_data *data);
 
 /*
 	DIRECTORY:	./move
 */
 //	movements.c
-void	BresenhamLine(t_mlx mlx, int x1, int y1, int x2, int y2);
 void	move_vertical(t_data *data, int add);
 void	move_horizontal(t_data *data, int add);
 
@@ -112,8 +121,15 @@ void	move_horizontal(t_data *data, int add);
 	DIRECTORY:	./draw
 */
 //	draw.c
-void	draw(t_data* data);
+
+//	draw_ray.c
+void	draw_game(t_data* data);
+void	draw_gameplay(t_data *data, int add);
+void	draw_ray(t_data *data);
 void	draw_minimap(t_data *data);
+//	bresenham.c
+void	bresenham_line(t_mlx mlx, int x1, int y1, int x2, int y2);
+void	bresenham_circle(t_mlx mlx, int xc, int yc, int r);
 
 /*
 	DIRECTORY:	./color

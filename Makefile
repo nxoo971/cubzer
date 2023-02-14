@@ -4,16 +4,15 @@
 
 PARSING_DIR	= parsing
 INIT_DIR	= init
-MAP_DIR		= $(PARSING_DIR)/map
 MOVE_DIR	= move
 DRAW_DIR	= draw
 COLOR_DIR	= color
 FREE_DIR	= free
 
 SRC_FILES = $(addprefix $(INIT_DIR)/, init.c) \
-			$(addprefix $(MAP_DIR)/, parse_map.c parse_map_utils.c set_infos.c valid_map.c) \
+			$(addprefix $(PARSING_DIR)/, parse_map.c parse_map_utils.c set_infos.c valid_map.c) \
 			$(addprefix $(MOVE_DIR)/, movements.c) \
-			$(addprefix $(DRAW_DIR)/, draw.c) \
+			$(addprefix $(DRAW_DIR)/, draw.c draw_ray.c bresenham.c) \
 			$(addprefix $(COLOR_DIR)/, color.c) \
 			$(addprefix $(FREE_DIR)/, free.c) \
 			main.c print.c
@@ -64,7 +63,6 @@ $(OBJS_DIR) :
 	mkdir $(OBJS_DIR)
 	mkdir $(OBJS_DIR)/$(PARSING_DIR)
 	mkdir $(OBJS_DIR)/$(INIT_DIR)
-	mkdir $(OBJS_DIR)/$(MAP_DIR)
 	mkdir $(OBJS_DIR)/$(MOVE_DIR)
 	mkdir $(OBJS_DIR)/$(DRAW_DIR)
 	mkdir $(OBJS_DIR)/$(COLOR_DIR)

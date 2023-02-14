@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:41 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/12 22:47:45 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/14 03:25:13 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	mlx_put_pixel(t_mlx mlx, int x, int y, int color)
 {
 	char	*dst;
 
-	dst = mlx.addr + (y * mlx.line_length + x * (mlx.bits_per_pixel / 8));
+	dst = mlx.addr + (y * mlx.line_length[mlx.index] + x * (mlx.bits_per_pixel[mlx.index] / 8));
 	*(unsigned int*)dst = color;
 }
 
@@ -58,8 +58,12 @@ int	key_hook(int keycode, t_data *data)
 		move_horizontal(data, - 1);
 	if (keycode == RIGHT || keycode == D)
 		move_horizontal(data, + 1);
+	if (keycode == H)
+		draw_gameplay(data, - 1);
+	if (keycode == Y)
+		draw_gameplay(data, + 1);
 	draw_minimap(data);
-	//print_map(*data);
+	print_map(*data);
 	return (0);
 }
 
@@ -70,10 +74,13 @@ int	lunch_game(t_data *data)
 		return (EXIT_FAILURE);
 	if (init_map(data))
 		return (EXIT_FAILURE);
-	draw(data);
+	draw_game(data);
 	if (init_minimap(data))
 		return (EXIT_FAILURE);
 	draw_minimap(data);
+	if (init_gameplay(data))
+		return (EXIT_FAILURE);
+	draw_gameplay(data, 1);
 	mlx_hook(data -> win_ptr, CLOSE, 0, & quit, data);
 	mlx_hook(data -> win_ptr, 1, 1UL << 0, & key_hook, data);
 	mlx_key_hook(data -> win_ptr, & key_hook, data);

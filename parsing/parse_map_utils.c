@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./../../includes/cub3d.h"
+#include "./../includes/cub3d.h"
 
 char	*readfile(int fd, bool force)
 {

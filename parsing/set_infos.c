@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./../../includes/cub3d.h"
+#include "./../includes/cub3d.h"
 
 int	set_key(t_map *map, const char *key)
 {
