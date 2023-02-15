@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:41 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/14 03:25:13 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/15 01:38:02 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	mlx_put_pixel(t_mlx mlx, int x, int y, int color)
 	char	*dst;
 
 	dst = mlx.addr + (y * mlx.line_length[mlx.index] + x * (mlx.bits_per_pixel[mlx.index] / 8));
-	*(unsigned int*)dst = color;
+	*(unsigned int *)dst = color;
 }
 
 static
@@ -51,18 +51,22 @@ int	key_hook(int keycode, t_data *data)
 	if (keycode == ESC)
 		mlx_loop_end(data -> mlx_ptr);
 	if (keycode == TOP || keycode == W)
-		move_vertical(data, - 1);
+		data -> player.walk_direction = + 1;
 	if (keycode == DOWN || keycode == S)
-		move_vertical(data, + 1);
+		data -> player.walk_direction = - 1;
 	if (keycode == LEFT || keycode == A)
-		move_horizontal(data, - 1);
+		data -> player.view_direction = - 1;
 	if (keycode == RIGHT || keycode == D)
-		move_horizontal(data, + 1);
-	if (keycode == H)
-		draw_gameplay(data, - 1);
-	if (keycode == Y)
-		draw_gameplay(data, + 1);
+		data -> player.view_direction = + 1;
 	draw_minimap(data);
+	if (keycode == TOP || keycode == W)
+		data -> player.walk_direction = 0;
+	if (keycode == DOWN || keycode == S)
+		data -> player.walk_direction = 0;
+	if (keycode == LEFT || keycode == A)
+		data -> player.view_direction = 0;
+	if (keycode == RIGHT || keycode == D)
+		data -> player.view_direction = 0;
 	print_map(*data);
 	return (0);
 }
@@ -80,7 +84,7 @@ int	lunch_game(t_data *data)
 	draw_minimap(data);
 	if (init_gameplay(data))
 		return (EXIT_FAILURE);
-	draw_gameplay(data, 1);
+	// draw_gameplay(data, 1);
 	mlx_hook(data -> win_ptr, CLOSE, 0, & quit, data);
 	mlx_hook(data -> win_ptr, 1, 1UL << 0, & key_hook, data);
 	mlx_key_hook(data -> win_ptr, & key_hook, data);
@@ -90,7 +94,7 @@ int	lunch_game(t_data *data)
 
 int	main(int ac, char **av, char **env)
 {
-	static t_data	data = {0};
+	static t_data	data = {0, .player.rotation_angle = M_PI / 2.};
 	int				ret;
 
 	if (!env || !*env || ac != 2)

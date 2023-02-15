@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:57 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/14 03:25:23 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/15 00:36:13 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,11 @@
 # define GAME_WIDTH		WIDTH - (WIDTH / 4)
 # define GAME_HEIGHT	HEIGHT - (HEIGHT / 2)
 
-# define FOV			90.0f
-# define WALL_HEIGHT	50.0f
-# define NUM_WALLS		5
+# define ROTATION_SPEED	2. * (M_PI / 180.)
+# define MOVE_SPEED	2.
+
+# define FOV			90.0
+
 
 enum {
 	CLOSE	= 17,
@@ -63,8 +65,11 @@ typedef struct s_mlx
 
 typedef struct s_player
 {
-	int	x;
-	int	y;
+	int		x;
+	int		y;
+	double	rotation_angle;
+	double	view_direction;
+	double	walk_direction;
 }	t_player;
 
 typedef struct s_ray

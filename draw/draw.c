@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 03:28:27 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/14 03:27:39 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/15 01:31:43 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	draw_bloc(t_mlx mlx, const int y, const int x, const int color)
 
 void	draw_minimap(t_data *data)
 {
-	static const int	colors[2] = {0x17B39B, 0xDB0FFF};
+	static const int	colors[2] = {0xFFF, 0x000};
 	const int			height = data -> map.height;
 	const int			width = data -> map.width;
 	char				**map;
@@ -30,6 +30,11 @@ void	draw_minimap(t_data *data)
 	data -> mlx.img = data -> img_map;
 	data -> mlx.addr = data -> map_addr;
 	data -> mlx.index = MLX_IMG_MINIMAP;
+
+	data -> player.rotation_angle += data -> player.view_direction * ROTATION_SPEED;
+	double moveStep = data -> player.walk_direction * MOVE_SPEED;
+	data -> player.x = data -> player.x + cos(data -> player.rotation_angle) * moveStep;
+	data -> player.y = data -> player.y + sin(data -> player.rotation_angle) * moveStep;
 	for (int y = 0; y < height; y++)
 		for (int x = 0; map[y][x]; x++)
 				draw_bloc(data -> mlx, y, x, colors[map[y][x] == WALL]);
@@ -45,7 +50,7 @@ void	draw_gameplay(t_data *data, int add)
 {
 	if (data -> player.y + add < 0 || data -> player.y + add >= data -> map.height)
 		return ;
-	data -> player.y += add;
+	// data -> player.y += add;
 	data -> mlx.img = data -> img_game;
 	data -> mlx.addr = data -> game_addr;
 	data -> mlx.index = MLX_IMG_GAME;
