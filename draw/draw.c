@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 03:28:27 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/15 01:31:43 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/16 19:52:11 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ void	draw_minimap(t_data *data)
 	data -> mlx.addr = data -> map_addr;
 	data -> mlx.index = MLX_IMG_MINIMAP;
 
-	data -> player.rotation_angle += data -> player.view_direction * ROTATION_SPEED;
-	double moveStep = data -> player.walk_direction * MOVE_SPEED;
-	data -> player.x = data -> player.x + cos(data -> player.rotation_angle) * moveStep;
-	data -> player.y = data -> player.y + sin(data -> player.rotation_angle) * moveStep;
+	// data -> player.rotation_angle += data -> player.view_direction * ROTATION_SPEED;
+	// double moveStep = data -> player.walk_direction * MOVE_SPEED;
+	// data -> player.x = data -> player.x + cos(data -> player.rotation_angle) * moveStep;
+	// data -> player.y = data -> player.y + sin(data -> player.rotation_angle) * moveStep;
 	for (int y = 0; y < height; y++)
 		for (int x = 0; map[y][x]; x++)
 				draw_bloc(data -> mlx, y, x, colors[map[y][x] == WALL]);

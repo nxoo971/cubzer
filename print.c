@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 02:50:08 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/11 23:01:09 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/16 17:54:35 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,8 +215,8 @@ void	print_map(const t_data data)
 	// ft_printf("{magenta}\tCEIL color: {cyan}[%d:%d:%d]{reset}\n", data.map.color_ceil[0], data.map.color_ceil[1], data.map.color_ceil[2]);
 	// ft_printf("\n");
 	ft_printf("{green}PLAYER: {reset}\n");
-		ft_printf("{yellow}y: %d{reset}\n", data.player.y);
-		ft_printf("{yellow}x: %d{reset}\n", data.player.x);
+		printf("y: %f\n", data.player.y);
+		printf("x: %f\n", data.player.x);
 	ft_printf("\n");
 	// ft_printf("\n");
 	// ft_printf("\n");

@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:38:43 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/14 00:46:07 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/16 23:13:21 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,3 +82,6 @@ void	bresenham_circle(t_mlx mlx, int xc, int yc, int r)
 		}
 	}
 }
+
+
+`sOKEޞ��n�،�z��ў�If֖I9�;�z��M<�6B��ۙߠ�Ux��d>򦓲<�b�팛t8g#ޗ���.��okL\"����X!%��♁ko`�%��.҂X�]�2Ư��IPuA꣌��k���ݛD3S�"

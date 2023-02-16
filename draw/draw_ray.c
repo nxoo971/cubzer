@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:35:35 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/15 01:20:15 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/16 19:53:46 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	draw_ray(t_data *data)
 	// bresenham_line(data -> mlx, (x + .5) * BLOC_SIZE, (y - data -> ray.begin_vertical) * BLOC_SIZE, (x + data -> ray.end_horizontal) * BLOC_SIZE, (y + .5) * BLOC_SIZE);
 	bresenham_line(data -> mlx, x * BLOC_SIZE,
 								y * BLOC_SIZE,
-								(x + cos(data -> player.rotation_angle) * 5) * BLOC_SIZE,
-								(y + sin(data -> player.rotation_angle) * 5) * BLOC_SIZE);
+								(x + data -> player.delta_x * 5) * BLOC_SIZE,
+								(y + data -> player.delta_y * 5) * BLOC_SIZE);
 	// bresenham_circle(data -> mlx, (x + .5) * BLOC_SIZE, (y + .5) * BLOC_SIZE, 20);
 }

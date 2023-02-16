@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:41 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/15 01:38:02 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/16 19:46:18 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,10 @@ void	mlx_put_pixel(t_mlx mlx, int x, int y, int color)
 }
 
 static
-void	testgetp(t_data *data)
+void	get_playerpos(t_data *data)
 {
+	data -> player.delta_y = sin(data -> player.rotation_angle * M_PI / 180.);
+	data -> player.delta_x = cos(data -> player.rotation_angle * M_PI / 180.);
 	for (int i = 0; i < data -> map.height; i++)
 	{
 		for (int j = 0; data -> map.map[i][j]; j++)
@@ -51,13 +53,31 @@ int	key_hook(int keycode, t_data *data)
 	if (keycode == ESC)
 		mlx_loop_end(data -> mlx_ptr);
 	if (keycode == TOP || keycode == W)
-		data -> player.walk_direction = + 1;
+	{
+		data -> player.y += data -> player.delta_y * 5;
+		data -> player.x += data -> player.delta_x * 5;
+		// data -> player.walk_direction = + 1;
+	}
 	if (keycode == DOWN || keycode == S)
-		data -> player.walk_direction = - 1;
+	{
+		data -> player.y -= data -> player.delta_y * 5;
+		data -> player.x -= data -> player.delta_x * 5;
+		// data -> player.walk_direction = - 1;
+	}
 	if (keycode == LEFT || keycode == A)
-		data -> player.view_direction = - 1;
+	{
+		data -> player.rotation_angle += 5;
+		data -> player.delta_y = -sin(data -> player.rotation_angle * M_PI / 180.);
+		data -> player.delta_x = cos(data -> player.rotation_angle * M_PI / 180.);
+		// data -> player.view_direction = - 1;
+	}
 	if (keycode == RIGHT || keycode == D)
-		data -> player.view_direction = + 1;
+	{
+		data -> player.rotation_angle -= 5;
+		data -> player.delta_y = -sin(data -> player.rotation_angle * M_PI / 180.);
+		data -> player.delta_x = cos(data -> player.rotation_angle * M_PI / 180.);
+		// data -> player.view_direction = + 1;
+	}
 	draw_minimap(data);
 	if (keycode == TOP || keycode == W)
 		data -> player.walk_direction = 0;
@@ -103,10 +123,9 @@ int	main(int ac, char **av, char **env)
 	ret = parse_map(& data.map);
 	if (ret == EXIT_SUCCESS)
 	{
-		testgetp(& data);
+		get_playerpos(& data);
 		print_map(data);
 		lunch_game(& data);
-		// start_game(& data);
 	}
 	else
 		ft_printf("{blue}-->{yellow}Parsing: {red}%d{reset}\n", ret);

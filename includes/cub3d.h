@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:57 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/15 00:36:13 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/16 19:54:42 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # define GAME_HEIGHT	HEIGHT - (HEIGHT / 2)
 
 # define ROTATION_SPEED	2. * (M_PI / 180.)
-# define MOVE_SPEED	2.
+# define MOVE_SPEED	1.
 
 # define FOV			90.0
 
@@ -65,8 +65,10 @@ typedef struct s_mlx
 
 typedef struct s_player
 {
-	int		x;
-	int		y;
+	double	x;
+	double	y;
+	double	delta_y;
+	double	delta_x;
 	double	rotation_angle;
 	double	view_direction;
 	double	walk_direction;
