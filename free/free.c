@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 02:47:36 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/12 21:37:15 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/18 06:40:59 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,16 @@ void	free_cub3d(t_data *data)
 		mlx_destroy_image(data -> mlx_ptr, data -> img);
 	if (data -> img_map)
 		mlx_destroy_image(data -> mlx_ptr, data -> img_map);
-	mlx_clear_window(data -> mlx_ptr, data -> win_ptr);
-	mlx_destroy_window(data -> mlx_ptr, data -> win_ptr);
-	mlx_destroy_display(data -> mlx_ptr);
-	free(data -> mlx_ptr);
+	if (data -> img_game)
+		mlx_destroy_image(data -> mlx_ptr, data -> img_game);
+	if (data -> mlx_ptr)
+	{
+		if (data -> win_ptr)
+		{
+			mlx_clear_window(data -> mlx_ptr, data -> win_ptr);
+			mlx_destroy_window(data -> mlx_ptr, data -> win_ptr);
+		}
+		mlx_destroy_display(data -> mlx_ptr);
+		free(data -> mlx_ptr);
+	}
 }

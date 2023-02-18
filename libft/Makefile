@@ -14,7 +14,7 @@ ADDED	=	ft_putchar.c		ft_putstr.c		ft_putnstr.c		ft_putnstr_fd.c \
 			ft_memdel.c			ft_arraydel.c	ft_strcat.c			ft_strsub.c		\
 			ft_strncpy.c		ft_strstr.c		ft_strndup.c		ft_arraylen.c	\
 			ft_atoll.c			ft_arraytostring.c					ft_arrayndel.c	\
-			ft_realloc.c		ft_getnstr.c																
+			ft_realloc.c		ft_getnstr.c	ft_isinstring.c															
 
 BONUS	=	ft_lstnew.c			ft_lstadd_front.c	ft_lstsize.c	ft_lstlast.c	\
 			ft_lstadd_back.c	ft_lstdelone.c		ft_lstclear.c	ft_lstiter.c	\

@@ -6,86 +6,113 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:35:35 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/16 19:53:46 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/18 13:42:22 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../includes/cub3d.h"
 
 static
-void	draw_ray_vertical(t_data *data, int add)
+void	draw_ray_vertical(t_mlx mlx, int start, int end, int x, int color)
 {
-	const int	y = data -> player.y;
-	const int	x = data -> player.x;
-	int			direction;
-	int			i;
-
-	direction = y + add;
-	while (1)
-	{
-		if (direction < 0 || direction >= data -> map.height || data -> map.map[direction][x] == WALL)
-		{
-			if (add < 0)
-				data -> ray.begin_vertical = y - direction - 1;
-			else
-				data -> ray.end_vertical = abs(y - direction);
-			data -> ray.oppose = (data -> ray.end_vertical * BLOC_SIZE) + (data -> ray.begin_vertical * BLOC_SIZE);
-			break ;
-		}
-		i = -1;
-		while (++i < BLOC_SIZE)
-			mlx_put_pixel(data -> mlx, x * BLOC_SIZE + (BLOC_SIZE / 2), direction * BLOC_SIZE + i, set_rgb((int [3]){250, 183, 29})); // orange
-		direction += add;
-	}
+	while (start <= end)
+		mlx_put_pixel(mlx, start++, x, color);
 }
 
-static
-void	draw_ray_horizontal(t_data *data, int add)
+void	draw_gameplay(t_data *data)
 {
-	const int	y = data -> player.y;
-	const int	x = data -> player.x;
-	int			direction;
-	int			i;
+	t_player	player;
 
-	direction = x + add;
-	while (1)
+	player = data -> player;
+	data -> mlx.addr = data -> addr;
+	data -> mlx.img = data -> img;
+	for(int x = 0; x < WIDTH; x++)
 	{
-		if (direction < 0 || direction >= data -> map.width || data -> map.map[y][direction] == WALL)
+		double cameraX = 2 * x / (double)WIDTH - 1; //x-coordinate in camera space
+		double rayDirX = player.dir_x + player.plane_x * cameraX;
+		double rayDirY = player.dir_y + player.plane_y * cameraX;
+		
+		int mapX = (int)player.x;
+		int mapY = (int)player.y;
+		//length of ray from current position to next x or y-side
+		double sideDistX;
+		double sideDistY;
+
+       //length of ray from one x or y-side to next x or y-side
+		double deltaDistX = fabs(1 / rayDirX);
+		double deltaDistY = fabs(1 / rayDirY);
+		double perpWallDist;
+
+      //what direction to step in x or y-direction (either +1 or -1)
+	 	int stepX;
+	  	int stepY;
+
+		int side; //was a NS or a EW wall hit?
+		//calculate step and initial sideDist
+		if (rayDirX < 0)
 		{
-			if (direction > 0 && direction < data -> map.width && data -> map.map[y][direction] == WALL)
+			stepX = -1;
+			sideDistX = (player.x - mapX) * deltaDistX;
+		}
+		else
+		{
+			stepX = 1;
+			sideDistX = (mapX + 1.0 - player.x) * deltaDistX;
+		}
+		if (rayDirY < 0)
+		{
+			stepY = -1;
+			sideDistY = (player.y - mapY) * deltaDistY;
+		}
+		else
+		{
+			stepY = 1;
+			sideDistY = (mapY + 1.0 - player.y) * deltaDistY;
+		}
+		//perform DDA
+		while (42)
+		{
+        //jump to next map square, either in x-direction, or in y-direction
+			if (sideDistX < sideDistY)
 			{
-				// prend la taille du rayon
-				if (add < 0)
-					data -> ray.begin_horizontal = abs(x - direction) - 1;
-				else
-					data -> ray.end_horizontal = abs(x - direction);
-				data -> ray.adjacent = (data -> ray.end_horizontal * BLOC_SIZE) + (data -> ray.begin_horizontal * BLOC_SIZE);
+				sideDistX += deltaDistX;
+				mapX += stepX;
+				side = 0;
 			}
-			break ;
+			else
+			{
+				sideDistY += deltaDistY;MAP: 
+
+				mapY += stepY;
+				side = 1;
+			}
+        	//Check if ray has hit a wall
+			if (data -> map.map[mapY][mapX] == WALL)
+				break ;
+     	} 
+		if (side == 0)
+			perpWallDist = sideDistX - deltaDistX;
+		else
+			perpWallDist = sideDistY - deltaDistY;
+		      //Calculate height of line to draw on screen
+		int lineHeight = (int)(HEIGHT / perpWallDist);
+		//calculate lowest and highest pixel to fill in current stripe
+		int drawStart = -lineHeight / 2 + HEIGHT / 2;
+		if(drawStart < 0)drawStart = 0;
+		int drawEnd = lineHeight / 2 + HEIGHT / 2;
+		if(drawEnd >= HEIGHT)drawEnd = HEIGHT - 1;
+
+		int tmpColor;
+		if (data -> map.map[mapY][mapX] == WALL)
+			tmpColor = 0xF3FF00;
+		else
+		{
+			ft_printf("test\n");
+			tmpColor = 0x000000;
 		}
-		i = -1;
-		while (++i < BLOC_SIZE)
-			mlx_put_pixel(data -> mlx, direction * BLOC_SIZE + i, y * BLOC_SIZE + (BLOC_SIZE / 2), set_rgb((int [3]){29, 250, 39})); // green
-		direction += add;
+		draw_ray_vertical(data -> mlx, drawStart, drawEnd, x, tmpColor);
+		draw_ray_vertical(data -> mlx, 0, drawStart, x, tmpColor);
+		draw_ray_vertical(data -> mlx, drawEnd, drawEnd, x, tmpColor);
+		x++;
 	}
-}
-
-void	draw_ray(t_data *data)
-{
-	const int	y = data -> player.y;
-	const int	x = data -> player.x;
-
-	// draw_ray_horizontal(data, + 1);
-	// draw_ray_horizontal(data, - 1);
-	// draw_ray_vertical(data, + 1);
-	// draw_ray_vertical(data, - 1);
-	// bresenham_line(data -> mlx, (x + .5) * BLOC_SIZE, (y + data -> ray.end_vertical) * BLOC_SIZE, (x + data -> ray.end_horizontal) * BLOC_SIZE, (y + .5) * BLOC_SIZE);
-	// bresenham_line(data -> mlx, (x + .5) * BLOC_SIZE, (y + data -> ray.end_vertical) * BLOC_SIZE, (x - data -> ray.begin_horizontal) * BLOC_SIZE, (y + .5) * BLOC_SIZE);
-	// bresenham_line(data -> mlx, (x + .5) * BLOC_SIZE, (y - data -> ray.begin_vertical) * BLOC_SIZE, (x - data -> ray.begin_horizontal) * BLOC_SIZE, (y + .5) * BLOC_SIZE);
-	// bresenham_line(data -> mlx, (x + .5) * BLOC_SIZE, (y - data -> ray.begin_vertical) * BLOC_SIZE, (x + data -> ray.end_horizontal) * BLOC_SIZE, (y + .5) * BLOC_SIZE);
-	bresenham_line(data -> mlx, x * BLOC_SIZE,
-								y * BLOC_SIZE,
-								(x + data -> player.delta_x * 5) * BLOC_SIZE,
-								(y + data -> player.delta_y * 5) * BLOC_SIZE);
-	// bresenham_circle(data -> mlx, (x + .5) * BLOC_SIZE, (y + .5) * BLOC_SIZE, 20);
 }

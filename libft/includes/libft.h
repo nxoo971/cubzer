@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 20:13:10 by ooxn              #+#    #+#             */
-/*   Updated: 2023/01/31 19:20:11 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/18 05:45:11 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LIBFT_H
 
 # include <stdlib.h>
+# include <stdbool.h>
 # include <unistd.h>
 # include <string.h>
 # include "get_next_line.h"
@@ -68,6 +69,7 @@ char		*ft_strsub(const char *str, unsigned int start, size_t end);
 char		*ft_strndup(const char *s1, size_t n);
 char		*ft_strstr(const char *haystack, const char *needle);
 char		*ft_array_to_string(char **array);
+int			ft_is_in_string(const char *s, const char *charset, size_t size);
 void		ft_arraydel(char **ptr);
 void		ft_arrayndel(char **ptr, size_t stop);
 void		ft_realloc(char **dst, const char *src);

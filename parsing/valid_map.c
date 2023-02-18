@@ -6,17 +6,20 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 02:55:04 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/10 02:42:26 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/18 06:44:50 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../includes/cub3d.h"
 
 static
-int	set_map(t_map *map, const char *src_map)
+int	set_map(t_map *map, t_player *player, const char *src_map)
 {
 	const char	*ptr;
 	const char	*p;
+	bool		player_exist;
+	int			pos_x;
+	int			size;
 	int			i;
 	int			res;
 
@@ -26,16 +29,28 @@ int	set_map(t_map *map, const char *src_map)
 	i = 0;
 	ptr = src_map;
 	p = ptr;
+	player_exist = false;
 	while (*ptr)
 	{
 		if (*ptr++ == '\n' || (!*ptr && i == map -> height - 1))
 		{
-			map -> map[i] = ft_strndup(p, ptr - p - (*ptr != 0));
+			size = ptr - p - (*ptr != 0);
+			pos_x = ft_is_in_string(p, "NSEW", size);
+			if (pos_x > -1)
+			{
+				if (player_exist)
+					return (ft_printf("{blue}Set_map: {red}Failed{reset} | {bgred}player doublon: [%c|%c]{reset}\n",
+							map -> map[(int)player -> y][(int)player -> x], p[pos_x]));
+				player -> y = i;
+				player -> x = pos_x;
+				player_exist = true;
+			}
+			map -> map[i] = ft_strndup(p, size);
 			if (!map -> map[i])
 				return (EXIT_FAILURE);
-			if (ft_isspace(map -> map[i][ptr - p - (*ptr != 0) - 1])
-				|| accept_char(map -> map[i], ptr - p - (*ptr != 0)))
-				return (EXIT_FAILURE);
+			if (ft_isspace(map -> map[i][size - 1])
+				|| accept_char(map -> map[i], size))
+				return (ft_printf("{blue}Set_map: {red}Failed{reset}\n"));
 			p = ptr;
 			i++;
 		}
@@ -44,7 +59,7 @@ int	set_map(t_map *map, const char *src_map)
 }
 
 static
-int	readmap(t_map *map, int fd)
+int	readmap(t_map *map, t_player *player, int fd)
 {
 	static char	*tmp_map = 0;
 	char		*line;
@@ -84,7 +99,7 @@ int	readmap(t_map *map, int fd)
 	map -> width = x;
 	if (tmp_map)
 	{
-		if (set_map(map, tmp_map))
+		if (set_map(map, player, tmp_map))
 		{
 			ft_memdel((void **)& tmp_map);
 			return (EXIT_FAILURE);
@@ -95,7 +110,7 @@ int	readmap(t_map *map, int fd)
 }
 
 static
-int	readinfos(t_map *map, int fd)
+int	readinfos(t_map *map, t_player *player, int fd)
 {
 	char	*line;
 
@@ -110,7 +125,7 @@ int	readinfos(t_map *map, int fd)
 		if (textures_is_set(map))
 		{
 			ft_memdel((void **)& line);
-			return (readmap(map, fd));
+			return (readmap(map, player, fd));
 		}
 		ft_memdel((void **)& line);
 		line = readfile(fd, true);
@@ -132,7 +147,7 @@ int	check_extension(const char *filename)
 	return (EXIT_FAILURE);
 }
 
-int	parse_map(t_map *map)
+int	parse_map(t_map *map, t_player *player)
 {
 	int	fd;
 
@@ -141,7 +156,7 @@ int	parse_map(t_map *map)
 	fd = open(map -> filename, O_RDONLY, 0644);
 	if (fd == -1)
 		return (ft_printf("{blue}Opening file: {red}Failed{reset}\n"));
-	if (readinfos(map, fd))
+	if (readinfos(map, player, fd))
 	{
 		close(fd);
 		return (ft_printf("{blue}Read map: {red}Failed{reset}{reset}\n"));

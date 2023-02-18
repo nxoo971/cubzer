@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 02:12:14 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/12 21:37:48 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/18 05:58:41 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ typedef struct s_map
 	char		**map;
 }	t_map;
 
+typedef struct s_player	t_player;
+
 /*
 	DIRECTORY: ./parsing/
 //	parse.c
@@ -73,6 +75,6 @@ int		accept_char(const char *s, size_t len);
 int		set_key(t_map *map, const char *key);
 int		set_texture(t_map *map, const char *key, const char *texture);
 //	valid_map.c
-int		parse_map(t_map *map);
+int		parse_map(t_map *map, t_player *player);
 
 #endif

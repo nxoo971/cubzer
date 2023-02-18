@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:57 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/16 19:54:42 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/18 02:22:30 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # define GAME_HEIGHT	HEIGHT - (HEIGHT / 2)
 
 # define ROTATION_SPEED	2. * (M_PI / 180.)
-# define MOVE_SPEED	1.
+# define MOVE_SPEED	0.3
 
 # define FOV			90.0
 
@@ -60,18 +60,19 @@ typedef struct s_mlx
 
 	int		bits_per_pixel[3];
 	int		line_length[3];
-	int		endian[3];
+	int		endian;
 }	t_mlx;
 
 typedef struct s_player
 {
 	double	x;
 	double	y;
-	double	delta_y;
-	double	delta_x;
-	double	rotation_angle;
-	double	view_direction;
-	double	walk_direction;
+	double	dir_x;
+	double	dir_y;
+	double	plane_x;
+	double	plane_y;
+	double	time;
+	double	old_time;
 }	t_player;
 
 typedef struct s_ray
@@ -131,7 +132,7 @@ void	move_horizontal(t_data *data, int add);
 
 //	draw_ray.c
 void	draw_game(t_data* data);
-void	draw_gameplay(t_data *data, int add);
+void	draw_gameplay(t_data *data);
 void	draw_ray(t_data *data);
 void	draw_minimap(t_data *data);
 //	bresenham.c
