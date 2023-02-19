@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:41 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/19 01:03:55 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/19 01:05:35 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,9 @@ int	key_hook(int keycode, t_data *data)
 	mlx_put_image_to_window(data -> mlx_ptr, data -> win_ptr, data -> img, 0, 0);
 	return (0);
 }
+
+// ya heja quand tu rentre dans un mur tu peux plus ressortir mais je crois faut utiliser
+// floor pour arrondir en dessous et etre sur de pas toucher le mur
 
 static
 int	launch_game(t_data *data)
