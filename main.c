@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:41 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/18 07:32:45 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/19 01:03:55 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,40 +31,48 @@ int	quit(t_data *data)
 static
 int	key_hook(int keycode, t_data *data)
 {
-	t_player	*player;
+	t_player	*p;
+	double		old_dir_y;
+	double 		old_plane_y;
 
-	player = & data -> player;
+	p = & data -> player;
 	if (keycode == ESC)
 		mlx_loop_end(data -> mlx_ptr);
 	if (keycode == TOP)
 	{
-		if (data -> map.map[(int)player -> y][(int)(player -> x + player -> dir_x * MOVE_SPEED)] != WALL)
+		if (data -> map.map[(int)p -> y][(int)(p -> x + p -> dir_x * MOVE_SPEED)] != WALL)
 		{
-			data -> map.map[(int)player -> y][(int)player -> x] = BLANK;
-			player -> x += player -> dir_x * MOVE_SPEED;
-			data -> map.map[(int)player -> y][(int)player -> x] = 'N';
+			p -> x += p -> dir_x * MOVE_SPEED;
 		}
-		if (data -> map.map[(int)player -> y][(int)(player -> x + player -> dir_x * MOVE_SPEED)] != WALL)
+		if (data -> map.map[(int)p -> y][(int)(p -> x + p -> dir_x * MOVE_SPEED)] != WALL)
 		{
-			data -> map.map[(int)player -> y][(int)player -> x] = BLANK;
-			player -> y += player -> dir_y * MOVE_SPEED;
-			data -> map.map[(int)player -> y][(int)player -> x] = 'N';
+			p -> y += p -> dir_y * MOVE_SPEED;
 		}
 	}
 	if (keycode == DOWN)
 	{
-		if(data -> map.map[(int)(player -> y)][(int)(player -> x - player -> dir_x * MOVE_SPEED)] != WALL)
-		{
-			data -> map.map[(int)player -> y][(int)player -> x] = BLANK;
-			player -> x -= player -> dir_x * MOVE_SPEED;
-			data -> map.map[(int)player -> y][(int)player -> x] = 'N';
-		}
-		if(data -> map.map[(int)(player -> y - player -> dir_y * MOVE_SPEED)][(int)(player -> x)] != WALL)
-		{
-			data -> map.map[(int)player -> y][(int)player -> x] = BLANK;
-			player -> y -= player -> dir_y * MOVE_SPEED;
-			data -> map.map[(int)player -> y][(int)player -> x] = 'N';
-		}
+		if(data -> map.map[(int)(p -> y)][(int)(p -> x - p -> dir_x * MOVE_SPEED)] != WALL)
+			p -> x -= p -> dir_x * MOVE_SPEED;
+		if(data -> map.map[(int)(p -> y - p -> dir_y * MOVE_SPEED)][(int)(p -> x)] != WALL)
+			p -> y -= p -> dir_y * MOVE_SPEED;
+	}
+	if (keycode == LEFT)
+	{
+		double oldir = p->dir_x;
+		p->dir_x = p->dir_x * cos(ROTATION_SPEED) - p->dir_y * sin(ROTATION_SPEED);
+		p->dir_y = oldir * sin(ROTATION_SPEED) + p->dir_y * cos(ROTATION_SPEED);
+		double oldplane = p->plane_x;
+		p->plane_x = p->plane_x * cos(ROTATION_SPEED) - p->plane_y * sin(ROTATION_SPEED);
+		p->plane_y = oldplane * sin(ROTATION_SPEED) + p->plane_y * cos(ROTATION_SPEED);
+	}
+	if (keycode == RIGHT)
+	{
+		double oldir = p->dir_x;
+		p->dir_x = p->dir_x * cos(-ROTATION_SPEED) - p->dir_y * sin(-ROTATION_SPEED);
+		p->dir_y = oldir * sin(-ROTATION_SPEED) + p->dir_y * cos(-ROTATION_SPEED);
+		double oldplane = p->plane_x;
+		p->plane_x = p->plane_x * cos(-ROTATION_SPEED) - p->plane_y * sin(-ROTATION_SPEED);
+		p->plane_y = oldplane * sin(-ROTATION_SPEED) + p->plane_y * cos(-ROTATION_SPEED);
 	}
 	print_map(*data);
 	draw_gameplay(data);
@@ -75,6 +83,11 @@ int	key_hook(int keycode, t_data *data)
 static
 int	launch_game(t_data *data)
 {
+	// jai init a l'arache t'avais oublier c pour les direction quand tu tourne
+	data->player.dir_x = -1;
+	data->player.dir_y = 0;
+	data->player.plane_x = 0;
+	data->player.plane_y = 0.66;
 	if (init_mlx(data))
 		return (EXIT_FAILURE);
 	if (init_map(data))

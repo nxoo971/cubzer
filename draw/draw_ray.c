@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_ray.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:35:35 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/18 13:42:22 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/18 22:38:44 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,7 @@ void	draw_gameplay(t_data *data)
 			}
 			else
 			{
-				sideDistY += deltaDistY;MAP: 
-
+				sideDistY += deltaDistY;
 				mapY += stepY;
 				side = 1;
 			}
@@ -110,9 +109,9 @@ void	draw_gameplay(t_data *data)
 			ft_printf("test\n");
 			tmpColor = 0x000000;
 		}
-		draw_ray_vertical(data -> mlx, drawStart, drawEnd, x, tmpColor);
-		draw_ray_vertical(data -> mlx, 0, drawStart, x, tmpColor);
-		draw_ray_vertical(data -> mlx, drawEnd, drawEnd, x, tmpColor);
+		draw_ray_vertical(data -> mlx, drawStart, drawEnd, x, 0xFF0000);
+		draw_ray_vertical(data -> mlx, 0, drawStart, x, BLUE);
+		draw_ray_vertical(data -> mlx, drawEnd, HEIGHT, x, WHITE);
 		x++;
 	}
 }

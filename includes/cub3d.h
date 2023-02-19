@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:57 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/18 02:22:30 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/18 22:34:51 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,12 @@
 # define MOVE_SPEED	0.3
 
 # define FOV			90.0
+
+#define BLUE 0xF0000CC
+#define BLACK 0xF000000
+#define WHITE 0xFFFFFF
+#define BEIGE 0xFE5A25E
+#define RED 0xfD1111B
 
 
 enum {
