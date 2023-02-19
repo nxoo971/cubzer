@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:41 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/19 01:05:35 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/19 23:39:56 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,14 @@ int	key_hook(int keycode, t_data *data)
 	p = & data -> player;
 	if (keycode == ESC)
 		mlx_loop_end(data -> mlx_ptr);
-	if (keycode == TOP)
+	if (keycode == W)
 	{
-		if (data -> map.map[(int)p -> y][(int)(p -> x + p -> dir_x * MOVE_SPEED)] != WALL)
-		{
+		if (data -> map.map[(int)(p -> y)][(int)((p -> x + p -> dir_x * MOVE_SPEED))] != WALL)
 			p -> x += p -> dir_x * MOVE_SPEED;
-		}
-		if (data -> map.map[(int)p -> y][(int)(p -> x + p -> dir_x * MOVE_SPEED)] != WALL)
-		{
+		if (data -> map.map[(int)(p -> y + p->dir_y * MOVE_SPEED)][(int)((p -> x))] != WALL)
 			p -> y += p -> dir_y * MOVE_SPEED;
-		}
 	}
-	if (keycode == DOWN)
+	if (keycode == S)
 	{
 		if(data -> map.map[(int)(p -> y)][(int)(p -> x - p -> dir_x * MOVE_SPEED)] != WALL)
 			p -> x -= p -> dir_x * MOVE_SPEED;
@@ -74,7 +70,33 @@ int	key_hook(int keycode, t_data *data)
 		p->plane_x = p->plane_x * cos(-ROTATION_SPEED) - p->plane_y * sin(-ROTATION_SPEED);
 		p->plane_y = oldplane * sin(-ROTATION_SPEED) + p->plane_y * cos(-ROTATION_SPEED);
 	}
-	print_map(*data);
+	if (keycode == 'd')
+	{
+		if (data -> map.map[(int)(p -> y)][(int)((p -> x + p -> dir_y * MOVE_SPEED))] != WALL)
+			p -> x += p -> dir_y * MOVE_SPEED;
+		if (data -> map.map[(int)(p -> y - p->dir_x * MOVE_SPEED)][(int)((p -> x))] != WALL)
+			p -> y -= p -> dir_x * MOVE_SPEED;
+	}
+	if (keycode == 'a')
+	{
+		if (data -> map.map[(int)(p -> y)][(int)((p -> x - p -> dir_y * MOVE_SPEED))] != WALL)
+			p -> x -= p -> dir_y * MOVE_SPEED;
+		if (data -> map.map[(int)(p -> y + p->dir_x * MOVE_SPEED)][(int)((p -> x))] != WALL)
+			p -> y += p -> dir_x * MOVE_SPEED;
+	}
+	// if (keycode == 'a')
+	// {
+	// 	if (data -> map.map[(int)(p -> y)][(int)(p -> x + MOVE_SPEED)] != WALL)
+	// 		p -> x += MOVE_SPEED * p->dir_x;
+	// 	if (data -> map.map[(int)(p -> y - p -> plane_y * MOVE_SPEED)][(int)(p -> x)] != WALL)
+	// 		p -> y -= p -> plane_y * MOVE_SPEED;
+	// }
+	// if (keycode == 'd')
+	// {
+	// 	if (data -> map.map[(int)(p -> y)][(int)(p -> x - MOVE_SPEED)] != WALL)
+	// 		p -> x -= MOVE_SPEED;
+	// }
+	// print_map(*data);
 	draw_gameplay(data);
 	mlx_put_image_to_window(data -> mlx_ptr, data -> win_ptr, data -> img, 0, 0);
 	return (0);
@@ -87,10 +109,10 @@ static
 int	launch_game(t_data *data)
 {
 	// jai init a l'arache t'avais oublier c pour les direction quand tu tourne
-	data->player.dir_x = -1;
-	data->player.dir_y = 0;
-	data->player.plane_x = 0;
-	data->player.plane_y = 0.66;
+	// data->player.dir_x = -1;
+	// data->player.dir_y = 0;
+	// data->player.plane_x = 0;
+	// data->player.plane_y = 0.66;
 	if (init_mlx(data))
 		return (EXIT_FAILURE);
 	if (init_map(data))
