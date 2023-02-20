@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key_hook.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 07:50:49 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/20 12:59:08 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/20 18:13:40 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	key_hook(t_data *data)
 		move_angle(data, +1);
 	if (data -> press.right)
 		move_angle(data, -1);
+	printf("dir_x: %f dir_y: %f\n" , p -> dir_x, p -> dir_y);
 	//print_map(*data);
 	draw_gameplay(data);
 	mlx_put_image_to_window(data -> mlx_ptr, data -> win_ptr, data->img, 0, 0);

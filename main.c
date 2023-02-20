@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:41 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/20 12:54:33 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/20 19:45:10 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,39 @@ int	launch_game(t_data *data)
 	return (0);
 }
 
+void	init_dir(t_player *player, char dir)
+{
+	if (dir == 'N')
+	{
+		player -> dir_x = 0;
+		player -> dir_y = -1;
+		
+	}
+	else if (dir == 'S')
+	{
+		player -> dir_x = 0;
+		player -> dir_y = 1;
+	}
+	else if (dir == 'E')
+	{
+		player -> dir_x = 1;
+		player -> dir_y = 0;
+	}
+	else if (dir == 'W')
+	{
+		player -> dir_x = -1;
+		player -> dir_y = 0;
+	}
+	player->plane_x = 0.66 * player->dir_y ;
+	player->plane_y = 0.66 * (-1 *player->dir_x) ;
+}
+
 int	main(int ac, char **av, char **env)
 {
 	//static int		spawn_direction[4] = {0};
 	static t_data	data = {0};
-	static t_player	player = {0, .dir_x = -1, .dir_y = 0,
-								.plane_x = 0, .plane_y = 0.66};
+	static t_player	player = {0, .dir_x = 0, .dir_y = -1};
+
 	int				ret;
 
 	if (!env || !*env || ac != 2)
@@ -67,6 +94,7 @@ int	main(int ac, char **av, char **env)
 	if (ret == EXIT_SUCCESS)
 	{
 		data.player = player;
+		init_dir(& data.player, 'W');
 		print_map(data);
 		launch_game(& data);
 	}

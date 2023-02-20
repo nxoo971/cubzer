@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 03:25:06 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/20 09:09:57 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/20 18:49:34 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,24 @@ void	move_angle(t_data *data, const int sign)
 	p -> dir_y = oldir * rotation_sin + p -> dir_y * rotation_cos;
 	p -> plane_x = p -> plane_x * rotation_cos - p -> plane_y * rotation_sin;
 	p -> plane_y = old_plane * rotation_sin + p -> plane_y * rotation_cos;
+}
+
+void rotate_left(t_player *player, double rot_speed)
+{
+    double old_dir_x = player->dir_x;
+    player->dir_x = player->dir_x * cos(rot_speed) - player->dir_y * sin(rot_speed);
+    player->dir_y = old_dir_x * sin(rot_speed) + player->dir_y * cos(rot_speed);
+    double old_plane_x = player->plane_x;
+    player->plane_x = player->plane_x * cos(rot_speed) - player->plane_y * sin(rot_speed);
+    player->plane_y = old_plane_x * sin(rot_speed) + player->plane_y * cos(rot_speed);
+}
+
+void rotate_right(t_player *player, double rot_speed)
+{
+    double old_dir_x = player->dir_x;
+    player->dir_x = player->dir_x * cos(-rot_speed) - player->dir_y * sin(-rot_speed);
+    player->dir_y = old_dir_x * sin(-rot_speed) + player->dir_y * cos(-rot_speed);
+    double old_plane_x = player->plane_x;
+    player->plane_x = player->plane_x * cos(-rot_speed) - player->plane_y * sin(-rot_speed);
+    player->plane_y = old_plane_x * sin(-rot_speed) + player->plane_y * cos(-rot_speed);
 }
