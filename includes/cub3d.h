@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:57 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/18 22:34:51 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/20 01:41:12 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # define GAME_HEIGHT	HEIGHT - (HEIGHT / 2)
 
 # define ROTATION_SPEED	2. * (M_PI / 180.)
-# define MOVE_SPEED	0.3
+# define MOVE_SPEED	0.29
 
 # define FOV			90.0
 
@@ -68,6 +68,17 @@ typedef struct s_mlx
 	int		line_length[3];
 	int		endian;
 }	t_mlx;
+
+typedef struct t_press
+{
+	bool	w;
+	bool	a;
+	bool	s;
+	bool	d;
+	bool	esc;
+	bool	left;
+	bool	right;
+}	t_press;
 
 typedef struct s_player
 {
@@ -113,6 +124,7 @@ typedef struct s_data
 	t_map		map;
 	t_ray		ray;
 	t_player	player;
+	t_press	press;
 }	t_data;
 
 /*

@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:41 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/19 23:39:56 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/20 01:46:19 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,30 +29,30 @@ int	quit(t_data *data)
 }
 
 static
-int	key_hook(int keycode, t_data *data)
+int	key_hook(t_data *data)
 {
 	t_player	*p;
 	double		old_dir_y;
 	double 		old_plane_y;
 
 	p = & data -> player;
-	if (keycode == ESC)
+	if (data->press.esc == 1)
 		mlx_loop_end(data -> mlx_ptr);
-	if (keycode == W)
+	if (data->press.w == 1)
 	{
 		if (data -> map.map[(int)(p -> y)][(int)((p -> x + p -> dir_x * MOVE_SPEED))] != WALL)
 			p -> x += p -> dir_x * MOVE_SPEED;
 		if (data -> map.map[(int)(p -> y + p->dir_y * MOVE_SPEED)][(int)((p -> x))] != WALL)
 			p -> y += p -> dir_y * MOVE_SPEED;
 	}
-	if (keycode == S)
+	if (data->press.s == 1)
 	{
 		if(data -> map.map[(int)(p -> y)][(int)(p -> x - p -> dir_x * MOVE_SPEED)] != WALL)
 			p -> x -= p -> dir_x * MOVE_SPEED;
 		if(data -> map.map[(int)(p -> y - p -> dir_y * MOVE_SPEED)][(int)(p -> x)] != WALL)
 			p -> y -= p -> dir_y * MOVE_SPEED;
 	}
-	if (keycode == LEFT)
+	if (data->press.left == 1)
 	{
 		double oldir = p->dir_x;
 		p->dir_x = p->dir_x * cos(ROTATION_SPEED) - p->dir_y * sin(ROTATION_SPEED);
@@ -61,7 +61,7 @@ int	key_hook(int keycode, t_data *data)
 		p->plane_x = p->plane_x * cos(ROTATION_SPEED) - p->plane_y * sin(ROTATION_SPEED);
 		p->plane_y = oldplane * sin(ROTATION_SPEED) + p->plane_y * cos(ROTATION_SPEED);
 	}
-	if (keycode == RIGHT)
+	if (data->press.right == 1)
 	{
 		double oldir = p->dir_x;
 		p->dir_x = p->dir_x * cos(-ROTATION_SPEED) - p->dir_y * sin(-ROTATION_SPEED);
@@ -70,14 +70,14 @@ int	key_hook(int keycode, t_data *data)
 		p->plane_x = p->plane_x * cos(-ROTATION_SPEED) - p->plane_y * sin(-ROTATION_SPEED);
 		p->plane_y = oldplane * sin(-ROTATION_SPEED) + p->plane_y * cos(-ROTATION_SPEED);
 	}
-	if (keycode == 'd')
+	if (data->press.d == 1)
 	{
 		if (data -> map.map[(int)(p -> y)][(int)((p -> x + p -> dir_y * MOVE_SPEED))] != WALL)
 			p -> x += p -> dir_y * MOVE_SPEED;
 		if (data -> map.map[(int)(p -> y - p->dir_x * MOVE_SPEED)][(int)((p -> x))] != WALL)
 			p -> y -= p -> dir_x * MOVE_SPEED;
 	}
-	if (keycode == 'a')
+	if (data->press.a == 1)
 	{
 		if (data -> map.map[(int)(p -> y)][(int)((p -> x - p -> dir_y * MOVE_SPEED))] != WALL)
 			p -> x -= p -> dir_y * MOVE_SPEED;
@@ -105,6 +105,48 @@ int	key_hook(int keycode, t_data *data)
 // ya heja quand tu rentre dans un mur tu peux plus ressortir mais je crois faut utiliser
 // floor pour arrondir en dessous et etre sur de pas toucher le mur
 
+int key_press(int key, t_data *data)
+{
+	printf("key = %d\n", key);
+	if (key == 53)
+		exit(0);
+	if (key == 'w')
+		data->press.w = 1;
+	if (key == 's')
+		data->press.s= 1;
+	if (key == 'a')
+		data->press.a = 1;
+	if (key == 'd')
+		data->press.d = 1;
+	if (key == 65361)
+		data->press.left = 1;
+	if (key == 65363)
+		data->press.right = 1;
+	if (key == ESC)
+		data->press.esc = 1;
+	return (0);
+}
+
+int key_release(int key, t_data *data)
+{
+	if (key == 'w')
+		data->press.w = 0;
+	if (key == 's')
+		data->press.s= 0;
+	if (key == 'a')
+		data->press.a = 0;
+	if (key == 'd')
+		data->press.d = 0;
+	if (key == 65361)
+		data->press.left = 0;
+	if (key == 65363)
+		data->press.right = 0;
+	if (key == ESC)
+		data->press.esc = 0;
+	return (0);
+}
+
+
 static
 int	launch_game(t_data *data)
 {
@@ -125,8 +167,9 @@ int	launch_game(t_data *data)
 	draw_gameplay(data);
 	mlx_put_image_to_window(data -> mlx_ptr, data -> win_ptr, data -> img, 0, 0);
 	mlx_hook(data -> win_ptr, CLOSE, 0, & quit, data);
-	mlx_hook(data -> win_ptr, 1, 1UL << 0, & key_hook, data);
-	mlx_key_hook(data -> win_ptr, & key_hook, data);
+	mlx_hook(data->win_ptr, 2, 1UL<<0, key_press, data);
+	mlx_hook(data->win_ptr, 3, 1UL<<1, key_release, data);
+	mlx_loop_hook(data -> mlx_ptr, & key_hook, data);
 	mlx_loop(data -> mlx_ptr);
 	return (0);
 }
