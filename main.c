@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:41 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/20 09:52:37 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/20 12:54:33 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,66 +75,3 @@ int	main(int ac, char **av, char **env)
 	free_cub3d(& data);
 	return (EXIT_SUCCESS);
 }
-
-
-//static
-//int	key_hook(t_data *data)
-//{
-//	t_player	*p;
-//	double		old_dir_y;
-//	double 		old_plane_y;
-
-//	p = & data -> player;
-//	if (data->press.esc == 1)
-//		mlx_loop_end(data -> mlx_ptr);
-//	if (data->press.w == 1)
-//	{
-//		if (data -> map.map[(int)(p -> y)][(int)((p -> x + p -> dir_x * MOVE_SPEED))] != WALL)
-//			p -> x += p -> dir_x * MOVE_SPEED;
-//		if (data -> map.map[(int)(p -> y + p->dir_y * MOVE_SPEED)][(int)((p -> x))] != WALL)
-//			p -> y += p -> dir_y * MOVE_SPEED;
-//	}
-//	if (data->press.s == 1)
-//	{
-//		if(data -> map.map[(int)(p -> y)][(int)(p -> x - p -> dir_x * MOVE_SPEED)] != WALL)
-//			p -> x -= p -> dir_x * MOVE_SPEED;
-//		if(data -> map.map[(int)(p -> y - p -> dir_y * MOVE_SPEED)][(int)(p -> x)] != WALL)
-//			p -> y -= p -> dir_y * MOVE_SPEED;
-//	}
-//	if (data->press.left == 1)
-//	{
-//		double oldir = p->dir_x;
-//		p->dir_x = p->dir_x * cos(ROTATION_SPEED) - p->dir_y * sin(ROTATION_SPEED);
-//		p->dir_y = oldir * sin(ROTATION_SPEED) + p->dir_y * cos(ROTATION_SPEED);
-//		double oldplane = p->plane_x;
-//		p->plane_x = p->plane_x * cos(ROTATION_SPEED) - p->plane_y * sin(ROTATION_SPEED);
-//		p->plane_y = oldplane * sin(ROTATION_SPEED) + p->plane_y * cos(ROTATION_SPEED);
-//	}
-//	if (data->press.right == 1)
-//	{
-//		double oldir = p->dir_x;
-//		p->dir_x = p->dir_x * cos(-ROTATION_SPEED) - p->dir_y * sin(-ROTATION_SPEED);
-//		p->dir_y = oldir * sin(-ROTATION_SPEED) + p->dir_y * cos(-ROTATION_SPEED);
-//		double oldplane = p->plane_x;
-//		p->plane_x = p->plane_x * cos(-ROTATION_SPEED) - p->plane_y * sin(-ROTATION_SPEED);
-//		p->plane_y = oldplane * sin(-ROTATION_SPEED) + p->plane_y * cos(-ROTATION_SPEED);
-//	}
-//	if (data->press.d == 1)
-//	{
-//		if (data -> map.map[(int)(p -> y)][(int)((p -> x + p -> dir_y * MOVE_SPEED))] != WALL)
-//			p -> x += p -> dir_y * MOVE_SPEED;
-//		if (data -> map.map[(int)(p -> y - p->dir_x * MOVE_SPEED)][(int)((p -> x))] != WALL)
-//			p -> y -= p -> dir_x * MOVE_SPEED;
-//	}
-//	if (data->press.a == 1)
-//	{
-//		if (data -> map.map[(int)(p -> y)][(int)((p -> x - p -> dir_y * MOVE_SPEED))] != WALL)
-//			p -> x -= p -> dir_y * MOVE_SPEED;
-//		if (data -> map.map[(int)(p -> y + p->dir_x * MOVE_SPEED)][(int)((p -> x))] != WALL)
-//			p -> y += p -> dir_x * MOVE_SPEED;
-//	}
-//	// print_map(*data);
-//	draw_gameplay(data);
-//	mlx_put_image_to_window(data -> mlx_ptr, data -> win_ptr, data -> img, 0, 0);
-//	return (0);
-//}
