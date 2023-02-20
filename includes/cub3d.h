@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:57 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/20 01:41:12 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/20 09:57:28 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,18 @@
 # define GAME_WIDTH		WIDTH - (WIDTH / 4)
 # define GAME_HEIGHT	HEIGHT - (HEIGHT / 2)
 
-# define ROTATION_SPEED	2. * (M_PI / 180.)
-# define MOVE_SPEED	0.29
+# define ROTATION_SPEED	.03
+# define MOVE_SPEED	2 * (M_PI / 180.)
 
 # define FOV			90.0
 
-#define BLUE 0xF0000CC
-#define BLACK 0xF000000
-#define WHITE 0xFFFFFF
-#define BEIGE 0xFE5A25E
-#define RED 0xfD1111B
+# define BLUE 0xF0000CC
+# define BLACK 0xF000000
+# define WHITE 0xFFFFFF
+# define BEIGE 0xFE5A25E
+# define RED 0xfD1111B
 
+# define TPRESS_SIZE	7
 
 enum {
 	CLOSE	= 17,
@@ -48,8 +49,6 @@ enum {
 	A		= 97,
 	S		= 115,
 	D		= 100,
-	H		= 104,
-	Y		= 121
 };
 
 enum {
@@ -71,13 +70,13 @@ typedef struct s_mlx
 
 typedef struct t_press
 {
-	bool	w;
-	bool	a;
-	bool	s;
-	bool	d;
-	bool	esc;
-	bool	left;
-	bool	right;
+	int	w;
+	int	a;
+	int	s;
+	int	d;
+	int	esc;
+	int	left;
+	int	right;
 }	t_press;
 
 typedef struct s_player
@@ -137,11 +136,20 @@ int		init_minimap(t_data *data);
 int		init_gameplay(t_data *data);
 
 /*
+	DIRECTORY:	./key_hook
+*/
+//	key_hook.c
+//int		key_hook(int keycode, t_data *data);
+int		key_hook(t_data *data);
+int		key_press(int keycode, t_data *data);
+int		key_release(int keycode, t_data *data);
+
+/*
 	DIRECTORY:	./move
 */
-//	movements.c
-void	move_vertical(t_data *data, int add);
-void	move_horizontal(t_data *data, int add);
+//	move.c
+void	move_player(t_data *data, const int sign_y, const int sign_x);
+void	move_angle(t_data *data, const int sign);
 
 /*
 	DIRECTORY:	./draw

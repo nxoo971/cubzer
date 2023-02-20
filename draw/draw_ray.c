@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_ray.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:35:35 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/20 01:52:28 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/20 08:18:32 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,22 +93,15 @@ void	draw_gameplay(t_data *data)
 			perpWallDist = sideDistX - deltaDistX;
 		else
 			perpWallDist = sideDistY - deltaDistY;
-		printf("perpWallDist: %f sidedistY %f sidedistx %f\n", perpWallDist, sideDistY, sideDistX);
 		      //Calculate height of line to draw on screen
 		int lineHeight = (int)(HEIGHT / perpWallDist);
 		if (lineHeight <= 0)
 			lineHeight = 100000;
-		printf("lineHeight: %d\n", lineHeight);
-		printf("HEIGHT: %d\n", HEIGHT);
-		printf("perpWallDist: %f\n", perpWallDist);
 		//calculate lowest and highest pixel to fill in current stripe
 		int drawStart = -lineHeight / 2 + HEIGHT / 2;
 		if(drawStart < 0)
 			drawStart = 0;
 		int drawEnd = lineHeight / 2 + HEIGHT / 2;
-		printf("drawEnd: %d\n", drawEnd);
-		printf("HEIGHT: %d\n", HEIGHT);
-		printf("lineHeight: %d\n", lineHeight);
 		if(drawEnd >= HEIGHT)
 			drawEnd = HEIGHT - 1;
 

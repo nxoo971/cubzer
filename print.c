@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 02:50:08 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/18 07:12:25 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/20 06:47:58 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,9 @@ void	print_map(const t_data data)
 	ft_printf("\n");
 	// ft_printf("\n");
 	// ft_printf("\n");
-	ft_printf("{green}MAP: {reset}\n");
-	for (int i = 0; data.map.map && data.map.map[i]; i++)
-		ft_printf("{yellow}%s{reset}\n", data.map.map[i]);
+	//ft_printf("{green}MAP: {reset}\n");
+	//for (int i = 0; data.map.map && data.map.map[i]; i++)
+	//	ft_printf("{yellow}%s{reset}\n", data.map.map[i]);
 	//ft_printmap(map . map, 0);
 	//ft_printmap(map . map, 1);
 	//ft_displaydouble(map . map);
