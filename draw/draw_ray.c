@@ -6,11 +6,13 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:35:35 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/20 18:03:19 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/21 02:51:35 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../includes/cub3d.h"
+
+int tmpcol = 0;
 
 static
 void	draw_ray_vertical(t_mlx mlx, int start, int end, int x, int color)
@@ -78,12 +80,15 @@ double	dda(t_data *data,
 			side_x += delta_x;
 			*map_x += step_x;
 			side = 0;
+			tmpcol = 0xe4d0aF;
+
 		}
 		else
 		{
 			side_y += delta_y;
 			*map_y += step_y;
 			side = 1;
+			tmpcol = 0x123456;
 		}
 		if (data -> map.map[*map_y][*map_x] == WALL)
 			break ;
@@ -119,14 +124,10 @@ void	draw_gameplay(t_data *data)
 		if(drawEnd >= HEIGHT)
 			drawEnd = HEIGHT - 1;
 
-		int tmpColor;
-		if (data -> map.map[mapY][mapX] == WALL)
-			tmpColor = 0xF3FF00;
-		else
-		{
-			ft_printf("test\n");
-			tmpColor = 0x000000;
-		}
+		int tmpColor = tmpcol;
+
+		// if (data -> map.map[mapY][mapX] == WALL)
+			// tmpColor = 0xabcdef;
 		draw_ray_vertical(data -> mlx, drawStart, drawEnd, x, tmpColor);
 		draw_ray_vertical(data -> mlx, 0, drawStart, x, BLUE);
 		draw_ray_vertical(data -> mlx, drawEnd, HEIGHT, x, WHITE);

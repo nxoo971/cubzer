@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 07:50:49 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/20 18:13:40 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/21 02:15:58 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ int	key_hook(t_data *data)
 	if (data -> press.w)
 		move_player(data, +1, +1);
 	if (data -> press.a)
-		move_player(data, +1, -1);
+		move_player_side(data, -1, +1);
 	if (data -> press.s)
 		move_player(data, -1, -1);
 	if (data -> press.d)
-		move_player(data, -1, +1);
+		move_player_side(data, +1, -1);
 	if (data -> press.left)
 		move_angle(data, +1);
 	if (data -> press.right)

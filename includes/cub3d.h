@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:57 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/20 09:57:28 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/21 02:15:20 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,7 @@ int		key_release(int keycode, t_data *data);
 */
 //	move.c
 void	move_player(t_data *data, const int sign_y, const int sign_x);
+void	move_player_side(t_data *data, const int sign_y, const int sign_x);
 void	move_angle(t_data *data, const int sign);
 
 /*

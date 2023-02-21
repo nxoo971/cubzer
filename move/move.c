@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 03:25:06 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/20 18:49:34 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/21 02:16:40 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,19 @@ void	move_player(t_data *data, const int sign_y, const int sign_x)
 		data -> player.x = x + move_x;
 	if (data -> map.map[(int)(y + move_y)][(int)x] != WALL)
 		data -> player.y = y + move_y;
+}
+
+void	move_player_side(t_data *data, const int sign_y, const int sign_x)
+{
+	const double	x = data -> player.x;
+	const double	y = data -> player.y;
+	const double	move_y = (data -> player.dir_y * MOVE_SPEED) * sign_y;
+	const double	move_x = (data -> player.dir_x * MOVE_SPEED) * sign_x;
+
+	if (data -> map.map[(int)y][(int)(x + move_y)] != WALL)
+		data -> player.x = x + move_y;
+	if (data -> map.map[(int)(y + move_x)][(int)x] != WALL)
+		data -> player.y = y + move_x;
 }
 
 void	move_angle(t_data *data, const int sign)
