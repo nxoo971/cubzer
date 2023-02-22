@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:35:35 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/21 22:26:45 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/22 14:22:29 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,17 @@ void	draw_ray_vertical(t_mlx mlx, int start, int end, int x, int color)
 {
 	while (start <= end)
 		mlx_put_pixel(mlx, start++, x, color);
+}
+
+void	draw_buff(t_data *data)
+{
+	for (int y = 0; y < HEIGHT; y++)
+	{
+		for (int x = 0; x < WIDTH; x++)
+		{
+			data->addr[y * WIDTH + x] = data->buffer[y][x];
+		}
+	}
 }
 
 static
@@ -123,14 +134,14 @@ void	draw_gameplay(t_data *data)
 			int xorcolor = (x * 256 / textwidth) ^ (y * 256 / textheight);
 			int ycolor = y * 256 / textheight;
 			int xycolor = y * 128 / textheight + x * 128 / textwidth;
-			data->texture[0][textwidth * y + x] = 65536 * 254 * (x != y && x != textwidth - y); //flat red texture with black cross
-			data->texture[1][textwidth * y + x] = xycolor + 256 * xycolor + 65536 * xycolor; //sloped greyscale
-			data->texture[2][textwidth * y + x] = 256 * xycolor + 65536 * xycolor; //sloped yellow gradient
-			data->texture[3][textwidth * y + x] = xorcolor + 256 * xorcolor + 65536 * xorcolor; //xor greyscale
-			data->texture[4][textwidth * y + x] = 256 * xorcolor; //xor green
-			data->texture[5][textwidth * y + x] = 65536 * 192 * (x % 16 && y % 16); //red bricks
-			data->texture[6][textwidth * y + x] = 65536 * ycolor; //red gradient
-			data->texture[7][textwidth * y + x] = 128 + 256 * 128 + 65536 * 128; //flat grey texture
+			data->buffer[0][textwidth * y + x] = 65536 * 254 * (x != y && x != textwidth - y); //flat red buffer with black cross
+			data->buffer[1][textwidth * y + x] = xycolor + 256 * xycolor + 65536 * xycolor; //sloped greyscale
+			data->buffer[2][textwidth * y + x] = 256 * xycolor + 65536 * xycolor; //sloped yellow gradient
+			data->buffer[3][textwidth * y + x] = xorcolor + 256 * xorcolor + 65536 * xorcolor; //xor greyscale
+			data->buffer[4][textwidth * y + x] = 256 * xorcolor; //xor green
+			data->buffer[5][textwidth * y + x] = 65536 * 192 * (x % 16 && y % 16); //red bricks
+			data->buffer[6][textwidth * y + x] = 65536 * ycolor; //red gradient
+			data->buffer[7][textwidth * y + x] = 128 + 256 * 128 + 65536 * 128; //flat grey texture
 		}
 	}
 
@@ -171,11 +182,31 @@ void	draw_gameplay(t_data *data)
       //x coordinate on the texture
       int texX = (int)(wallX * (textwidth));
       if(side == 0 && rayDirX > 0) texX = textwidth - texX - 1;
-      if(side == 1 && rayDirY < 0) texX = textwidth - texX - 1;
+	if(side == 1 && rayDirY < 0) texX = textwidth - texX - 1;
 
-		draw_ray_vertical(data -> mlx, drawStart, drawEnd, x, tmpColor);
-		draw_ray_vertical(data -> mlx, 0, drawStart, x, BLUE);
-		draw_ray_vertical(data -> mlx, drawEnd, HEIGHT, x, WHITE);
+
+	// How much to increase the texture coordinate perscreen pixel
+	double step = 1.0 * textheight / lineHeight;
+	// Starting texture coordinate
+	double texPos = (drawStart - height / 2 + lineHeight / 2) * step;
+	for (int y = drawStart; y < drawEnd; y++)
+	{
+		// Cast the texture coordinate to integer, and mask with (textheight - 1) in case of overflow
+		int texY = (int)texPos & (textheight - 1);
+		texPos += step;
+		int color = info->texture[texNum][textheight * texY + texX];
+		// make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
+		if (side == 1)
+			color = (color >> 1) & 8355711;
+		info->buf[y][x] = color;
+		info->re_buf = 1;
+	}
+	x++;
+
+		void	draw_buff(t_data *data);
+		// draw_ray_vertical(data -> mlx, drawStart, drawEnd, x, tmpColor);
+		// draw_ray_vertical(data -> mlx, 0, drawStart, x, BLUE);
+		// draw_ray_vertical(data -> mlx, drawEnd, HEIGHT, x, WHITE);
 		x++;
 	}
 }
