@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:57 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/21 22:25:14 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/22 16:57:12 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ typedef struct s_player
 	double	plane_y;
 	double	time;
 	double	old_time;
+	int		re_buf;
 }	t_player;
 
 typedef struct s_ray
@@ -112,13 +113,13 @@ typedef struct s_data
 {
 	void		*mlx_ptr;
 	void		*win_ptr;
-	int 		buffer[HEIGHT][WIDTH];
+	int 		buffer[8][textwidth * textheight];
+	int 		**buf;
 
 	void		*img;
 	void		*xpm[4];
-	int			*texture[textwidth * textheight];
 	void		*xpm_addr[4];
-	void		*addr;
+	int			*addr;
 
 	void		*img_map;
 	void		*map_addr;

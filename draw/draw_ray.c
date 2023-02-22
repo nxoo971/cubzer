@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:35:35 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/22 14:22:29 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/22 19:36:00 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,13 @@ void	draw_buff(t_data *data)
 	{
 		for (int x = 0; x < WIDTH; x++)
 		{
-			data->addr[y * WIDTH + x] = data->buffer[y][x];
+			// printf("+--> %d | [%d|%d]\n", WIDTH * y + x, y, x);
+			if (WIDTH * y + x > 10000)
+				break ;
+			data->addr[WIDTH * y + x] = data->buffer[y][x];
 		}
 	}
+	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img, 0, 0);
 }
 
 static
@@ -110,20 +114,31 @@ double	dda(t_data *data,
 
 void	draw_gameplay(t_data *data)
 {
-	t_player	player;
-	t_map		map;
+	t_player	player = data -> player;
+	t_map		map = data -> map;
 	const int	y = player.y;
 	const int	x = player.x;
 
-	player = data -> player;
 	data -> mlx.addr = data -> addr;
 	data -> mlx.img = data -> img;
 
+	data->buf = (int **)malloc(sizeof(int *) * HEIGHT);
+	for (int i = 0; i < HEIGHT; i++)
+	{
+		data->buf[i] = (int *)malloc(sizeof(int) * WIDTH);
+	}
+	for (int i = 0; i < HEIGHT; i++)
+	{
+		for (int j = 0; j < WIDTH; j++)
+		{
+			data->buf[i][j] = 0;
+		}
+	}
 	for (int i = 0; i < 8; i++)
 	{
 		for (int j = 0; j < textheight * textwidth; j++)
 		{
-			data->texture[i][j] = 0;
+			data->buffer[i][j] = 0;
 		}
 	}
 
@@ -171,7 +186,8 @@ void	draw_gameplay(t_data *data)
 			// tmpColor = 0xabcdef;
 
       //texturing calculations
-      int texNum = map.map[y][x]; // -1; //1 subtracted from it so that texture 0 can be used!
+	//   printf("RAYOUNEY: %d | %d\n", y, x);
+      int texNum = map.map[y/64][x/64] == WALL; // -1; //1 subtracted from it so that texture 0 can be used!
 
       //calculate value of wallX
       double wallX; //where exactly the wall was hit
@@ -180,7 +196,7 @@ void	draw_gameplay(t_data *data)
       wallX -= floor((wallX));
 
       //x coordinate on the texture
-      int texX = (int)(wallX * (textwidth));
+      int texX = (int)(wallX * (double)(textwidth));
       if(side == 0 && rayDirX > 0) texX = textwidth - texX - 1;
 	if(side == 1 && rayDirY < 0) texX = textwidth - texX - 1;
 
@@ -188,25 +204,31 @@ void	draw_gameplay(t_data *data)
 	// How much to increase the texture coordinate perscreen pixel
 	double step = 1.0 * textheight / lineHeight;
 	// Starting texture coordinate
-	double texPos = (drawStart - height / 2 + lineHeight / 2) * step;
+	double texPos = (drawStart - HEIGHT / 2 + lineHeight / 2) * step;
 	for (int y = drawStart; y < drawEnd; y++)
 	{
 		// Cast the texture coordinate to integer, and mask with (textheight - 1) in case of overflow
 		int texY = (int)texPos & (textheight - 1);
 		texPos += step;
-		int color = info->texture[texNum][textheight * texY + texX];
+		// printf("textNum: %d, texX: %d, texY: %d\n", texNum, texX, texY);
+		int color = data->buffer[texNum][textheight * texY + texX];
 		// make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
 		if (side == 1)
 			color = (color >> 1) & 8355711;
-		info->buf[y][x] = color;
-		info->re_buf = 1;
+		data->buf[y][x] = color;
+		data->player.re_buf = 1;
 	}
 	x++;
 
-		void	draw_buff(t_data *data);
-		// draw_ray_vertical(data -> mlx, drawStart, drawEnd, x, tmpColor);
-		// draw_ray_vertical(data -> mlx, 0, drawStart, x, BLUE);
-		// draw_ray_vertical(data -> mlx, drawEnd, HEIGHT, x, WHITE);
+		draw_buff(data);
+		draw_ray_vertical(data -> mlx, drawStart, drawEnd, x, tmpColor);
+		draw_ray_vertical(data -> mlx, 0, drawStart, x, BLUE);
+		draw_ray_vertical(data -> mlx, drawEnd, HEIGHT, x, WHITE);
 		x++;
 	}
+	for (int i = 0; i < HEIGHT; i++)
+	{
+		free(data->buf[i]);
+	}
+	free(data->buf);
 }
