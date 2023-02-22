@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:57 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/21 02:15:20 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/21 22:25:14 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 
 # define WIDTH	1280
 # define HEIGHT	720
+
+#define textwidth 64
+#define textheight 64
 
 # define GAME_WIDTH		WIDTH - (WIDTH / 4)
 # define GAME_HEIGHT	HEIGHT - (HEIGHT / 2)
@@ -109,8 +112,12 @@ typedef struct s_data
 {
 	void		*mlx_ptr;
 	void		*win_ptr;
+	int 		buffer[HEIGHT][WIDTH];
 
 	void		*img;
+	void		*xpm[4];
+	int			*texture[textwidth * textheight];
+	void		*xpm_addr[4];
 	void		*addr;
 
 	void		*img_map;
