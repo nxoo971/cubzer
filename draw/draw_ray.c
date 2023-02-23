@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:35:35 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/22 19:36:00 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/23 21:49:08 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,30 @@
 
 int tmpcol = 0;
 
-static
-void	draw_ray_vertical(t_mlx mlx, int start, int end, int x, int color)
+static void draw_ray_vertical(t_mlx mlx, int start, int end, int x, int color)
 {
 	while (start <= end)
 		mlx_put_pixel(mlx, start++, x, color);
 }
 
-void	draw_buff(t_data *data)
+void draw_buff(t_data *data)
 {
 	for (int y = 0; y < HEIGHT; y++)
 	{
 		for (int x = 0; x < WIDTH; x++)
 		{
-			// printf("+--> %d | [%d|%d]\n", WIDTH * y + x, y, x);
-			if (WIDTH * y + x > 10000)
-				break ;
-			data->addr[WIDTH * y + x] = data->buffer[y][x];
+			data->addr[y * WIDTH + x] = data->buf[y][x];
 		}
 	}
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img, 0, 0);
 }
 
-static
-void	calc_step_init_sidedist(t_player player,
-								int *step_y, int *step_x,
-								int map_y, int map_x,
-								double ray_y, double ray_x,
-								double delta_y, double delta_x,
-								double *side_y, double *side_x)
+static void calc_step_init_sidedist(t_player player,
+									int *step_y, int *step_x,
+									int map_y, int map_x,
+									double ray_y, double ray_x,
+									double delta_y, double delta_x,
+									double *side_y, double *side_x)
 {
 	if (ray_x < 0)
 	{
@@ -66,18 +61,17 @@ void	calc_step_init_sidedist(t_player player,
 	}
 }
 
-static
-double	dda(t_data *data,
-			int *map_y, int *map_x,
-			double *ray_y, double *ray_x, int *side)
+static double dda(t_data *data,
+				  int *map_y, int *map_x,
+				  double *ray_y, double *ray_x, int *side)
 {
-	double	perpWallDist;
-	double	delta_y;
-	double	delta_x;
-	double	side_y;
-	double	side_x;
-	int		step_y;
-	int		step_x;
+	double perpWallDist;
+	double delta_y;
+	double delta_x;
+	double side_y;
+	double side_x;
+	int step_y;
+	int step_x;
 
 	delta_y = 1e30;
 	delta_x = 1e30;
@@ -85,8 +79,8 @@ double	dda(t_data *data,
 		delta_y = fabs(1 / *ray_y);
 	if (*ray_x != 0)
 		delta_x = fabs(1 / *ray_x);
-	calc_step_init_sidedist(data -> player, & step_y, & step_x,
-								*map_y, *map_x, *ray_y, *ray_x, delta_y, delta_x, & side_y, & side_x);
+	calc_step_init_sidedist(data->player, &step_y, &step_x,
+							*map_y, *map_x, *ray_y, *ray_x, delta_y, delta_x, &side_y, &side_x);
 	while (42)
 	{
 		if (side_x < side_y)
@@ -95,7 +89,6 @@ double	dda(t_data *data,
 			*map_x += step_x;
 			*side = 0;
 			tmpcol = 0xe4d0aF;
-
 		}
 		else
 		{
@@ -104,131 +97,167 @@ double	dda(t_data *data,
 			*side = 1;
 			tmpcol = 0x123456;
 		}
-		if (data -> map.map[*map_y][*map_x] == WALL)
-			break ;
+		if (data->map.map[*map_y][*map_x] == WALL)
+			break;
 	}
 	if (*side == 0)
 		return (side_x - delta_x);
 	return (side_y - delta_y);
 }
 
-void	draw_gameplay(t_data *data)
+void load_image(t_data *data, int *texture, char *path, t_mlx *img)
 {
-	t_player	player = data -> player;
-	t_map		map = data -> map;
-	const int	y = player.y;
-	const int	x = player.x;
-
-	data -> mlx.addr = data -> addr;
-	data -> mlx.img = data -> img;
-
-	data->buf = (int **)malloc(sizeof(int *) * HEIGHT);
-	for (int i = 0; i < HEIGHT; i++)
+	img->img = mlx_xpm_file_to_image(data->mlx_ptr, path, &img->img_width, &img->img_height);
+	printf("img = %p  | path = %s  \n", img->img, path);
+	img->data = (int *)mlx_get_data_addr(img->img, &img->bpp, &img->size_l, &img->endian);
+	for (int y = 0; y < img->img_height; y++)
 	{
-		data->buf[i] = (int *)malloc(sizeof(int) * WIDTH);
-	}
-	for (int i = 0; i < HEIGHT; i++)
-	{
-		for (int j = 0; j < WIDTH; j++)
+		for (int x = 0; x < img->img_width; x++)
 		{
-			data->buf[i][j] = 0;
+			texture[img->img_width * y + x] = img->data[img->img_width * y + x];
 		}
 	}
-	for (int i = 0; i < 8; i++)
-	{
-		for (int j = 0; j < textheight * textwidth; j++)
-		{
-			data->buffer[i][j] = 0;
-		}
-	}
+	mlx_destroy_image(data->mlx_ptr, img->img);
+}
 
-	for (int x = 0; x < textwidth; x++)
-	{
-		for (int y = 0; y < textheight; y++)
-		{
-			int xorcolor = (x * 256 / textwidth) ^ (y * 256 / textheight);
-			int ycolor = y * 256 / textheight;
-			int xycolor = y * 128 / textheight + x * 128 / textwidth;
-			data->buffer[0][textwidth * y + x] = 65536 * 254 * (x != y && x != textwidth - y); //flat red buffer with black cross
-			data->buffer[1][textwidth * y + x] = xycolor + 256 * xycolor + 65536 * xycolor; //sloped greyscale
-			data->buffer[2][textwidth * y + x] = 256 * xycolor + 65536 * xycolor; //sloped yellow gradient
-			data->buffer[3][textwidth * y + x] = xorcolor + 256 * xorcolor + 65536 * xorcolor; //xor greyscale
-			data->buffer[4][textwidth * y + x] = 256 * xorcolor; //xor green
-			data->buffer[5][textwidth * y + x] = 65536 * 192 * (x % 16 && y % 16); //red bricks
-			data->buffer[6][textwidth * y + x] = 65536 * ycolor; //red gradient
-			data->buffer[7][textwidth * y + x] = 128 + 256 * 128 + 65536 * 128; //flat grey texture
-		}
-	}
+void load_texture(t_data *data)
+{
+	t_mlx img;
 
-	for(int x = 0; x < WIDTH; x++)
+	load_image(data, data->texture[0], "texture/eagle.xpm", &img);
+	load_image(data, data->texture[1], "texture/redbrick.xpm", &img);
+	load_image(data, data->texture[2], "texture/purplestone.xpm", &img);
+	load_image(data, data->texture[3], "texture/greystone.xpm", &img);
+	load_image(data, data->texture[4], "texture/bluestone.xpm", &img);
+	load_image(data, data->texture[5], "texture/mossy.xpm", &img);
+	load_image(data, data->texture[6], "texture/wood.xpm", &img);
+	load_image(data, data->texture[7], "texture/colorstone.xpm", &img);
+}
+
+void draw_gameplay(t_data *data)
+{
+	t_player *player = &data->player;
+	t_map map = data->map;
+	const int y = player->y;
+	const int x = player->x;
+	player->re_buf = 0;
+
+	// 	data -> mlx.addr = data -> addr;
+	// 	data -> mlx.img = data -> img;
+
+	// 		for (int i = 0; i < HEIGHT; i++)
+	// 		{
+	// 			//data -> buf[i] = malloc(sizeof(int) * WIDTH);
+	// 			for (int j = 0; j < WIDTH; j++)
+	// 			{
+	// 				data -> buf[i][j] = 0;
+	// 			}
+	// 		}
+	// 		// for (int i = 0; i < HEIGHT; i++)
+	// 		// {
+	// 		// 	for (int j = 0; j < WIDTH; j++)
+	// 		// 	{
+	// 		// 		data->buf[i][j] = 0;
+	// 		// 	}
+	// 		// }
+
+	// 		if (!(data -> texture = (int **)malloc(sizeof(int *) * 8)))
+	// 			return ;
+	// 		for (int i = 0; i < 8; i++)
+	// 		{
+	// 			if (!(data -> texture[i] = (int *)malloc(sizeof(int) * (textheight * textwidth))))
+	// 				return ;
+	// 		}
+	// 		for (int i = 0; i < 8; i++)
+	// 		{
+	// 			for (int j = 0; j < textheight * textwidth; j++)
+	// 			{
+	// 				data -> texture[i][j] = 0;
+	// 			}
+	// 		}
+	// load_texture(data);
+	// if (player->re_buf == 1)
+	// {
+	// 	for (int i = 0; i < HEIGHT; i++)
+	// 	{
+	// 		for (int j = 0; j < WIDTH; j++)
+	// 		{
+	// 			data->buf[i][j] = 0;
+	// 		}
+	// 	}
+	// }
+	for (int x = 0; x < WIDTH; x++)
 	{
 		double cameraX = 2 * x / (double)WIDTH - 1;
-		double rayDirX = player.dir_x + player.plane_x * cameraX;
-		double rayDirY = player.dir_y + player.plane_y * cameraX;
-		
-		int mapX = (int)player.x;
-		int mapY = (int)player.y;
+		double rayDirX = player->dir_x + player->plane_x * cameraX;
+		double rayDirY = player->dir_y + player->plane_y * cameraX;
+
+		int mapX = (int)player->x;
+		int mapY = (int)player->y;
 		int side;
-		double perpWallDist = dda(data, & mapY, & mapX, & rayDirY, & rayDirX, & side);
+		double perpWallDist = dda(data, &mapY, &mapX, &rayDirY, &rayDirX, &side);
 		int lineHeight = (int)(HEIGHT / perpWallDist);
 		if (lineHeight <= 0)
 			lineHeight = 100000;
 		int drawStart = -lineHeight / 2 + HEIGHT / 2;
-		if(drawStart < 0)
+		if (drawStart < 0)
 			drawStart = 0;
 		int drawEnd = lineHeight / 2 + HEIGHT / 2;
-		if(drawEnd >= HEIGHT)
+		if (drawEnd >= HEIGHT)
 			drawEnd = HEIGHT - 1;
 
 		int tmpColor = tmpcol;
 
-		// if (data -> map.map[mapY][mapX] == WALL)
-			// tmpColor = 0xabcdef;
+		int texNum = 1; // -1; //1 subtracted from it so that texture 0 can be used!
 
-      //texturing calculations
-	//   printf("RAYOUNEY: %d | %d\n", y, x);
-      int texNum = map.map[y/64][x/64] == WALL; // -1; //1 subtracted from it so that texture 0 can be used!
+		double wallX; // where exactly the wall was hit
+		if (side == 0)
+			wallX = data->player.y + perpWallDist * data->player.dir_y;
+		else
+			wallX = data->player.x + perpWallDist * data->player.dir_x;
+		wallX -= floor((wallX));
 
-      //calculate value of wallX
-      double wallX; //where exactly the wall was hit
-      if (side == 0) wallX = data->player.y + perpWallDist * data->player.dir_y;
-      else           wallX = data->player.x + perpWallDist * data->player.dir_x;
-      wallX -= floor((wallX));
+		// x coordinate on the texture
+		int texX = (int)(wallX * (double)(textwidth));
+		if (side == 0 && rayDirX > 0)
+			texX = textwidth - texX - 1;
+		if (side == 1 && rayDirY < 0)
+			texX = textwidth - texX - 1;
 
-      //x coordinate on the texture
-      int texX = (int)(wallX * (double)(textwidth));
-      if(side == 0 && rayDirX > 0) texX = textwidth - texX - 1;
-	if(side == 1 && rayDirY < 0) texX = textwidth - texX - 1;
-
-
-	// How much to increase the texture coordinate perscreen pixel
-	double step = 1.0 * textheight / lineHeight;
-	// Starting texture coordinate
-	double texPos = (drawStart - HEIGHT / 2 + lineHeight / 2) * step;
-	for (int y = drawStart; y < drawEnd; y++)
-	{
-		// Cast the texture coordinate to integer, and mask with (textheight - 1) in case of overflow
-		int texY = (int)texPos & (textheight - 1);
-		texPos += step;
-		// printf("textNum: %d, texX: %d, texY: %d\n", texNum, texX, texY);
-		int color = data->buffer[texNum][textheight * texY + texX];
-		// make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
-		if (side == 1)
-			color = (color >> 1) & 8355711;
-		data->buf[y][x] = color;
-		data->player.re_buf = 1;
+		// How much to increase the texture coordinate perscreen pixel
+		double step = 1.0 * textheight / lineHeight;
+		// Starting texture coordinate
+		double texPos = (drawStart - HEIGHT / 2 + lineHeight / 2) * step;
+		for (int y = drawStart; y < drawEnd; y++)
+		{
+			int texY = (int)texPos & (textheight - 1);
+			texPos += step;
+			int color = data->texture[texNum][textheight * texY + texX];
+			if (side == 1)
+			{
+				if (rayDirY > 0)
+					color = data->texture[2][textheight * texY + texX];
+				else if (rayDirY < 0)
+					color = data->texture[3][textheight * texY + texX];
+			}
+			else
+			{
+				if (rayDirX > 0)
+					color = data->texture[4][textheight * texY + texX];
+				else if (rayDirX < 0)
+					color = data->texture[5][textheight * texY + texX];
+			}
+			data->buf[y][x] = color;
+			player->re_buf = 1;
+		}
+		for (int y = 0; y < drawStart; y++)
+			data->buf[y][x] = 0xFF0000;
+		for (int y = drawEnd; y < HEIGHT; y++)
+			data->buf[y][x] = 0x00FF00;
+		//  draw_ray_vertical(data -> mlx, drawStart, drawEnd, x, tmpColor);
+		// draw_ray_vertical(data -> mlx, 0, drawStart, x, BLUE);
+		// draw_ray_vertical(data -> mlx, drawEnd, HEIGHT, x, WHITE);
 	}
-	x++;
 
-		draw_buff(data);
-		draw_ray_vertical(data -> mlx, drawStart, drawEnd, x, tmpColor);
-		draw_ray_vertical(data -> mlx, 0, drawStart, x, BLUE);
-		draw_ray_vertical(data -> mlx, drawEnd, HEIGHT, x, WHITE);
-		x++;
-	}
-	for (int i = 0; i < HEIGHT; i++)
-	{
-		free(data->buf[i]);
-	}
-	free(data->buf);
+	draw_buff(data);
 }

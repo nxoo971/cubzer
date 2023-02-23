@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:57 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/22 16:57:12 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/23 18:49:54 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,13 @@ typedef struct s_mlx
 	int		bits_per_pixel[3];
 	int		line_length[3];
 	int		endian;
+
+	// yohai stuct t_img
+	int		*data;
+	int		size_l;
+	int		bpp;
+	int		img_width;
+	int		img_height;
 }	t_mlx;
 
 typedef struct t_press
@@ -113,8 +120,10 @@ typedef struct s_data
 {
 	void		*mlx_ptr;
 	void		*win_ptr;
-	int 		buffer[8][textwidth * textheight];
-	int 		**buf;
+	int 		buffer;
+	int 		**texture;
+	// int			buf[HEIGHT][WIDTH];
+	int		**buf;
 
 	void		*img;
 	void		*xpm[4];
@@ -148,7 +157,7 @@ int		init_gameplay(t_data *data);
 */
 //	key_hook.c
 //int		key_hook(int keycode, t_data *data);
-int		key_hook(t_data *data);
+int		key_hook(int keycode,t_data *data);
 int		key_press(int keycode, t_data *data);
 int		key_release(int keycode, t_data *data);
 
