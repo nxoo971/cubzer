@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:35:35 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/23 21:49:08 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/23 22:36:48 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ static double dda(t_data *data,
 				  int *map_y, int *map_x,
 				  double *ray_y, double *ray_x, int *side)
 {
-	double perpWallDist;
 	double delta_y;
 	double delta_x;
 	double side_y;
@@ -101,8 +100,8 @@ static double dda(t_data *data,
 			break;
 	}
 	if (*side == 0)
-		return (side_x - delta_x);
-	return (side_y - delta_y);
+		return ((*map_x - data->player.x + (1 - step_x ) / 2) / *ray_x);
+	return ((*map_y - data->player.y + (1 - step_y ) / 2) / *ray_y);
 }
 
 void load_image(t_data *data, int *texture, char *path, t_mlx *img)
@@ -128,10 +127,10 @@ void load_texture(t_data *data)
 	load_image(data, data->texture[1], "texture/redbrick.xpm", &img);
 	load_image(data, data->texture[2], "texture/purplestone.xpm", &img);
 	load_image(data, data->texture[3], "texture/greystone.xpm", &img);
-	load_image(data, data->texture[4], "texture/bluestone.xpm", &img);
-	load_image(data, data->texture[5], "texture/mossy.xpm", &img);
-	load_image(data, data->texture[6], "texture/wood.xpm", &img);
-	load_image(data, data->texture[7], "texture/colorstone.xpm", &img);
+	// load_image(data, data->texture[4], "texture/bluestone.xpm", &img);
+	// load_image(data, data->texture[5], "texture/mossy.xpm", &img);
+	// load_image(data, data->texture[6], "texture/wood.xpm", &img);
+	// load_image(data, data->texture[7], "texture/colorstone.xpm", &img);
 }
 
 void draw_gameplay(t_data *data)
@@ -197,8 +196,8 @@ void draw_gameplay(t_data *data)
 		int side;
 		double perpWallDist = dda(data, &mapY, &mapX, &rayDirY, &rayDirX, &side);
 		int lineHeight = (int)(HEIGHT / perpWallDist);
-		if (lineHeight <= 0)
-			lineHeight = 100000;
+		// if (lineHeight <= 0)
+		// 	lineHeight = 100000;
 		int drawStart = -lineHeight / 2 + HEIGHT / 2;
 		if (drawStart < 0)
 			drawStart = 0;
@@ -228,32 +227,35 @@ void draw_gameplay(t_data *data)
 		double step = 1.0 * textheight / lineHeight;
 		// Starting texture coordinate
 		double texPos = (drawStart - HEIGHT / 2 + lineHeight / 2) * step;
-		for (int y = drawStart; y < drawEnd; y++)
+		for (int y = 0; y < HEIGHT; y++)
 		{
-			int texY = (int)texPos & (textheight - 1);
-			texPos += step;
-			int color = data->texture[texNum][textheight * texY + texX];
-			if (side == 1)
-			{
-				if (rayDirY > 0)
-					color = data->texture[2][textheight * texY + texX];
-				else if (rayDirY < 0)
-					color = data->texture[3][textheight * texY + texX];
-			}
+			int color;
+			if (y < drawStart)
+				color = 0xFF0000;
+			else if (y > drawEnd)
+				color = 0x0000FF;
 			else
 			{
-				if (rayDirX > 0)
-					color = data->texture[4][textheight * texY + texX];
-				else if (rayDirX < 0)
-					color = data->texture[5][textheight * texY + texX];
+				int texY = (int)texPos & (textheight - 1);
+				texPos += step;
+				if (side == 1)
+				{
+					if (rayDirY > 0)
+						color = data->texture[0][textheight * texY + texX];
+					else
+						color = data->texture[1][textheight * texY + texX];
+				}
+				else
+				{
+					if (rayDirX > 0)
+						color = data->texture[3][textheight * texY + texX];
+					else
+						color = data->texture[2][textheight * texY + texX];
+				}
 			}
 			data->buf[y][x] = color;
 			player->re_buf = 1;
 		}
-		for (int y = 0; y < drawStart; y++)
-			data->buf[y][x] = 0xFF0000;
-		for (int y = drawEnd; y < HEIGHT; y++)
-			data->buf[y][x] = 0x00FF00;
 		//  draw_ray_vertical(data -> mlx, drawStart, drawEnd, x, tmpColor);
 		// draw_ray_vertical(data -> mlx, 0, drawStart, x, BLUE);
 		// draw_ray_vertical(data -> mlx, drawEnd, HEIGHT, x, WHITE);

@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:57 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/23 18:49:54 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/23 22:13:37 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,5 +201,10 @@ void	free_cub3d(t_data *data);
 void	mlx_put_pixel(t_mlx mlx, int x, int y, int color);
 //	print.c
 void	print_map(const t_data data);
+
+
+
+void load_texture(t_data *data);
+
 
 #endif

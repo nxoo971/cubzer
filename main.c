@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:41 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/23 19:10:32 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/23 22:36:04 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	main(int ac, char **av, char **env)
 	if (ret == EXIT_SUCCESS)
 	{
 		data.player = player;
-		init_dir(& data.player, 'W');
+		init_dir(& data.player, 'E');
 		print_map(data);
 		data.buf = malloc(sizeof(int *) * HEIGHT);
 		for (int i = 0; i < HEIGHT; i++)

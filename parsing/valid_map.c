@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   valid_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 02:55:04 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/18 06:44:50 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/23 22:03:19 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ int	set_map(t_map *map, t_player *player, const char *src_map)
 				if (player_exist)
 					return (ft_printf("{blue}Set_map: {red}Failed{reset} | {bgred}player doublon: [%c|%c]{reset}\n",
 							map -> map[(int)player -> y][(int)player -> x], p[pos_x]));
-				player -> y = i;
-				player -> x = pos_x;
+				player -> y = i + 0.5;
+				player -> x = pos_x + 0.5;
 				player_exist = true;
 			}
 			map -> map[i] = ft_strndup(p, size);

@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 07:50:49 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/23 19:12:11 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/23 22:12:52 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ int	key_hook(int keycode, t_data *data)
 	double		old_plane_y;
 
 	draw_gameplay(data);
-	draw_buff(data);
-printf("cce\n");
+	// draw_buff(data);
 	p = & data -> player;
 	if (keycode == ESC)
 		mlx_loop_end(data -> mlx_ptr);
