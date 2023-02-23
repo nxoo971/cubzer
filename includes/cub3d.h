@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:57 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/23 22:13:37 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/23 22:58:19 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ int		init_gameplay(t_data *data);
 */
 //	key_hook.c
 //int		key_hook(int keycode, t_data *data);
-int		key_hook(int keycode,t_data *data);
+int		key_hook(t_data *data);
 int		key_press(int keycode, t_data *data);
 int		key_release(int keycode, t_data *data);
 

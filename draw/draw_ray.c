@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:35:35 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/23 22:36:48 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/23 22:57:18 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,9 +211,9 @@ void draw_gameplay(t_data *data)
 
 		double wallX; // where exactly the wall was hit
 		if (side == 0)
-			wallX = data->player.y + perpWallDist * data->player.dir_y;
+			wallX = data->player.y + perpWallDist * rayDirY;
 		else
-			wallX = data->player.x + perpWallDist * data->player.dir_x;
+			wallX = data->player.x + perpWallDist * rayDirX;
 		wallX -= floor((wallX));
 
 		// x coordinate on the texture

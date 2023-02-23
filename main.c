@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:41 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/23 22:36:04 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/23 22:58:16 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ int	launch_game(t_data *data)
 	
 	// mlx_put_image_to_window(data -> mlx_ptr, data -> win_ptr, data -> img, 0, 0);
 	//draw_gameplay(data);
-	mlx_hook(data -> win_ptr, CLOSE, 0, & quit, data);
-	mlx_hook(data -> win_ptr, 1, 1UL << 0, & key_hook, data);
-	mlx_key_hook(data -> win_ptr, & key_hook, data);
-	// mlx_hook(data->win_ptr, 2, 1UL<<0, key_press, data);
-	// mlx_hook(data->win_ptr, 3, 1UL<<1, key_release, data);
-	// mlx_loop_hook(data -> mlx_ptr, & key_hook, data);
+	// mlx_hook(data -> win_ptr, CLOSE, 0, & quit, data);
+	// mlx_hook(data -> win_ptr, 1, 1UL << 0, & key_hook, data);
+	// mlx_key_hook(data -> win_ptr, & key_hook, data);
+	mlx_hook(data->win_ptr, 2, 1UL<<0, key_press, data);
+	mlx_hook(data->win_ptr, 3, 1UL<<1, key_release, data);
+	mlx_loop_hook(data -> mlx_ptr, & key_hook, data);
 	mlx_loop(data -> mlx_ptr);
 	return (0);
 }
