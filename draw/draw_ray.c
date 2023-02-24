@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:35:35 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/24 05:26:08 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/24 15:28:33 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ double	dda(t_data *data, t_params *params, int *map_y, int *map_x)
 		params -> delta_y = fabs(1 / params -> ray_y);
 	if (params -> ray_x != 0)
 		params -> delta_x = fabs(1 / params -> ray_x);
-	calc_step_and_side_dist(data->player, params, *map_y, *map_x);
+	calc_step_and_side_dist(data -> player, params, *map_y, *map_x);
 	while (42)
 	{
 		if (params -> side_x < params -> side_y)
@@ -83,19 +83,41 @@ double	dda(t_data *data, t_params *params, int *map_y, int *map_x)
 			*map_y += params -> step_y;
 			params -> side = 1;
 		}
-		if (data->map.map[*map_y][*map_x] == WALL)
+		if (data -> map.map[*map_y][*map_x] == WALL)
 			break;
 	}
 	if (params -> side == 0)
-		return ((*map_x - data->player.x + (1 - params -> step_x) / 2) / params -> ray_x);
-	return ((*map_y - data->player.y + (1 - params -> step_y) / 2) / params -> ray_y);
+		return ((*map_x - data -> player.x + (1 - params -> step_x) / 2) / params -> ray_x);
+	return ((*map_y - data -> player.y + (1 - params -> step_y) / 2) / params -> ray_y);
 }
 
-//static
-//void	faire draw start et draw end()
-//{
+static
+void	loop(t_data *data, int *draw_start, int *draw_end)
+{
+	double	perpWallDist;
+	double	camera_x;
+	int		line_height;
+	int		x;
+	int		y;
 
-//}
+	for (int x = 0; x < WIDTH; x++)
+	{
+		camera_x = 2 * x / (double)WIDTH - 1;
+		data -> params.ray_y = data -> params.dir_y + data -> params.plane_y * camera_x;
+		data -> params.ray_x = data -> params.dir_x + data -> params.plane_x * camera_x;
+		x = (int)data -> player.x;
+		y = (int)data -> player.y;
+		perpWallDist = dda(data, & data -> params, & y, & x);
+		line_height = (int)(HEIGHT / perpWallDist);
+		*draw_start = -line_height / 2 + HEIGHT / 2;
+		if (*draw_start < 0)
+			*draw_start = 0;
+		*draw_end = line_height / 2 + HEIGHT / 2;
+		if (*draw_end >= HEIGHT)
+			*draw_end = HEIGHT - 1;
+	}
+
+}
 
 void	draw_gameplay(t_data *data)
 {
@@ -127,8 +149,6 @@ void	draw_gameplay(t_data *data)
 		int drawEnd = lineHeight / 2 + HEIGHT / 2;
 		if (drawEnd >= HEIGHT)
 			drawEnd = HEIGHT - 1;
-
-		int texNum = 1;
 
 		double wallX;
 		if (params -> side == 0)

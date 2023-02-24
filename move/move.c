@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 03:25:06 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/24 04:23:54 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/24 07:21:14 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,26 +51,4 @@ void	move_angle(t_data *data, const int sign)
 	params -> dir_y = oldir * rotation_sin + params -> dir_y * rotation_cos;
 	params -> plane_x = params -> plane_x * rotation_cos - params -> plane_y * rotation_sin;
 	params -> plane_y = old_plane * rotation_sin + params -> plane_y * rotation_cos;
-}
-
-void rotate_left(t_params *params, const double rot_speed)
-{
-    const double	old_dir_x = params -> dir_x;
-    const double	old_plane_x = params -> plane_x;
-
-    params -> dir_x = params -> dir_x * cos(rot_speed) - params -> dir_y * sin(rot_speed);
-    params -> dir_y = old_dir_x * sin(rot_speed) + params -> dir_y * cos(rot_speed);
-    params -> plane_x = params -> plane_x * cos(rot_speed) - params -> plane_y * sin(rot_speed);
-    params -> plane_y = old_plane_x * sin(rot_speed) + params -> plane_y * cos(rot_speed);
-}
-
-void rotate_right(t_params *params, const double rot_speed)
-{
-    const double	old_dir_x = params -> dir_x;
-    const double	old_plane_x = params -> plane_x;
-
-    params -> dir_x = params -> dir_x * cos(-rot_speed) - params -> dir_y * sin(-rot_speed);
-    params -> dir_y = old_dir_x * sin(-rot_speed) + params -> dir_y * cos(-rot_speed);
-    params -> plane_x = params -> plane_x * cos(-rot_speed) - params -> plane_y * sin(-rot_speed);
-    params -> plane_y = old_plane_x * sin(-rot_speed) + params -> plane_y * cos(-rot_speed);
 }

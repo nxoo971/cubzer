@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 07:50:49 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/24 03:08:40 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/24 07:00:17 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 int	key_hook(t_data *data)
 {
 	t_player	*p;
-	double		old_dir_y;
-	double		old_plane_y;
 
 	p = & data -> player;
 	if (data -> press.esc)

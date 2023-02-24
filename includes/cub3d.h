@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:57 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/24 05:22:11 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/24 07:11:06 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # define GAME_HEIGHT	HEIGHT - (HEIGHT / 2)
 
 # define ROTATION_SPEED	.03
-# define MOVE_SPEED	2 * (M_PI / 180.)
+# define MOVE_SPEED	100 * (M_PI / 180.)
 
 # define FOV			90.0
 

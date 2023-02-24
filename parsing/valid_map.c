@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 02:55:04 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/24 02:02:00 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/24 07:06:22 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	set_map(t_map *map, t_player *player, const char *src_map)
 			if (pos_x > -1)
 			{
 				if (player_exist)
-					return (ft_printf("{blue}set_map: {red}Failed{reset} | {bgred}player doublon: [%c|%c]{reset}\n",
+					return (ft_printf("{blue}set_map: {red}FAILED{reset} -- {bgred}player doublon: [%c|%c]{reset}\n",
 							map -> map[(int)player -> y][(int)player -> x], p[pos_x]));
 				player -> y = i + 0.5;
 				player -> x = pos_x + 0.5;
@@ -50,7 +50,7 @@ int	set_map(t_map *map, t_player *player, const char *src_map)
 				return (EXIT_FAILURE);
 			if (ft_isspace(map -> map[i][size - 1])
 				|| accept_char(map -> map[i], size))
-				return (ft_printf("{blue}set_map: {red}Failed{reset}\n"));
+				return (ft_printf("{blue}set_map: {red}FAILED -- wrong chars{reset}\n"));
 			p = ptr;
 			i++;
 		}
@@ -112,7 +112,7 @@ int	readinfos(t_map *map, t_player *player, int fd)
 		if (parse_line(line, map))
 		{
 			ft_memdel((void **)& line);
-			return (ft_printf("{blue}parse line: {red}Failed{reset}\n"));
+			return (ft_printf("{blue}parse line: {red}FAILED{reset}\n"));
 		}
 		if (textures_is_set(map))
 		{
@@ -144,14 +144,14 @@ int	parse_map(t_map *map, t_player *player)
 	int	fd;
 
 	if (check_extension(map->filename))
-		return (ft_printf("{blue}Extension: {red}Failed{reset}\n"));
+		return (ft_printf("{blue}Extension: {red}FAILED{reset}\n"));
 	fd = open(map -> filename, O_RDONLY, 0644);
 	if (fd == -1)
-		return (ft_printf("{blue}Opening file: {red}Failed{reset}\n"));
+		return (ft_printf("{blue}Opening file: {red}FAILED{reset}\n"));
 	if (readinfos(map, player, fd))
 	{
 		close(fd);
-		return (ft_printf("{blue}Read map: {red}Failed{reset}{reset}\n"));
+		return (ft_printf("{blue}read map: {red}FAILED{reset}{reset}\n"));
 	}
 	close(fd);
 	return (EXIT_SUCCESS);
