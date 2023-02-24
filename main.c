@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:41 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/24 02:56:44 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/24 04:25:47 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	launch_game(t_data *data)
 		return (EXIT_FAILURE);
 	if (init_gameplay(data))
 		return (EXIT_FAILURE);
-	if (init_direction(data))
+	if (init_direction(& data -> params, data -> map.map[(int)data -> player.y][(int)data -> player.x]))
 		return (EXIT_FAILURE);
 	if (init_buf_texture(data))
 		return (EXIT_FAILURE);
@@ -56,7 +56,7 @@ int	launch_game(t_data *data)
 int	main(int ac, char **av, char **env)
 {
 	static t_data	data = {0};
-	static t_player	player = {0, .dir_x = 0, .dir_y = -1};
+	static t_player	player = {0};
 	int				ret;
 
 	if (!env || !*env || ac != 2)

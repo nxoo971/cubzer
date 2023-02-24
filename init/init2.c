@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 01:22:58 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/24 03:46:38 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/24 04:54:08 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,16 @@ int	init_buf_texture(t_data *data)
 	int	i;
 
 	i = -1;
+	data -> buf = malloc(sizeof(int *) * HEIGHT);
+	while (++i < HEIGHT)
+	{
+		data -> buf[i] = ft_calloc(sizeof(int) * WIDTH, 1);
+		if (!data -> buf[i])
+			return (EXIT_FAILURE);
+	}
 	data -> texture = malloc(sizeof(int *) * TEXTURE_SIZE);
 	if (!data -> texture)
-		return 0;
+		return (EXIT_FAILURE);
 	i = -1;
 	while (++i < TEXTURE_SIZE)
 	{
@@ -69,39 +76,34 @@ int	init_buf_texture(t_data *data)
 	return (EXIT_SUCCESS);
 }
 
-int	init_plane(t_player *player)
+int	init_plane(t_params *params)
 {
-	player -> plane_x = 0.66 * player -> dir_y;
-	player -> plane_y = 0.66 * (player -> dir_x * -1);
+	params -> plane_x = 0.66 * params -> dir_y;
+	params -> plane_y = 0.66 * (params -> dir_x * -1);
 	return (EXIT_SUCCESS);
 }
 
-int	init_direction(t_data *data)
+int	init_direction(t_params *params, const char spawn_direction)
 {
-	t_player	*player;
-	char		direction;
-
-	player = & data -> player;
-	direction = data -> map.map[(int)player -> y][(int)player -> x];
-	if (direction == 'N')
+	if (spawn_direction == 'N')
 	{
-		player -> dir_x = 0;
-		player -> dir_y = -1;
+		params -> dir_x = 0;
+		params -> dir_y = -1;
 	}
-	else if (direction == 'S')
+	else if (spawn_direction == 'S')
 	{
-		player -> dir_x = 0;
-		player -> dir_y = 1;
+		params -> dir_x = 0;
+		params -> dir_y = 1;
 	}
-	else if (direction == 'E')
+	else if (spawn_direction == 'E')
 	{
-		player -> dir_x = 1;
-		player -> dir_y = 0;
+		params -> dir_x = 1;
+		params -> dir_y = 0;
 	}
-	else if (direction == 'W')
+	else if (spawn_direction == 'W')
 	{
-		player -> dir_x = -1;
-		player -> dir_y = 0;
+		params -> dir_x = -1;
+		params -> dir_y = 0;
 	}
-	return (init_plane(player));
+	return (init_plane(params));
 }

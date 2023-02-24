@@ -6,20 +6,20 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:35:35 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/24 05:26:08 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/24 04:53:37 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../includes/cub3d.h"
 
 static
-void	draw_ray_vertical(t_mlx mlx, int start, int end, int x, int color)
+void draw_ray_vertical(t_mlx mlx, int start, int end, int x, int color)
 {
 	while (start <= end)
 		mlx_put_pixel(mlx, start++, x, color);
 }
 
-void	draw_buff(t_data *data)
+void draw_buff(t_data *data)
 {
 	int	y;
 	int	x;
@@ -29,13 +29,13 @@ void	draw_buff(t_data *data)
 	{
 		x = -1;
 		while (++x < WIDTH)
-			((int *)data->addr)[y * WIDTH + x] = data->buf[y][x];
+			((int *)data -> addr)[y * WIDTH + x] = data -> buf[y][x];
 	}
-	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img, 0, 0);
+	mlx_put_image_to_window(data -> mlx_ptr, data -> win_ptr, data -> img, 0, 0);
 }
 
 static
-void	calc_step_and_side_dist(t_player player, t_params *params, int map_y, int map_x)
+void calc_step_init_sidedist(t_player player, t_params *params, int map_y, int map_x)
 {
 	if (params -> ray_x < 0)
 	{
@@ -60,7 +60,7 @@ void	calc_step_and_side_dist(t_player player, t_params *params, int map_y, int m
 }
 
 static
-double	dda(t_data *data, t_params *params, int *map_y, int *map_x)
+double dda(t_data *data, t_params *params, int *map_y, int *map_x)
 {
 	params -> delta_y = 1e30;
 	params -> delta_x = 1e30;
@@ -68,7 +68,7 @@ double	dda(t_data *data, t_params *params, int *map_y, int *map_x)
 		params -> delta_y = fabs(1 / params -> ray_y);
 	if (params -> ray_x != 0)
 		params -> delta_x = fabs(1 / params -> ray_x);
-	calc_step_and_side_dist(data->player, params, *map_y, *map_x);
+	calc_step_init_sidedist(data -> player, params, *map_y, *map_x);
 	while (42)
 	{
 		if (params -> side_x < params -> side_y)
@@ -91,13 +91,7 @@ double	dda(t_data *data, t_params *params, int *map_y, int *map_x)
 	return ((*map_y - data->player.y + (1 - params -> step_y) / 2) / params -> ray_y);
 }
 
-//static
-//void	faire draw start et draw end()
-//{
-
-//}
-
-void	draw_gameplay(t_data *data)
+void draw_gameplay(t_data *data)
 {
 	const t_map	map = data->map;
 	t_params	*params;
@@ -108,6 +102,7 @@ void	draw_gameplay(t_data *data)
 	params = & data -> params;
 	player = & data -> player;
 	//params -> re_buf = false;//???
+	//ft_bzero(data -> buf, HEIGHT * WIDTH);
 	y = player->y;
 	x = player->x;
 	for (int x = 0; x < WIDTH; x++)
@@ -119,7 +114,6 @@ void	draw_gameplay(t_data *data)
 		int mapX = (int)player->x;
 		int mapY = (int)player->y;
 		double perpWallDist = dda(data, params, &mapY, &mapX);
-
 		int lineHeight = (int)(HEIGHT / perpWallDist);
 		int drawStart = -lineHeight / 2 + HEIGHT / 2;
 		if (drawStart < 0)
@@ -147,9 +141,9 @@ void	draw_gameplay(t_data *data)
 		{
 			int color;
 			if (y < drawStart)
-				color = set_rgb(data -> map.color_ceil);
+				color = 0xFF0000;
 			else if (y > drawEnd)
-				color = set_rgb(data -> map.color_floor);
+				color = 0x0000FF;
 			else
 			{
 				int texY = (int)texPos & (TEXTURE_HEIGHT - 1);

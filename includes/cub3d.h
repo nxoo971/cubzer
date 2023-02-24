@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:57 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/24 03:15:56 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/24 05:22:11 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,14 +88,35 @@ typedef struct s_player
 {
 	double	x;
 	double	y;
-	double	dir_x;
-	double	dir_y;
-	double	plane_x;
-	double	plane_y;
-	double	time;
-	double	old_time;
-	int		re_buf;
 }	t_player;
+
+typedef struct s_params
+{
+	double	dir_y;
+	double	dir_x;
+
+	double	plane_y;
+	double	plane_x;
+
+	double	delta_y;
+	double	delta_x;
+
+	double	step_y;
+	double	step_x;
+
+	double	ray_y;
+	double	ray_x;
+
+	double	side_y; // les caster en int pour un effet chelou
+	double	side_x;
+	int		side;
+
+	double	draw_start;
+	double	draw_end;
+
+	bool	re_buf;
+}	t_params;
+
 
 typedef struct s_ray
 {
@@ -108,21 +129,19 @@ typedef struct s_ray
 	int		oppose; // vertical
 	int		adjacent; // horizon
 	int		hypothenuse;
-	
 }	t_ray;
 
 typedef struct s_data
 {
 	void		*mlx_ptr;
 	void		*win_ptr;
-	int 		buffer;
 	int 		**texture;
-	int			buf[HEIGHT][WIDTH];
+	int			**buf;
 
 	void		*img;
 	void		*xpm[4];
 	void		*xpm_addr[4];
-	int			*addr;
+	void		*addr;
 
 	void		*img_map;
 	void		*map_addr;
@@ -134,7 +153,8 @@ typedef struct s_data
 	t_map		map;
 	t_ray		ray;
 	t_player	player;
-	t_press	press;
+	t_press		press;
+	t_params	params;
 }	t_data;
 
 /*
@@ -148,8 +168,8 @@ int		init_gameplay(t_data *data);
 //	init2.c
 int		init_images(t_data *data);
 int		init_buf_texture(t_data *data);
-int		init_direction(t_data *data);
-int		init_plane(t_player *player);
+int		init_direction(t_params *params, const char spawn_direction);
+int		init_plane(t_params *params);
 
 /*
 	DIRECTORY:	./key_hook
