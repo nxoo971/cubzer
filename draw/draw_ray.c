@@ -6,13 +6,11 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:35:35 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/24 02:36:05 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/24 03:49:30 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../includes/cub3d.h"
-
-int tmpcol = 0;
 
 static void draw_ray_vertical(t_mlx mlx, int start, int end, int x, int color)
 {
@@ -22,12 +20,15 @@ static void draw_ray_vertical(t_mlx mlx, int start, int end, int x, int color)
 
 void draw_buff(t_data *data)
 {
-	for (int y = 0; y < HEIGHT; y++)
+	int	y;
+	int	x;
+
+	y = -1;
+	while (++y < HEIGHT)
 	{
-		for (int x = 0; x < WIDTH; x++)
-		{
+		x = -1;
+		while (++x < WIDTH)
 			data->addr[y * WIDTH + x] = data->buf[y][x];
-		}
 	}
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img, 0, 0);
 }
@@ -87,14 +88,12 @@ static double dda(t_data *data,
 			side_x += delta_x;
 			*map_x += step_x;
 			*side = 0;
-			tmpcol = 0xe4d0aF;
 		}
 		else
 		{
 			side_y += delta_y;
 			*map_y += step_y;
 			*side = 1;
-			tmpcol = 0x123456;
 		}
 		if (data->map.map[*map_y][*map_x] == WALL)
 			break;
@@ -122,8 +121,6 @@ void draw_gameplay(t_data *data)
 		int side;
 		double perpWallDist = dda(data, &mapY, &mapX, &rayDirY, &rayDirX, &side);
 		int lineHeight = (int)(HEIGHT / perpWallDist);
-		// if (lineHeight <= 0)
-		// 	lineHeight = 100000;
 		int drawStart = -lineHeight / 2 + HEIGHT / 2;
 		if (drawStart < 0)
 			drawStart = 0;
@@ -131,27 +128,20 @@ void draw_gameplay(t_data *data)
 		if (drawEnd >= HEIGHT)
 			drawEnd = HEIGHT - 1;
 
-		int tmpColor = tmpcol;
+		int texNum = 1;
 
-		int texNum = 1; // -1; //1 subtracted from it so that texture 0 can be used!
-
-		double wallX; // where exactly the wall was hit
+		double wallX;
 		if (side == 0)
 			wallX = data->player.y + perpWallDist * rayDirY;
 		else
 			wallX = data->player.x + perpWallDist * rayDirX;
 		wallX -= floor((wallX));
-
-		// x coordinate on the texture
 		int texX = (int)(wallX * (double)(TEXTURE_WIDTH));
 		if (side == 0 && rayDirX > 0)
 			texX = TEXTURE_WIDTH - texX - 1;
 		if (side == 1 && rayDirY < 0)
 			texX = TEXTURE_WIDTH - texX - 1;
-
-		// How much to increase the texture coordinate perscreen pixel
 		double step = 1.0 * TEXTURE_HEIGHT / lineHeight;
-		// Starting texture coordinate
 		double texPos = (drawStart - HEIGHT / 2 + lineHeight / 2) * step;
 		for (int y = 0; y < HEIGHT; y++)
 		{
@@ -179,12 +169,9 @@ void draw_gameplay(t_data *data)
 						color = data->texture[2][TEXTURE_HEIGHT * texY + texX];
 				}
 			}
-			data->buf[y][x] = color; // c'est ici que ca segfault
+			data->buf[y][x] = color;
 			player->re_buf = 1;
 		}
-		// draw_ray_vertical(data -> mlx, drawStart, drawEnd, x, tmpColor);
-		// draw_ray_vertical(data -> mlx, 0, drawStart, x, BLUE);
-		// draw_ray_vertical(data -> mlx, drawEnd, HEIGHT, x, WHITE);
 	}
 
 	draw_buff(data);
