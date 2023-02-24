@@ -1,8 +1,8 @@
-NO     ./path_to_the_north_texture
-SO   ./path_to_the_south_texture
+NO     ./textures/eagle.xpm
+SO   ./textures/colorstone.xpm
 F   150,222,50
-WE   ./path_to_the_west_texture
-EA     ./path_to_the_east_texture
+WE   ./textures/redbrick.xpm
+EA     ./textures/greystone.xpm
 
 C                 82,82,82
 1111111111111111111111

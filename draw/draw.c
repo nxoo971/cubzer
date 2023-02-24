@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 03:28:27 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/18 06:46:00 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/24 03:14:07 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,4 @@ void	draw_game(t_data *data)
 	for (int y = 0; y < HEIGHT; y++)
 		for (int x = 0; x < WIDTH; x++)
 			mlx_put_pixel(data -> mlx, y, x, colors[y >= mid]);
-	//mlx_put_image_to_window(data -> mlx_ptr, data -> win_ptr, data -> mlx.img, 0, 0);
 }

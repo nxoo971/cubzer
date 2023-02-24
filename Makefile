@@ -10,7 +10,7 @@ DRAW_DIR	= draw
 COLOR_DIR	= color
 FREE_DIR	= free
 
-SRC_FILES = $(addprefix $(INIT_DIR)/, init.c) \
+SRC_FILES = $(addprefix $(INIT_DIR)/, init.c init2.c) \
 			$(addprefix $(PARSING_DIR)/, parse_map.c parse_map_utils.c set_infos.c valid_map.c) \
 			$(addprefix $(KEYHOOK_DIR)/, key_hook.c) \
 			$(addprefix $(MOVE_DIR)/, move.c) \

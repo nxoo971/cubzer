@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_ray.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:35:35 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/23 22:57:18 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/24 02:36:05 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,35 +104,6 @@ static double dda(t_data *data,
 	return ((*map_y - data->player.y + (1 - step_y ) / 2) / *ray_y);
 }
 
-void load_image(t_data *data, int *texture, char *path, t_mlx *img)
-{
-	img->img = mlx_xpm_file_to_image(data->mlx_ptr, path, &img->img_width, &img->img_height);
-	printf("img = %p  | path = %s  \n", img->img, path);
-	img->data = (int *)mlx_get_data_addr(img->img, &img->bpp, &img->size_l, &img->endian);
-	for (int y = 0; y < img->img_height; y++)
-	{
-		for (int x = 0; x < img->img_width; x++)
-		{
-			texture[img->img_width * y + x] = img->data[img->img_width * y + x];
-		}
-	}
-	mlx_destroy_image(data->mlx_ptr, img->img);
-}
-
-void load_texture(t_data *data)
-{
-	t_mlx img;
-
-	load_image(data, data->texture[0], "texture/eagle.xpm", &img);
-	load_image(data, data->texture[1], "texture/redbrick.xpm", &img);
-	load_image(data, data->texture[2], "texture/purplestone.xpm", &img);
-	load_image(data, data->texture[3], "texture/greystone.xpm", &img);
-	// load_image(data, data->texture[4], "texture/bluestone.xpm", &img);
-	// load_image(data, data->texture[5], "texture/mossy.xpm", &img);
-	// load_image(data, data->texture[6], "texture/wood.xpm", &img);
-	// load_image(data, data->texture[7], "texture/colorstone.xpm", &img);
-}
-
 void draw_gameplay(t_data *data)
 {
 	t_player *player = &data->player;
@@ -140,51 +111,6 @@ void draw_gameplay(t_data *data)
 	const int y = player->y;
 	const int x = player->x;
 	player->re_buf = 0;
-
-	// 	data -> mlx.addr = data -> addr;
-	// 	data -> mlx.img = data -> img;
-
-	// 		for (int i = 0; i < HEIGHT; i++)
-	// 		{
-	// 			//data -> buf[i] = malloc(sizeof(int) * WIDTH);
-	// 			for (int j = 0; j < WIDTH; j++)
-	// 			{
-	// 				data -> buf[i][j] = 0;
-	// 			}
-	// 		}
-	// 		// for (int i = 0; i < HEIGHT; i++)
-	// 		// {
-	// 		// 	for (int j = 0; j < WIDTH; j++)
-	// 		// 	{
-	// 		// 		data->buf[i][j] = 0;
-	// 		// 	}
-	// 		// }
-
-	// 		if (!(data -> texture = (int **)malloc(sizeof(int *) * 8)))
-	// 			return ;
-	// 		for (int i = 0; i < 8; i++)
-	// 		{
-	// 			if (!(data -> texture[i] = (int *)malloc(sizeof(int) * (textheight * textwidth))))
-	// 				return ;
-	// 		}
-	// 		for (int i = 0; i < 8; i++)
-	// 		{
-	// 			for (int j = 0; j < textheight * textwidth; j++)
-	// 			{
-	// 				data -> texture[i][j] = 0;
-	// 			}
-	// 		}
-	// load_texture(data);
-	// if (player->re_buf == 1)
-	// {
-	// 	for (int i = 0; i < HEIGHT; i++)
-	// 	{
-	// 		for (int j = 0; j < WIDTH; j++)
-	// 		{
-	// 			data->buf[i][j] = 0;
-	// 		}
-	// 	}
-	// }
 	for (int x = 0; x < WIDTH; x++)
 	{
 		double cameraX = 2 * x / (double)WIDTH - 1;
@@ -217,14 +143,14 @@ void draw_gameplay(t_data *data)
 		wallX -= floor((wallX));
 
 		// x coordinate on the texture
-		int texX = (int)(wallX * (double)(textwidth));
+		int texX = (int)(wallX * (double)(TEXTURE_WIDTH));
 		if (side == 0 && rayDirX > 0)
-			texX = textwidth - texX - 1;
+			texX = TEXTURE_WIDTH - texX - 1;
 		if (side == 1 && rayDirY < 0)
-			texX = textwidth - texX - 1;
+			texX = TEXTURE_WIDTH - texX - 1;
 
 		// How much to increase the texture coordinate perscreen pixel
-		double step = 1.0 * textheight / lineHeight;
+		double step = 1.0 * TEXTURE_HEIGHT / lineHeight;
 		// Starting texture coordinate
 		double texPos = (drawStart - HEIGHT / 2 + lineHeight / 2) * step;
 		for (int y = 0; y < HEIGHT; y++)
@@ -236,27 +162,27 @@ void draw_gameplay(t_data *data)
 				color = 0x0000FF;
 			else
 			{
-				int texY = (int)texPos & (textheight - 1);
+				int texY = (int)texPos & (TEXTURE_HEIGHT - 1);
 				texPos += step;
 				if (side == 1)
 				{
 					if (rayDirY > 0)
-						color = data->texture[0][textheight * texY + texX];
+						color = data->texture[0][TEXTURE_HEIGHT * texY + texX];
 					else
-						color = data->texture[1][textheight * texY + texX];
+						color = data->texture[1][TEXTURE_HEIGHT * texY + texX];
 				}
 				else
 				{
 					if (rayDirX > 0)
-						color = data->texture[3][textheight * texY + texX];
+						color = data->texture[3][TEXTURE_HEIGHT * texY + texX];
 					else
-						color = data->texture[2][textheight * texY + texX];
+						color = data->texture[2][TEXTURE_HEIGHT * texY + texX];
 				}
 			}
-			data->buf[y][x] = color;
+			data->buf[y][x] = color; // c'est ici que ca segfault
 			player->re_buf = 1;
 		}
-		//  draw_ray_vertical(data -> mlx, drawStart, drawEnd, x, tmpColor);
+		// draw_ray_vertical(data -> mlx, drawStart, drawEnd, x, tmpColor);
 		// draw_ray_vertical(data -> mlx, 0, drawStart, x, BLUE);
 		// draw_ray_vertical(data -> mlx, drawEnd, HEIGHT, x, WHITE);
 	}

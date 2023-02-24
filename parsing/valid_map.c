@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   valid_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 02:55:04 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/23 22:03:19 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/24 02:02:00 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	set_map(t_map *map, t_player *player, const char *src_map)
 			if (pos_x > -1)
 			{
 				if (player_exist)
-					return (ft_printf("{blue}Set_map: {red}Failed{reset} | {bgred}player doublon: [%c|%c]{reset}\n",
+					return (ft_printf("{blue}set_map: {red}Failed{reset} | {bgred}player doublon: [%c|%c]{reset}\n",
 							map -> map[(int)player -> y][(int)player -> x], p[pos_x]));
 				player -> y = i + 0.5;
 				player -> x = pos_x + 0.5;
@@ -50,7 +50,7 @@ int	set_map(t_map *map, t_player *player, const char *src_map)
 				return (EXIT_FAILURE);
 			if (ft_isspace(map -> map[i][size - 1])
 				|| accept_char(map -> map[i], size))
-				return (ft_printf("{blue}Set_map: {red}Failed{reset}\n"));
+				return (ft_printf("{blue}set_map: {red}Failed{reset}\n"));
 			p = ptr;
 			i++;
 		}
@@ -70,14 +70,6 @@ int	readmap(t_map *map, t_player *player, int fd)
 	size = 0;
 	y = 0;
 	x = 0;
-	//while (1) {
-	//	line = readfile(fd, false);
-	//	if (!line) return (EXIT_FAILURE) ;
-	//	if (*line == '\n')
-	//		ft_memdel((void **)& line);
-	//	else
-	//		break ;
-	//}
 	while (1)
 	{
 		if (size > x)
@@ -120,7 +112,7 @@ int	readinfos(t_map *map, t_player *player, int fd)
 		if (parse_line(line, map))
 		{
 			ft_memdel((void **)& line);
-			return (ft_printf("{blue}Parse line: {red}Failed{reset}\n"));
+			return (ft_printf("{blue}parse line: {red}Failed{reset}\n"));
 		}
 		if (textures_is_set(map))
 		{

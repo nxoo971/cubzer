@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:57 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/23 22:58:19 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/24 03:15:56 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@
 # define WIDTH	1280
 # define HEIGHT	720
 
-#define textwidth 64
-#define textheight 64
+# define TEXTURE_SIZE		4
+# define TEXTURE_WIDTH		64
+# define TEXTURE_HEIGHT		64
 
 # define GAME_WIDTH		WIDTH - (WIDTH / 4)
 # define GAME_HEIGHT	HEIGHT - (HEIGHT / 2)
@@ -58,6 +59,7 @@ enum {
 	MLX_IMG_MAP,
 	MLX_IMG_MINIMAP,
 	MLX_IMG_GAME,
+	MLX_IMG_SPRITES,
 };
 
 typedef struct s_mlx
@@ -66,16 +68,9 @@ typedef struct s_mlx
 	void	*addr;
 	int		index;
 
-	int		bits_per_pixel[3];
-	int		line_length[3];
+	int		bits_per_pixel[4];
+	int		line_length[4];
 	int		endian;
-
-	// yohai stuct t_img
-	int		*data;
-	int		size_l;
-	int		bpp;
-	int		img_width;
-	int		img_height;
 }	t_mlx;
 
 typedef struct t_press
@@ -122,8 +117,7 @@ typedef struct s_data
 	void		*win_ptr;
 	int 		buffer;
 	int 		**texture;
-	// int			buf[HEIGHT][WIDTH];
-	int		**buf;
+	int			buf[HEIGHT][WIDTH];
 
 	void		*img;
 	void		*xpm[4];
@@ -151,6 +145,11 @@ int		init_mlx(t_data *data);
 int		init_map(t_data *data);
 int		init_minimap(t_data *data);
 int		init_gameplay(t_data *data);
+//	init2.c
+int		init_images(t_data *data);
+int		init_buf_texture(t_data *data);
+int		init_direction(t_data *data);
+int		init_plane(t_player *player);
 
 /*
 	DIRECTORY:	./key_hook
