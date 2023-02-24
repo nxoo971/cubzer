@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 03:28:27 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/24 03:14:07 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/24 19:18:31 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	draw_game(t_data *data)
 {
 	const int	mid = HEIGHT / 2;
 	int			*colors;
-	int			color;
 
 	colors = (int [2]){set_rgb(data -> map.color_ceil), set_rgb(data -> map.color_floor)};
 	data -> mlx.img = data -> img;

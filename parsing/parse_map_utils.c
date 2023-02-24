@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:50:37 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/02 19:29:09 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/24 19:18:09 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,12 @@ int	textures_is_set(t_map *map)
 
 int	accept_char(const char *s, size_t len)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
-	while (i < len && s[i] == '0' || s[i] == '1' || s[i] == 'N'
+	while (i < len && (s[i] == '0' || s[i] == '1' || s[i] == 'N'
 		|| s[i] == 'S' || s[i] == 'E' || s[i] == 'W'
-		|| s[i] == ' ')
+		|| s[i] == ' '))
 		i++;
 	return (s[i] != '\0');
 }

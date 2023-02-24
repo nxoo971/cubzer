@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:41 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/24 04:25:47 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/24 19:18:59 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,6 @@ void	mlx_put_pixel(t_mlx mlx, int y, int x, int color)
 
 	dst = mlx.addr + (y * mlx.line_length[mlx.index] + x * (mlx.bits_per_pixel[mlx.index] / 8));
 	*(unsigned int *)dst = color;
-}
-
-static
-int	quit(t_data *data)
-{
-	mlx_loop_end(data -> mlx_ptr);
-	return (EXIT_SUCCESS);
 }
 
 static

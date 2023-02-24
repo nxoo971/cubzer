@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 02:55:04 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/24 07:06:22 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/24 19:18:20 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	set_map(t_map *map, t_player *player, const char *src_map)
 	int			pos_x;
 	int			size;
 	int			i;
-	int			res;
 
 	map -> map = ft_calloc(sizeof(char *), map -> height + 1);
 	if (!map -> map)
