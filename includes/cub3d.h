@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:57 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/25 02:02:25 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/25 05:06:57 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,8 +137,8 @@ typedef struct s_data
 {
 	void		*mlx_ptr;
 	void		*win_ptr;
-	int 		**texture;
-	int			**buf;
+	int 		*texture[4];
+	int			*buf[HEIGHT];
 
 	void		*img;
 	void		*xpm[4];

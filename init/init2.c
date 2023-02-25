@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 01:22:58 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/24 06:47:46 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/25 05:07:39 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,16 +56,12 @@ int	init_buf_texture(t_data *data)
 	int	i;
 
 	i = -1;
-	data -> buf = malloc(sizeof(int *) * HEIGHT);
 	while (++i < HEIGHT)
 	{
 		data -> buf[i] = ft_calloc(sizeof(int) * WIDTH, 1);
 		if (!data -> buf[i])
 			return (EXIT_FAILURE);
 	}
-	data -> texture = malloc(sizeof(int *) * TEXTURE_SIZE);
-	if (!data -> texture)
-		return (EXIT_FAILURE);
 	i = -1;
 	while (++i < TEXTURE_SIZE)
 	{

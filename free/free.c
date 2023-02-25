@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 02:47:36 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/18 06:40:59 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/25 05:07:19 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,13 @@ void	free_cub3d(t_data *data)
 		mlx_destroy_image(data -> mlx_ptr, data -> img_map);
 	if (data -> img_game)
 		mlx_destroy_image(data -> mlx_ptr, data -> img_game);
+	int i = -1;
+	for (; ++i < TEXTURE_SIZE && data -> xpm[i];)
+		mlx_destroy_image(data -> mlx_ptr, data -> xpm[i]);
+	for (int i = 0; i < HEIGHT; i++)
+		free(data -> buf[i]);
+	for (int i = 0; i < TEXTURE_SIZE && data -> texture[i]; i++)
+		free(data -> texture[i]);
 	if (data -> mlx_ptr)
 	{
 		if (data -> win_ptr)
