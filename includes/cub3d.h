@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:57 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/24 22:22:58 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/25 02:02:25 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 
 # define WIDTH	1280
 # define HEIGHT	720
+#define  MAP_PIXEL 10
 
 # define TEXTURE_SIZE		4
 # define TEXTURE_WIDTH		64
@@ -221,6 +222,8 @@ void	free_cub3d(t_data *data);
 void	mlx_put_pixel(t_mlx mlx, int x, int y, int color);
 //	print.c
 void	print_map(const t_data data);
+
+void	mini_map(t_data *data);
 
 
 

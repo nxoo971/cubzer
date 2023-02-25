@@ -6,11 +6,21 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:35:35 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/24 22:22:26 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/25 02:23:10 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../includes/cub3d.h"
+
+// void	my_mlx_pixel_put(t_img *data, int x, int y, int color)
+// {
+// 	char	*dst;
+
+// 				// printf("PIXEL Y = %i\n", y);
+// 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+// 	*(unsigned int*)dst = color;
+// }
+
 
 void	draw_buff(t_data *data)
 {
@@ -175,9 +185,62 @@ void	loop(t_data *data)
 	}
 }
 
+// void	draw_square(t_data *data, int x, int y, int color)
+// {
+// 	int	i;
+// 	int	j;
+
+// 	i = -1;
+// 	while (++i < 10)
+// 	{
+// 		j = -1;
+// 		while (++j < 10)
+// 			mlx_pixel_put(data->mlx_ptr, data->win_ptr, x * 10 + i, y * 10 + j, color);
+// 	}
+// }
+
+void	draw_square(t_data *data, double x, double y, int color)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	while (++i < 10)
+	{
+		j = -1;
+		while (++j < 10)
+			data->buf[(int)y * 10 + i][(int)x * 10 + j] = color;
+	}
+}
+
+void	mini_map(t_data *data)
+{
+	int	x;
+	int	y;
+
+	y = -1;
+	// while()
+	while (data->map.map[++y])
+	{
+		x = -1;
+		while (data->map.map[y][++x])
+		{
+			if (data->map.map[y][x] == WALL)
+				draw_square(data, x, y, 0x00FFFFFF);
+			else if (x == (int)data->player.x && y == (int)data->player.y)
+				draw_square(data, data->player.x, data->player.y, 0x00FF0000);
+			else
+				draw_square(data, x, y, 0x00000000);
+
+		}
+	}
+}
+
 
 void	draw_gameplay(t_data *data)
 {
 	loop(data);
+	mini_map(data);
+	// mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img, 0, 0);
 	draw_buff(data);
 }
