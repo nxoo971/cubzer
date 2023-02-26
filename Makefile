@@ -9,6 +9,7 @@ MOVE_DIR	= move
 DRAW_DIR	= draw
 COLOR_DIR	= color
 FREE_DIR	= free
+MINIMAP_DIR	= minimap
 
 SRC_FILES = $(addprefix $(INIT_DIR)/, init.c init2.c) \
 			$(addprefix $(PARSING_DIR)/, parse_map.c parse_map_utils.c set_infos.c valid_map.c) \
@@ -17,6 +18,7 @@ SRC_FILES = $(addprefix $(INIT_DIR)/, init.c init2.c) \
 			$(addprefix $(DRAW_DIR)/, draw.c draw_ray.c bresenham.c) \
 			$(addprefix $(COLOR_DIR)/, color.c) \
 			$(addprefix $(FREE_DIR)/, free.c) \
+			$(addprefix $(MINIMAP_DIR)/, minimap.c) \
 			main.c print.c
 
  #=============================================================================#
@@ -70,6 +72,7 @@ $(OBJS_DIR) :
 	mkdir $(OBJS_DIR)/$(DRAW_DIR)
 	mkdir $(OBJS_DIR)/$(COLOR_DIR)
 	mkdir $(OBJS_DIR)/$(FREE_DIR)
+	mkdir $(OBJS_DIR)/$(MINIMAP_DIR)
 
 $(OBJS) : $(OBJS_DIR)/%.o : %.c
 	$(CC) $(CFLAGS) $(CDFLAGS) $(CIFLAGS) -c $< -o $@

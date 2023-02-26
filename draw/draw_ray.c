@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:35:35 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/26 02:59:23 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/27 00:02:04 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,105 +184,6 @@ void	loop(t_data *data)
 		begin_textures(data, x, perp_wall_dist, line_height);
 	}
 }
-
-// void	draw_square(t_data *data, int x, int y, int color)
-// {
-// 	int	i;
-// 	int	j;
-
-// 	i = -1;
-// 	while (++i < 10)
-// 	{
-// 		j = -1;
-// 		while (++j < 10)
-// 			mlx_pixel_put(data->mlx_ptr, data->win_ptr, x * 10 + i, y * 10 + j, color);
-// 	}
-// }
-
-void	draw_square(t_data *data, double x, double y, int color)
-{
-	int	i;
-	int	j;
-
-	i = -1;
-	while (++i < 10)
-	{
-		j = -1;
-		while (++j < 10)
-			data->buf[(int)y * 10 + i][(int)x * 10 + j] = color;
-	}
-}
-
-void	draw_contour(t_data *data)
-{
-	int	i;
-	int	j;
-
-	i = 1;
-	while (++i < 15)
-	{
-		j = 1;
-		while (++j < 15)
-			draw_square(data, i, j, 0x123CF9);
-	}
-}
-
-void	mini_map(t_data *data)
-{
-	int	x = data->player.x -5;
-	int	y = data->player.y -5;
-
-	int len = ft_strlen(data->map.map[0]);
-	int i, j;
-	i = 3;
-	j = 3;
-	// while()
-		printf("AVANt y = %i\n", y);
-	while (y < 0)
-		y++;
-		printf("APRES y = %i\n", y);
-	draw_contour(data);
-	while (data->map.map[y] && y < data->player.y + 5)
-	{
-		x = data->player.x -5;
-		printf("y = %i\n", y);
-		while (x < 0)
-			x++;
-		j = 3;
-		while (x < data->player.x + 5)
-		{
-
-			if (data->map.map[y][x] == WALL)
-				draw_square(data, i, j, 0x00FFFFFF);
-			else if (x == (int)data->player.x && y == (int)data->player.y)
-				draw_square(data, i, j, 0x00FF0000);
-			else
-				draw_square(data, i, j, 0x00000000);
-			x++;
-			j++;
-		}
-
-		i++;
-		y++;		
-	}
-	printf("X_MINI = %f - Y_MINI = %f\n", data->player.x_mini, data->player.y_mini);
-	// draw_square(data, data->player.x_mini, data->player.y_mini, 0x00FF0230);
-	// while (data->map.map[++y])
-	// {
-	// 	x = -1;
-	// 	while (data->map.map[y][++x])
-	// 	{
-	// 		if (data->map.map[y][x] == WALL)
-	// 			draw_square(data, x, y, 0x00FFFFFF);
-	// 		else if (x == (int)data->player.x && y == (int)data->player.y)
-	// 			draw_square(data, data->player.x, data->player.y, 0x00FF0000);
-	// 		else
-	// 			draw_square(data, x, y, 0x00000000);
-
-	// 	}
-	// }
-}
-
 
 void	draw_gameplay(t_data *data)
 {
