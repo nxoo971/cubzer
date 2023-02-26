@@ -6,36 +6,61 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 07:50:49 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/25 02:02:29 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/25 21:36:27 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../includes/cub3d.h"
 
-int	key_hook(t_data *data)
+int	key_hook(int key, t_data *data)
 {
 	t_player	*p;
 
 	p = & data -> player;
-	if (data -> press.esc)
+	if (key == ESC)
 		mlx_loop_end(data -> mlx_ptr);
-	if (data -> press.w)
+	if (key == W)
 		move_player(data, +1, +1);
-	if (data -> press.a)
+	if (key == A)
 		move_player_side(data, -1, +1);
-	if (data -> press.s)
+	if (key == S)
 		move_player(data, -1, -1);
-	if (data -> press.d)
+	if (key == D)
 		move_player_side(data, +1, -1);
-	if (data -> press.left)
+	if (key == LEFT)
 		move_angle(data, +1);
-	if (data -> press.right)
+	if (key == RIGHT)
 		move_angle(data, -1);
 	draw_gameplay(data);
 	mini_map(data);
 	mlx_put_image_to_window(data -> mlx_ptr, data -> win_ptr, data->img, 0, 0);
 	return (0);
 }
+
+// int	key_hook(t_data *data)
+// {
+// 	t_player	*p;
+
+// 	p = & data -> player;
+// 	if (data -> press.esc)
+// 		mlx_loop_end(data -> mlx_ptr);
+// 	if (data -> press.w)
+// 		move_player(data, +1, +1);
+// 	if (data -> press.a)
+// 		move_player_side(data, -1, +1);
+// 	if (data -> press.s)
+// 		move_player(data, -1, -1);
+// 	if (data -> press.d)
+// 		move_player_side(data, +1, -1);
+// 	if (data -> press.left)
+// 		move_angle(data, +1);
+// 	if (data -> press.right)
+// 		move_angle(data, -1);
+// 	draw_gameplay(data);
+// 	mini_map(data);
+// 	mlx_put_image_to_window(data -> mlx_ptr, data -> win_ptr, data->img, 0, 0);
+// 	return (0);
+// }
 
 int	key_press(int keycode, t_data *data)
 {

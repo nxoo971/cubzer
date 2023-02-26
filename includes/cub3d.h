@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:57 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/25 02:02:25 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/26 01:14:06 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ typedef struct s_player
 {
 	double	x;
 	double	y;
+	double	x_mini;
+	double	y_mini;
 }	t_player;
 
 typedef struct s_params
@@ -178,9 +180,12 @@ int		init_plane(t_params *params);
 */
 //	key_hook.c
 //int		key_hook(int keycode, t_data *data);
-int		key_hook(t_data *data);
+// int		key_hook(t_data *data);
+int	key_hook(int key, t_data *data);
 int		key_press(int keycode, t_data *data);
 int		key_release(int keycode, t_data *data);
+
+void	mini_map(t_data *data);
 
 /*
 	DIRECTORY:	./move

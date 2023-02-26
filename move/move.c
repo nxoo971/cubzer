@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 03:25:06 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/24 07:21:14 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/26 01:30:51 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,15 @@ void	move_player(t_data *data, const int sign_y, const int sign_x)
 	const double	move_x = (data -> params.dir_x * MOVE_SPEED) * sign_x;
 
 	if (data -> map.map[(int)y][(int)(x + move_x)] != WALL)
+	{
 		data -> player.x = x + move_x;
+		data->player.x_mini = x + move_x;
+	}
 	if (data -> map.map[(int)(y + move_y)][(int)x] != WALL)
+	{
 		data -> player.y = y + move_y;
+		data->player.y_mini = y + move_y;
+	}
 }
 
 void	move_player_side(t_data *data, const int sign_y, const int sign_x)
