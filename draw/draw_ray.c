@@ -3,24 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   draw_ray.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:35:35 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/25 02:23:10 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/26 21:40:13 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../includes/cub3d.h"
-
-// void	my_mlx_pixel_put(t_img *data, int x, int y, int color)
-// {
-// 	char	*dst;
-
-// 				// printf("PIXEL Y = %i\n", y);
-// 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-// 	*(unsigned int*)dst = color;
-// }
-
 
 void	draw_buff(t_data *data)
 {
@@ -94,68 +84,6 @@ double	dda(t_data *data, t_params *params, int *map_y, int *map_x)
 	return ((*map_y - data -> player.y + (1 - params -> step_y) / 2) / params -> ray_y);
 }
 
-
-static
-void	end_textures(t_data *data, int x, double texture_pos, const int texture_x, const int colors[2])
-{
-	int	y;
-	int	texture_y;
-
-	y = -1;
-	while (++y < HEIGHT)
-	{
-		int	color;
-		if (y < data -> params.draw_start)
-			color = colors[0];
-		else if (y > data -> params.draw_end)
-			color = colors[1];
-		else
-		{
-			texture_y = (int)texture_pos & (TEXTURE_HEIGHT - 1);
-			texture_pos += data -> params.step;
-			if (data -> params.side == 1)
-			{
-				if (data -> params.ray_y > 0)
-					color = data->texture[0][TEXTURE_HEIGHT * texture_y + texture_x];
-				else
-					color = data->texture[1][TEXTURE_HEIGHT * texture_y + texture_x];
-			}
-			else
-			{
-				if (data -> params.ray_x > 0)
-					color = data->texture[3][TEXTURE_HEIGHT * texture_y + texture_x];
-				else
-					color = data->texture[2][TEXTURE_HEIGHT * texture_y + texture_x];
-			}
-		}
-		data->buf[y][x] = color;
-		data -> params.re_buf = true;
-	}
-}
-
-static
-void	begin_textures(t_data *data, int x, double perp_wall_dist, int line_height)
-{
-	double	wall_x;
-	double	texture_pos;
-	int		texture_x;
-
-	if (data -> params.side == 0)
-		wall_x = data -> player.y + perp_wall_dist * data -> params.ray_y;
-	else
-		wall_x = data -> player.x + perp_wall_dist * data -> params.ray_x;
-	wall_x -= floor(wall_x);
-	texture_x = (int)(wall_x * (double)(TEXTURE_WIDTH));
-	if (data -> params.side == 0 && data -> params.ray_x > 0)
-		texture_x = TEXTURE_WIDTH - texture_x - 1;
-	if (data -> params.side == 1 && data -> params.ray_y < 0)
-		texture_x = TEXTURE_WIDTH - texture_x - 1;
-	data -> params.step = 1.0 * TEXTURE_HEIGHT / line_height;
-	texture_pos = (data -> params.draw_start - HEIGHT / 2 + line_height / 2) * data -> params.step;
-	end_textures(data, x, texture_pos, texture_x,
-					(int [2]){set_rgb(data -> map.color_ceil), set_rgb(data -> map.color_floor)});
-}
-
 static
 void	loop(t_data *data)
 {
@@ -165,7 +93,6 @@ void	loop(t_data *data)
 	int		p_x;
 	int		p_y;
 
-	printf("px = %i - py = %i\n", (int)data -> player.x, (int)data -> player.y);
 	for (int x = 0; x < WIDTH; x++)
 	{
 		camera_x = 2 * x / (double)WIDTH - 1;
@@ -185,62 +112,8 @@ void	loop(t_data *data)
 	}
 }
 
-// void	draw_square(t_data *data, int x, int y, int color)
-// {
-// 	int	i;
-// 	int	j;
-
-// 	i = -1;
-// 	while (++i < 10)
-// 	{
-// 		j = -1;
-// 		while (++j < 10)
-// 			mlx_pixel_put(data->mlx_ptr, data->win_ptr, x * 10 + i, y * 10 + j, color);
-// 	}
-// }
-
-void	draw_square(t_data *data, double x, double y, int color)
-{
-	int	i;
-	int	j;
-
-	i = -1;
-	while (++i < 10)
-	{
-		j = -1;
-		while (++j < 10)
-			data->buf[(int)y * 10 + i][(int)x * 10 + j] = color;
-	}
-}
-
-void	mini_map(t_data *data)
-{
-	int	x;
-	int	y;
-
-	y = -1;
-	// while()
-	while (data->map.map[++y])
-	{
-		x = -1;
-		while (data->map.map[y][++x])
-		{
-			if (data->map.map[y][x] == WALL)
-				draw_square(data, x, y, 0x00FFFFFF);
-			else if (x == (int)data->player.x && y == (int)data->player.y)
-				draw_square(data, data->player.x, data->player.y, 0x00FF0000);
-			else
-				draw_square(data, x, y, 0x00000000);
-
-		}
-	}
-}
-
-
 void	draw_gameplay(t_data *data)
 {
 	loop(data);
-	mini_map(data);
-	// mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img, 0, 0);
 	draw_buff(data);
 }

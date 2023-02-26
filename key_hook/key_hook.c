@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key_hook.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 07:50:49 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/25 02:02:29 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/26 21:41:10 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	key_hook(t_data *data)
 	if (data -> press.right)
 		move_angle(data, -1);
 	draw_gameplay(data);
-	mini_map(data);
 	mlx_put_image_to_window(data -> mlx_ptr, data -> win_ptr, data->img, 0, 0);
 	return (0);
 }

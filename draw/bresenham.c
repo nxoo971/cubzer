@@ -6,13 +6,13 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:38:43 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/17 18:50:22 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/26 23:15:25 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../includes/cub3d.h"
 
-void bresenham_line(t_mlx mlx, int x0, int y0, int x1, int y1)
+void	bresenham_line(t_mlx mlx, int x0, int y0, int x1, int y1)
 {
     int	dx;
     int	sx;
@@ -45,6 +45,24 @@ void bresenham_line(t_mlx mlx, int x0, int y0, int x1, int y1)
 	}
 }
 
+static
+void	_bresenham_circle(t_mlx mlx, int xy[2], int xyc[2])
+{
+	const int	y = xy[0];
+	const int	x = xy[1];
+	const int	yc = xyc[0];
+	const int	xc = xyc[1];
+
+	mlx_put_pixel(mlx, xc + x, yc + y, 0xFFFFFF);
+	mlx_put_pixel(mlx, xc + y, yc + x, 0xFFFFFF);
+	mlx_put_pixel(mlx, xc - x, yc + y, 0xFFFFFF);
+	mlx_put_pixel(mlx, xc - y, yc + x, 0xFFFFFF);
+	mlx_put_pixel(mlx, xc - x, yc - y, 0xFFFFFF);
+	mlx_put_pixel(mlx, xc - y, yc - x, 0xFFFFFF);
+	mlx_put_pixel(mlx, xc + x, yc - y, 0xFFFFFF);
+	mlx_put_pixel(mlx, xc + y, yc - x, 0xFFFFFF);
+}
+
 void	bresenham_circle(t_mlx mlx, int xc, int yc, int r)
 {
 	int x;
@@ -56,14 +74,7 @@ void	bresenham_circle(t_mlx mlx, int xc, int yc, int r)
 	d = r - 1;
 	while (y >= x)
 	{
-		mlx_put_pixel(mlx, xc + x, yc + y, 0xFFFFFF);
-		mlx_put_pixel(mlx, xc + y, yc + x, 0xFFFFFF);
-		mlx_put_pixel(mlx, xc - x, yc + y, 0xFFFFFF);
-		mlx_put_pixel(mlx, xc - y, yc + x, 0xFFFFFF);
-		mlx_put_pixel(mlx, xc - x, yc - y, 0xFFFFFF);
-		mlx_put_pixel(mlx, xc - y, yc - x, 0xFFFFFF);
-		mlx_put_pixel(mlx, xc + x, yc - y, 0xFFFFFF);
-		mlx_put_pixel(mlx, xc + y, yc - x, 0xFFFFFF);
+		_bresenham_circle(mlx, (int [2]){y, x}, (int [2]){yc, xc});
 		if (d >= 2 * x)
 		{
 			d -= 2 * x + 1;

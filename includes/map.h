@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 02:12:14 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/21 21:26:01 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/26 21:35:09 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@
 
 # define WALL	'1'
 # define BLANK	'0'
-# define PERSO	'N'
+# define NORTH	'N'
+# define WEST	'W'
+# define EAST	'E'
+# define SOUTH	'S'
 
 typedef struct s_map
 {
@@ -76,5 +79,7 @@ int		set_key(t_map *map, const char *key);
 int		set_texture(t_map *map, const char *key, const char *texture);
 //	valid_map.c
 int		parse_map(t_map *map, t_player *player);
+//	set_map.c
+int		stock_map(t_map *map, t_player *player, const int fd, char *tmp_map);
 
 #endif

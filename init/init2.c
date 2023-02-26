@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 01:22:58 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/25 05:07:39 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/26 21:25:15 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,22 +81,22 @@ int	init_plane(t_params *params)
 
 int	init_direction(t_params *params, const char spawn_direction)
 {
-	if (spawn_direction == 'N')
+	if (spawn_direction == NORTH)
 	{
 		params -> dir_x = 0;
 		params -> dir_y = -1;
 	}
-	else if (spawn_direction == 'S')
+	else if (spawn_direction == SOUTH)
 	{
 		params -> dir_x = 0;
 		params -> dir_y = 1;
 	}
-	else if (spawn_direction == 'E')
+	else if (spawn_direction == EAST)
 	{
 		params -> dir_x = 1;
 		params -> dir_y = 0;
 	}
-	else if (spawn_direction == 'W')
+	else if (spawn_direction == WEST)
 	{
 		params -> dir_x = -1;
 		params -> dir_y = 0;

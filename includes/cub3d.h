@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:57 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/25 05:06:57 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/26 21:40:45 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # define GAME_WIDTH		WIDTH - (WIDTH / 4)
 # define GAME_HEIGHT	HEIGHT - (HEIGHT / 2)
 
-# define ROTATION_SPEED	.03
+# define ROTATION_SPEED	.045
 # define MOVE_SPEED	4 * (M_PI / 180.)
 
 # define FOV			90.0
@@ -87,8 +87,9 @@ typedef struct t_press
 
 typedef struct s_player
 {
-	double	x;
-	double	y;
+	char		p;
+	double		x;
+	double		y;
 }	t_player;
 
 typedef struct s_params
@@ -193,8 +194,6 @@ void	move_angle(t_data *data, const int sign);
 /*
 	DIRECTORY:	./draw
 */
-//	draw.c
-
 //	draw_ray.c
 void	draw_game(t_data* data);
 void	draw_gameplay(t_data *data);
@@ -203,6 +202,8 @@ void	draw_minimap(t_data *data);
 //	bresenham.c
 void	bresenham_line(t_mlx mlx, int x1, int y1, int x2, int y2);
 void	bresenham_circle(t_mlx mlx, int xc, int yc, int r);
+//	texture.c
+void	begin_textures(t_data *data, int x, double perp_wall_dist, int line_height);
 
 /*
 	DIRECTORY:	./color

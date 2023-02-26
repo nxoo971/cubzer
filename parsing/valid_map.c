@@ -6,55 +6,34 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 02:55:04 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/24 19:18:20 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/26 21:35:46 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../includes/cub3d.h"
 
 static
-int	set_map(t_map *map, t_player *player, const char *src_map)
+char	*skip_emptyline(const int fd)
 {
-	const char	*ptr;
-	const char	*p;
-	bool		player_exist;
-	int			pos_x;
-	int			size;
-	int			i;
+	char	*line;
+	int		tmp;
+	int		i;
 
-	map -> map = ft_calloc(sizeof(char *), map -> height + 1);
-	if (!map -> map)
-		return (EXIT_FAILURE);
-	i = 0;
-	ptr = src_map;
-	p = ptr;
-	player_exist = false;
-	while (*ptr)
+	tmp = 1;
+	line = 0;
+	while (tmp || (line && *line))
 	{
-		if (*ptr++ == '\n' || (!*ptr && i == map -> height - 1))
-		{
-			size = ptr - p - (*ptr != 0);
-			pos_x = ft_is_in_string(p, "NSEW", size);
-			if (pos_x > -1)
-			{
-				if (player_exist)
-					return (ft_printf("{blue}set_map: {red}FAILED{reset} -- {bgred}player doublon: [%c|%c]{reset}\n",
-							map -> map[(int)player -> y][(int)player -> x], p[pos_x]));
-				player -> y = i + 0.5;
-				player -> x = pos_x + 0.5;
-				player_exist = true;
-			}
-			map -> map[i] = ft_strndup(p, size);
-			if (!map -> map[i])
-				return (EXIT_FAILURE);
-			if (ft_isspace(map -> map[i][size - 1])
-				|| accept_char(map -> map[i], size))
-				return (ft_printf("{blue}set_map: {red}FAILED -- wrong chars{reset}\n"));
-			p = ptr;
-			i++;
-		}
+		tmp = 0;
+		line = readfile(fd, false);
+		if (!line)
+			break ;
+		i = -1;
+		while (ft_isspace(line[++i]))
+			;
+		if (line[i])
+			return (line);
 	}
-	return (EXIT_SUCCESS);
+	return (0);
 }
 
 static
@@ -62,42 +41,17 @@ int	readmap(t_map *map, t_player *player, int fd)
 {
 	static char	*tmp_map = 0;
 	char		*line;
+	bool		start = false;
 	size_t		size;
 	size_t		x;
 	size_t		y;
 
 	size = 0;
 	y = 0;
-	x = 0;
-	while (1)
-	{
-		if (size > x)
-			x = size;
-		line = readfile(fd, false);
-		if (!line)
-			break ;
-		if (!*line || *line == '\n')
-		{
-			ft_memdel((void **)& line);
-			return (EXIT_FAILURE);
-		}
-		ft_realloc(& tmp_map, line);
-		size = ft_strlen(line);
-		ft_memdel((void **)& line);
-		y++;
-	}
-	map -> height = y;
-	map -> width = x;
-	if (tmp_map)
-	{
-		if (set_map(map, player, tmp_map))
-		{
-			ft_memdel((void **)& tmp_map);
-			return (EXIT_FAILURE);
-		}
-		ft_memdel((void **)& tmp_map);
-	}
-	return (EXIT_SUCCESS);
+	tmp_map = skip_emptyline(fd);
+	if (!tmp_map)
+		return (EXIT_FAILURE);
+	return (stock_map(map, player, fd, tmp_map));
 }
 
 static
