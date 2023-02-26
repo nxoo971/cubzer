@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:57 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/26 21:40:45 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/27 00:52:44 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,12 @@
 
 # define WIDTH	1280
 # define HEIGHT	720
-#define  MAP_PIXEL 10
+
+// minimap
+#define  PIXEL 15
+#define OFFSET 3
+#define LENMAP 30
+
 
 # define TEXTURE_SIZE		4
 # define TEXTURE_WIDTH		64
