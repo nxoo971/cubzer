@@ -6,11 +6,27 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 02:47:36 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/25 05:07:19 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/27 02:57:33 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../includes/cub3d.h"
+
+static
+void	free_textures(t_data *data)
+{
+	int	i;
+
+	i = -1;
+	while (++i < TEXTURE_SIZE && data -> xpm[i])
+		mlx_destroy_image(data -> mlx_ptr, data -> xpm[i]);
+	i = -1;
+	while (++i < HEIGHT)
+		free(data -> buf[i]);
+	i = -1;
+	while (++i < TEXTURE_SIZE && data -> texture[i])
+		free(data -> texture[i]);
+}
 
 void	free_cub3d(t_data *data)
 {
@@ -21,17 +37,7 @@ void	free_cub3d(t_data *data)
 	ft_memdel((void **)& data -> map.path_ea);
 	if (data -> img)
 		mlx_destroy_image(data -> mlx_ptr, data -> img);
-	if (data -> img_map)
-		mlx_destroy_image(data -> mlx_ptr, data -> img_map);
-	if (data -> img_game)
-		mlx_destroy_image(data -> mlx_ptr, data -> img_game);
-	int i = -1;
-	for (; ++i < TEXTURE_SIZE && data -> xpm[i];)
-		mlx_destroy_image(data -> mlx_ptr, data -> xpm[i]);
-	for (int i = 0; i < HEIGHT; i++)
-		free(data -> buf[i]);
-	for (int i = 0; i < TEXTURE_SIZE && data -> texture[i]; i++)
-		free(data -> texture[i]);
+	free_textures(data);
 	if (data -> mlx_ptr)
 	{
 		if (data -> win_ptr)

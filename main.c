@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:41 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/26 21:28:12 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/27 04:15:45 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ void	mlx_put_pixel(t_mlx mlx, int y, int x, int color)
 {
 	char	*dst;
 
-	dst = mlx.addr + (y * mlx.line_length[mlx.index] + x * (mlx.bits_per_pixel[mlx.index] / 8));
+	dst = mlx.addr + (y * mlx.line_length[mlx.index] \
+						+ x * (mlx.bits_per_pixel[mlx.index] / 8));
 	*(unsigned int *)dst = color;
 }
 
@@ -27,10 +28,6 @@ int	launch_game(t_data *data)
 	if (init_mlx(data))
 		return (EXIT_FAILURE);
 	if (init_map(data))
-		return (EXIT_FAILURE);
-	if (init_minimap(data))
-		return (EXIT_FAILURE);
-	if (init_gameplay(data))
 		return (EXIT_FAILURE);
 	if (init_direction(& data -> params, data -> player.p))
 		return (EXIT_FAILURE);
@@ -48,7 +45,7 @@ int	launch_game(t_data *data)
 int	main(int ac, char **av, char **env)
 {
 	static t_data	data = {0};
-	static t_player	player = {0};
+	static t_player	player = {.y = -1, .x = -1};
 	int				ret;
 
 	if (!env || !*env || ac != 2)
@@ -58,11 +55,10 @@ int	main(int ac, char **av, char **env)
 	if (ret == EXIT_SUCCESS)
 	{
 		data.player = player;
-		print_map(data);
 		launch_game(& data);
 	}
 	else
-		ft_printf("{blue}-->{yellow}Parsing: {red}%d{reset}\n", ret);
+		ft_printf("{blue}-->{yellow}Parsing: {red}FAILED{reset}\n");
 	free_cub3d(& data);
 	return (EXIT_SUCCESS);
 }

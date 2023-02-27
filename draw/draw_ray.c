@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:35:35 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/26 21:40:13 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/27 02:51:27 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void	draw_buff(t_data *data)
 }
 
 static
-void	calc_step_and_side_dist(t_player player, t_params *params, int map_y, int map_x)
+void	calc_step_and_side_dist(t_player player, t_params *params,
+								int map_y, int map_x)
 {
 	if (params -> ray_x < 0)
 	{
@@ -50,6 +51,16 @@ void	calc_step_and_side_dist(t_player player, t_params *params, int map_y, int m
 		params -> step_y = 1;
 		params -> side_y = (map_y + 1.0 - player.y) * params -> delta_y;
 	}
+}
+
+static
+double	get_perp_wall_dist(t_data *data, int map_y, int map_x)
+{
+	if (data -> params.side == 0)
+		return ((map_x - data -> player.x
+				+ (1 - data -> params.step_x) / 2) / data -> params.ray_x);
+	return ((map_y - data -> player.y
+			+ (1 - data -> params.step_y) / 2) / data -> params.ray_y);
 }
 
 static
@@ -77,30 +88,28 @@ double	dda(t_data *data, t_params *params, int *map_y, int *map_x)
 			params -> side = 1;
 		}
 		if (data -> map.map[*map_y][*map_x] == WALL)
-			break;
+			break ;
 	}
-	if (params -> side == 0)
-		return ((*map_x - data -> player.x + (1 - params -> step_x) / 2) / params -> ray_x);
-	return ((*map_y - data -> player.y + (1 - params -> step_y) / 2) / params -> ray_y);
+	return (get_perp_wall_dist(data, *map_y, *map_x));
 }
 
-static
-void	loop(t_data *data)
+void	draw_gameplay(t_data *data)
 {
 	double	perp_wall_dist;
-	double	camera_x;
+	double	ca_x;
 	int		line_height;
-	int		p_x;
-	int		p_y;
+	int		p_yx[2];
+	int		x;
 
-	for (int x = 0; x < WIDTH; x++)
+	x = -1;
+	while (++x < WIDTH)
 	{
-		camera_x = 2 * x / (double)WIDTH - 1;
-		data -> params.ray_y = data -> params.dir_y + data -> params.plane_y * camera_x;
-		data -> params.ray_x = data -> params.dir_x + data -> params.plane_x * camera_x;
-		p_x = (int)data -> player.x;
-		p_y = (int)data -> player.y;
-		perp_wall_dist = dda(data, & data -> params, & p_y, & p_x);
+		ca_x = 2 * x / (double)WIDTH - 1;
+		data->params.ray_y = data->params.dir_y + data->params.plane_y * ca_x;
+		data->params.ray_x = data->params.dir_x + data->params.plane_x * ca_x;
+		p_yx[0] = (int)data -> player.y;
+		p_yx[1] = (int)data -> player.x;
+		perp_wall_dist = dda(data, & data -> params, & p_yx[0], & p_yx[1]);
 		line_height = (int)(HEIGHT / perp_wall_dist);
 		data -> params.draw_start = -line_height / 2 + HEIGHT / 2;
 		if (data -> params.draw_start < 0)
@@ -110,10 +119,5 @@ void	loop(t_data *data)
 			data -> params.draw_end = HEIGHT - 1;
 		begin_textures(data, x, perp_wall_dist, line_height);
 	}
-}
-
-void	draw_gameplay(t_data *data)
-{
-	loop(data);
 	draw_buff(data);
 }

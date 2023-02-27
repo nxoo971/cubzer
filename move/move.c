@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 03:25:06 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/24 07:21:14 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/27 03:06:44 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,11 @@ void	move_angle(t_data *data, const int sign)
 	t_params			*params;
 
 	params = & data -> params;
-	params -> dir_x = params -> dir_x * rotation_cos - params -> dir_y * rotation_sin;
+	params -> dir_x = params -> dir_x * rotation_cos - params -> dir_y \
+						* rotation_sin;
 	params -> dir_y = oldir * rotation_sin + params -> dir_y * rotation_cos;
-	params -> plane_x = params -> plane_x * rotation_cos - params -> plane_y * rotation_sin;
-	params -> plane_y = old_plane * rotation_sin + params -> plane_y * rotation_cos;
+	params -> plane_x = params -> plane_x * rotation_cos - params -> plane_y \
+							* rotation_sin;
+	params -> plane_y = old_plane * rotation_sin + params -> plane_y \
+							* rotation_cos;
 }

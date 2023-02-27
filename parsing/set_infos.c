@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 05:20:43 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/02 19:29:09 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/27 04:12:50 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int	set_key(t_map *map, const char *key)
 
 	i = -1;
 	b_key = (bool *[KEY_SIZE]){&map -> so_is_defined, & map -> no_is_defined, \
-								& map -> we_is_defined, & map -> ea_is_defined, \
-								& map -> floor_is_defined, & map -> ceil_is_defined};
+							& map -> we_is_defined, & map -> ea_is_defined, \
+						& map -> floor_is_defined, & map -> ceil_is_defined};
 	match = false;
 	while (++i < KEY_SIZE)
 	{
@@ -53,7 +53,7 @@ int	set_color(int (*rgb)[3], const char *color)
 			tmp = (tmp * 10) + *color - '0';
 			if (tmp > 255)
 				return (EXIT_FAILURE);
-			color++;			
+			color++;
 		}
 		if (i != 2 && *color != ',')
 			return (EXIT_FAILURE);
@@ -65,17 +65,15 @@ int	set_color(int (*rgb)[3], const char *color)
 
 int	set_texture(t_map *map, const char *key, const char *texture)
 {
-	char		**b_key[4] = {
-		& map->path_so, & map->path_no, \
-		& map->path_we, & map->path_ea
-	};
 	const char	*c_key[4] = {
-		"SO", "NO", \
-		"WE", "EA"
+		"SO", "NO", "WE", "EA"
 	};
+	char		***b_key;
 	int			i;
 
 	i = -1;
+	b_key = (char **[4]){& map->path_so, & map->path_no, \
+							& map->path_we, & map->path_ea};
 	if (ft_strcmp(key, "F") == 0)
 		return (set_color(& map -> color_floor, texture));
 	if (ft_strcmp(key, "C") == 0)

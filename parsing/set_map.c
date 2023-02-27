@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 21:33:12 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/26 21:35:41 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/27 04:16:21 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ int	set_playerpos(t_player *p, const int y, const int x, const char c)
 	if (c == NORTH || c == WEST || c == EAST || c == SOUTH)
 	{
 		if (exist)
-			return (ft_printf("{blue}set_map: {red}FAILED{reset} -- {bgred}player doublon{reset}\n"));
+			return (ft_printf(\
+	"{blue}set_map: {red} FAILED{reset} -- {bgred}player doublon{reset}\n"));
 		exist = true;
 		p -> y = y + .5;
 		p -> x = x + .5;
@@ -50,16 +51,16 @@ int	set_map(t_map *map, t_player *player, const char *src_map)
 				return (EXIT_FAILURE);
 			j++;
 		}
-		if (ft_isspace(map -> map[i][j - 1])
-			|| accept_char(map -> map[i], j))
-			return (ft_printf("{blue}set_map: {red}FAILED -- wrong chars{reset}\n"));
+		if (ft_isspace(map -> map[i][j - 1]) || accept_char(map -> map[i], j))
+			return (ft_printf(\
+					"{blue}set_map: {red}FAILED -- wrong chars{reset}\n"));
 		i++;
 	}
 	return (EXIT_SUCCESS);
 }
 
 static
-int		doo(t_map *map, t_player *player, char *tmp_map, const int xy[2])
+int	doo(t_map *map, t_player *player, char *tmp_map, const int xy[2])
 {
 	map -> height = xy[0];
 	map -> width = xy[1];
@@ -72,7 +73,10 @@ int		doo(t_map *map, t_player *player, char *tmp_map, const int xy[2])
 		}
 		ft_memdel((void **)& tmp_map);
 	}
-	return (EXIT_SUCCESS);
+	if (player -> y != -1 && player -> x != -1)
+		return (EXIT_SUCCESS);
+	return (ft_printf(\
+	"{blue}set_map: {red}FAILED{reset} -- {bgred}player not found{reset}\n"));
 }
 
 int	stock_map(t_map *map, t_player *player, const int fd, char *tmp_map)

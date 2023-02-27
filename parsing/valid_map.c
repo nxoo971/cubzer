@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 02:55:04 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/26 21:35:46 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/27 04:19:13 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int	readmap(t_map *map, t_player *player, int fd)
 {
 	static char	*tmp_map = 0;
 	char		*line;
-	bool		start = false;
 	size_t		size;
 	size_t		x;
 	size_t		y;
@@ -51,7 +50,9 @@ int	readmap(t_map *map, t_player *player, int fd)
 	tmp_map = skip_emptyline(fd);
 	if (!tmp_map)
 		return (EXIT_FAILURE);
-	return (stock_map(map, player, fd, tmp_map));
+	if (stock_map(map, player, fd, tmp_map))
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
 static

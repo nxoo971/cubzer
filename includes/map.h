@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 02:12:14 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/26 21:35:09 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/27 03:00:29 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,11 @@
 
 typedef struct s_map
 {
-//	filename
 	const char	*filename;
 
-//	window size
 	int			height;
 	int			width;
 
-//	textures
 	bool		no_is_defined;
 	char		*path_no;
 
@@ -54,7 +51,6 @@ typedef struct s_map
 	bool		ceil_is_defined;
 	int			color_ceil[3];
 
-//	map
 	char		**map;
 }	t_map;
 
