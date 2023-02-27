@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 02:55:04 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/27 04:19:13 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/27 14:09:48 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ char	*skip_emptyline(const int fd)
 			;
 		if (line[i])
 			return (line);
+		ft_memdel((void **)& line);
 	}
 	return (0);
 }
