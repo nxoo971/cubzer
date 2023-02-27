@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 02:55:04 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/27 14:38:05 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/27 15:06:43 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,6 @@ int	readinfos(t_map *map, t_player *player, int fd)
 			ft_memdel((void **)& line);
 			return (ft_printf("{blue}parse line: {red}FAILED{reset}\n"));
 		}
-		if (textures_is_set(map))
-			return (ft_memdel((void **)& line), ft_printf(\
-		"{blue}readinfos: {red}FAILED -- parameters are not valid{reset}\n"));
 		if (textures_is_set(map) == EXIT_SUCCESS)
 		{
 			ft_memdel((void **)& line);
@@ -78,6 +75,9 @@ int	readinfos(t_map *map, t_player *player, int fd)
 		line = readfile(fd, true);
 	}
 	ft_memdel((void **)& line);
+	if (textures_is_set(map))
+		return (ft_memdel((void **)& line), ft_printf(\
+	"{blue}readinfos: {red}FAILED -- parameters are not valid{reset}\n"));
 	return (EXIT_SUCCESS);
 }
 
