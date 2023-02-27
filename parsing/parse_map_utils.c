@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:50:37 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/27 04:00:02 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/27 14:37:56 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ char	*readfile(int fd, bool force)
 
 int	textures_is_set(t_map *map)
 {
-	return (map -> so_is_defined && map -> no_is_defined
-		&& map -> we_is_defined && map -> ea_is_defined
-		&& map -> floor_is_defined && map -> ceil_is_defined);
+	return (!(map -> so_is_defined && map -> no_is_defined
+			&& map -> we_is_defined && map -> ea_is_defined
+			&& map -> floor_is_defined && map -> ceil_is_defined));
 }
 
 int	accept_char(const char *s, size_t len)

@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:41 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/27 04:15:45 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/27 14:32:19 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int	main(int ac, char **av, char **env)
 	ret = parse_map(& data.map, & player);
 	if (ret == EXIT_SUCCESS)
 	{
+		ft_printf("res: %d\n", data.map.ceil_is_defined);
 		data.player = player;
 		launch_game(& data);
 	}

@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 05:20:43 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/27 04:12:50 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/27 14:26:24 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	set_color(int (*rgb)[3], const char *color)
 				return (EXIT_FAILURE);
 			color++;
 		}
-		if (i != 2 && *color != ',')
+		if (!*color || (i != 2 && *color != ','))
 			return (EXIT_FAILURE);
 		color++;
 		(*rgb)[i++] = tmp;

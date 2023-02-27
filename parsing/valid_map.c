@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 02:55:04 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/27 14:09:48 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/27 14:38:05 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,11 @@ static
 char	*skip_emptyline(const int fd)
 {
 	char	*line;
-	int		tmp;
 	int		i;
 
-	tmp = 1;
 	line = 0;
-	while (tmp || (line && *line))
+	while (42)
 	{
-		tmp = 0;
 		line = readfile(fd, false);
 		if (!line)
 			break ;
@@ -70,6 +67,9 @@ int	readinfos(t_map *map, t_player *player, int fd)
 			return (ft_printf("{blue}parse line: {red}FAILED{reset}\n"));
 		}
 		if (textures_is_set(map))
+			return (ft_memdel((void **)& line), ft_printf(\
+		"{blue}readinfos: {red}FAILED -- parameters are not valid{reset}\n"));
+		if (textures_is_set(map) == EXIT_SUCCESS)
 		{
 			ft_memdel((void **)& line);
 			return (readmap(map, player, fd));
@@ -109,5 +109,5 @@ int	parse_map(t_map *map, t_player *player)
 		return (ft_printf("{blue}read map: {red}FAILED{reset}{reset}\n"));
 	}
 	close(fd);
-	return (EXIT_SUCCESS);
+	return (textures_is_set(map));
 }

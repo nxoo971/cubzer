@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 05:17:34 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/01 18:02:40 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/27 14:26:09 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	parse_line(char *line, t_map *map)
 		return (EXIT_SUCCESS);
 	jump = get_key(line);
 	tmp = line;
-	if (set_key(map, ft_getnstr(line, jump)))
+	if ((*line && !line[1]) || set_key(map, ft_getnstr(line, jump)))
 		return (EXIT_FAILURE);
 	line = get_path(line + jump + 1);
 	if (ft_strchr(line, ' '))
