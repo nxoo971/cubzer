@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_map.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 21:33:12 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/26 21:35:41 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/27 01:09:58 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	set_map(t_map *map, t_player *player, const char *src_map)
 			return (ft_printf("{blue}set_map: {red}FAILED -- wrong chars{reset}\n"));
 		i++;
 	}
+	map->y = i;
 	return (EXIT_SUCCESS);
 }
 

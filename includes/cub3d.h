@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:57 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/27 00:52:44 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/27 00:54:07 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@
 # define WIDTH	1280
 # define HEIGHT	720
 
-// minimap
+// MINI MAP
 #define  PIXEL 15
+#define LENMAP 20
 #define OFFSET 3
-#define LENMAP 30
 
 
 # define TEXTURE_SIZE		4

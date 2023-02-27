@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:35:35 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/27 00:52:16 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/27 00:57:06 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,6 @@ void	loop(t_data *data)
 void	draw_gameplay(t_data *data)
 {
 	loop(data);
-	draw_buff(data);
 	mini_map(data);
+	draw_buff(data);
 }

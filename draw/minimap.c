@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 00:49:31 by rferradi          #+#    #+#             */
-/*   Updated: 2023/02/27 00:49:49 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/27 01:17:38 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,9 @@ void	mini_map(t_data *data)
 		j = OFFSET - 1;
 		while (++j < LENMAP)
 		{
-			if (x >= 0 && y >= 0 && data->map.map[y][x] == WALL)
+			if ((x >= 0 && y >= 0 && y <= data->map.y
+                && x < ft_strlen((char *)data->map.map[y]))
+                && (data->map.map[y][x] == WALL))
 				draw_square(data, i, j, 0x00FFFFFF);
 			else if (x == (int)data->player.x && y == (int)data->player.y)
 				draw_square(data, i, j, 0x00FF0000);
