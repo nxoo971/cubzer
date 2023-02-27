@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 21:39:55 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/26 22:02:03 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/27 19:54:41 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	end_textures(t_data *data, int x, double text_pos, const int colors[3])
 		data -> buf[y][x] = color;
 		data -> params.re_buf = true;
 	}
+	// data->zbuffer[x] = perp_wall_dist; -----------> besoin de perpwalldist
 }
 
 void	begin_textures(t_data *data, int x,

@@ -6,11 +6,13 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:35:35 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/27 00:57:06 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/27 19:48:29 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../includes/cub3d.h"
+
+
 
 void	draw_buff(t_data *data)
 {

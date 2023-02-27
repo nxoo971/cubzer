@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:57 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/27 00:54:07 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/27 19:50:52 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,24 @@
 #define  PIXEL 15
 #define LENMAP 20
 #define OFFSET 3
+
+#define numSprites 19
+
+
+
+typedef struct	s_sprite
+{
+	double		x;
+	double		y;
+	int			texture;
+}			t_sprite;
+
+typedef struct		s_pair
+{
+	double	first;
+	int		second;
+}					t_pair;
+
 
 
 # define TEXTURE_SIZE		4
@@ -145,6 +163,7 @@ typedef struct s_data
 	void		*win_ptr;
 	int 		*texture[4];
 	int			*buf[HEIGHT];
+	int			*zbuffer[WIDTH];
 
 	void		*img;
 	void		*xpm[4];
@@ -156,6 +175,10 @@ typedef struct s_data
 
 	void		*img_game;
 	void		*game_addr;
+
+	// sprite
+	int		spriteOrder[numSprites];
+	double	spriteDistance[numSprites];
 
 	t_mlx		mlx;
 	t_map		map;
