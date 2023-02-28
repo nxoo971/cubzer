@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:57 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/27 19:50:52 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/27 23:37:02 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 #define LENMAP 20
 #define OFFSET 3
 
-#define numSprites 19
+#define numSprites 2
 
 
 
@@ -46,7 +46,7 @@ typedef struct		s_pair
 
 
 
-# define TEXTURE_SIZE		4
+# define TEXTURE_SIZE		11
 # define TEXTURE_WIDTH		64
 # define TEXTURE_HEIGHT		64
 
@@ -161,13 +161,15 @@ typedef struct s_data
 {
 	void		*mlx_ptr;
 	void		*win_ptr;
-	int 		*texture[4];
+	int 		*texture[TEXTURE_SIZE];
 	int			*buf[HEIGHT];
-	int			*zbuffer[WIDTH];
+	int			zbuffer[WIDTH];
+
+	double		*perpwalldist;
 
 	void		*img;
-	void		*xpm[4];
-	void		*xpm_addr[4];
+	void		*xpm[TEXTURE_SIZE];
+	void		*xpm_addr[TEXTURE_SIZE];
 	void		*addr;
 
 	void		*img_map;
@@ -253,6 +255,7 @@ void	mlx_put_pixel(t_mlx mlx, int x, int y, int color);
 void	print_map(const t_data data);
 
 void	mini_map(t_data *data);
+void begin_sprite(t_data *data, t_player *player, t_params *params);
 
 
 

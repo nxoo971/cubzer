@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:35:35 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/27 19:48:29 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/02/27 22:58:14 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,12 +111,14 @@ void	loop(t_data *data)
 		if (data -> params.draw_end >= HEIGHT)
 			data -> params.draw_end = HEIGHT - 1;
 		begin_textures(data, x, perp_wall_dist, line_height);
+		data->zbuffer[x] = perp_wall_dist;
 	}
 }
 
 void	draw_gameplay(t_data *data)
 {
 	loop(data);
+	begin_sprite(data, &data->player, &data->params);
 	mini_map(data);
 	draw_buff(data);
 }

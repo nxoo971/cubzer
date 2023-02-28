@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 01:22:58 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/26 21:25:15 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/27 23:33:29 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ void	set_textures(int *texture, const void *xpm_addr, const int height, const in
 int	init_images(t_data *data)
 {
 	const char	*path_textures[TEXTURE_SIZE] = {
-		data -> map.path_no, data -> map.path_so, data -> map.path_we, data -> map.path_ea
+		data -> map.path_no, data -> map.path_so, data -> map.path_we, data -> map.path_ea, "textures/bluestone.xpm", 
+		"textures/mossy.xpm", "textures/wood.xpm", "textures/colorstone.xpm", "textures/barrel.xpm", "textures/pillar.xpm",
+		"textures/greenlight.xpm" 
 	};
 	int			index;
 	int			h;
