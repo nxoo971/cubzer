@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:50:37 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/24 19:18:09 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/28 17:27:21 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	accept_char(const char *s, size_t len)
 	i = 0;
 	while (i < len && (s[i] == '0' || s[i] == '1' || s[i] == 'N'
 		|| s[i] == 'S' || s[i] == 'E' || s[i] == 'W'
-		|| s[i] == ' '))
+		|| s[i] == ' ' || s[i] == 'H'))
 		i++;
 	return (s[i] != '\0');
 }

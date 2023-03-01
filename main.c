@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:41 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/26 21:28:12 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/02/28 17:21:09 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	main(int ac, char **av, char **env)
 	if (!env || !*env || ac != 2)
 		return (EXIT_FAILURE);
 	data.map.filename = av[1];
-	ret = parse_map(& data.map, & player);
+	ret = parse_map(& data.map, & player) + malloc_sprite(&data);
 	if (ret == EXIT_SUCCESS)
 	{
 		data.player = player;

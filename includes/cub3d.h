@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:57 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/27 23:37:02 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/03/01 02:22:29 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@
 #define LENMAP 20
 #define OFFSET 3
 
+// SPRITE
+#define uDiv 1
+#define vDiv 1
+#define vMove 0.0
 #define numSprites 2
 
 
@@ -141,6 +145,25 @@ typedef struct s_params
 	double	draw_end;
 
 	bool	re_buf;
+
+	// sprite
+	double sprite_x;
+	double sprite_y;
+	double invdet;
+	double transform_x;
+	double transform_y;
+	int sprite_screen_x;
+	int vmovescreen;
+	int sprite_height;
+	int draw_start_y;
+	int draw_end_y;
+	int sprite_width;
+	int draw_start_x;
+	int draw_end_x;
+	int tex_x;
+	int tex_y;
+	int d;
+	int color;
 }	t_params;
 
 
@@ -179,8 +202,9 @@ typedef struct s_data
 	void		*game_addr;
 
 	// sprite
-	int		spriteOrder[numSprites];
-	double	spriteDistance[numSprites];
+	int		numhamoud;
+	int		*sprite_ord;
+	double	*sprite_dis;
 
 	t_mlx		mlx;
 	t_map		map;
@@ -188,6 +212,7 @@ typedef struct s_data
 	t_player	player;
 	t_press		press;
 	t_params	params;
+	t_sprite	*sprite;
 }	t_data;
 
 /*
@@ -260,6 +285,9 @@ void begin_sprite(t_data *data, t_player *player, t_params *params);
 
 
 void load_texture(t_data *data);
+
+// SPRITE
+int	malloc_sprite(t_data *data);
 
 
 #endif
