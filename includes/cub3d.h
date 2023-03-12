@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:57 by jewancti          #+#    #+#             */
-/*   Updated: 2023/03/01 02:22:29 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/03/12 18:44:31 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <math.h>
 # include "./../libft/includes/libft.h"
 # include "./../mlx/mlx/mlx.h"
+# include "./../mlx/mlx/mlx_int.h"
 # include "map.h"
 
 # define WIDTH	1280
@@ -30,7 +31,7 @@
 // SPRITE
 #define uDiv 1
 #define vDiv 1
-#define vMove 0.0
+#define vMove 1.0
 #define numSprites 2
 
 
@@ -50,7 +51,7 @@ typedef struct		s_pair
 
 
 
-# define TEXTURE_SIZE		11
+# define TEXTURE_SIZE		12
 # define TEXTURE_WIDTH		64
 # define TEXTURE_HEIGHT		64
 
@@ -123,6 +124,7 @@ typedef struct s_params
 {
 	double	dir_y;
 	double	dir_x;
+	int test;
 
 	double	plane_y;
 	double	plane_x;
@@ -206,6 +208,9 @@ typedef struct s_data
 	int		*sprite_ord;
 	double	*sprite_dis;
 
+	int mouse;
+	int mousebool;
+
 	t_mlx		mlx;
 	t_map		map;
 	t_ray		ray;
@@ -288,6 +293,9 @@ void load_texture(t_data *data);
 
 // SPRITE
 int	malloc_sprite(t_data *data);
+
+// Mouse move
+int   mouse_move(int sign_y, int sign_x, void *data);
 
 
 #endif

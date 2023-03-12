@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 01:22:58 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/27 23:33:29 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/03/12 18:33:15 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	init_images(t_data *data)
 	const char	*path_textures[TEXTURE_SIZE] = {
 		data -> map.path_no, data -> map.path_so, data -> map.path_we, data -> map.path_ea, "textures/bluestone.xpm", 
 		"textures/mossy.xpm", "textures/wood.xpm", "textures/colorstone.xpm", "textures/barrel.xpm", "textures/pillar.xpm",
-		"textures/greenlight.xpm" 
+		"textures/greenlight.xpm", "textures/door.xpm" 
 	};
 	int			index;
 	int			h;

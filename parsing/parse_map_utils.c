@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 19:50:37 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/28 17:27:21 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/03/12 18:23:11 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	accept_char(const char *s, size_t len)
 	i = 0;
 	while (i < len && (s[i] == '0' || s[i] == '1' || s[i] == 'N'
 		|| s[i] == 'S' || s[i] == 'E' || s[i] == 'W'
-		|| s[i] == ' ' || s[i] == 'H'))
+		|| s[i] == ' ' || s[i] == 'H' || s[i] == 'D'))
 		i++;
 	return (s[i] != '\0');
 }

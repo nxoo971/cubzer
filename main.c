@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:41 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/28 17:21:09 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/03/12 18:00:40 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,9 @@ int	launch_game(t_data *data)
 		return (EXIT_FAILURE);
 	if (init_images(data))
 		return (EXIT_FAILURE);
+	data->mouse = WIDTH/2;
+	data->mousebool = 0;
+	mlx_hook(data->win_ptr, MotionNotify, PointerMotionMask, &mouse_move, (void *)data);
 	mlx_hook(data->win_ptr, 2, 1UL << 0, & key_press, data);
 	mlx_hook(data->win_ptr, 3, 1UL << 1, & key_release, data);
 	mlx_loop_hook(data -> mlx_ptr, & key_hook, data);

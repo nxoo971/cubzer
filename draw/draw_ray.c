@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:35:35 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/27 22:58:14 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/03/12 18:47:00 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,11 @@ double	dda(t_data *data, t_params *params, int *map_y, int *map_x)
 			*map_y += params -> step_y;
 			params -> side = 1;
 		}
+		if (data -> map.map[*map_y][*map_x] == 'D')
+		{
+			params->test = 1;
+			break;
+		}
 		if (data -> map.map[*map_y][*map_x] == WALL)
 			break;
 	}
@@ -117,6 +122,7 @@ void	loop(t_data *data)
 
 void	draw_gameplay(t_data *data)
 {
+	data->params.test = 0;
 	loop(data);
 	begin_sprite(data, &data->player, &data->params);
 	mini_map(data);
