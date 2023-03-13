@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:35:35 by jewancti          #+#    #+#             */
-/*   Updated: 2023/03/12 18:47:00 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/03/13 19:54:24 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,11 @@ double	dda(t_data *data, t_params *params, int *map_y, int *map_x)
 		}
 		if (data -> map.map[*map_y][*map_x] == 'D')
 		{
+			// data -> map.map[*map_y][*map_x] = '0';
 			params->test = 1;
 			break;
 		}
+			params->test = 0;
 		if (data -> map.map[*map_y][*map_x] == WALL)
 			break;
 	}
@@ -120,10 +122,53 @@ void	loop(t_data *data)
 	}
 }
 
+void	check_door(char **map, t_player *player, t_map *m)
+{
+	int i = 0;
+	int x, y;
+	int door = 0;
+
+	x = m->door.x - 2;
+	y = m->door.y - 2;
+	map[m->door.y][m->door.x] = 'D';
+	printf("DOOR CLOSED\n");
+	// printf("door y = %d, door x = %d\n", m->door.y, m->door.x);
+	if (y<0)
+		y = 0;
+	if (x<0)
+		x = 0;
+	printf("ENTER\n");
+	while (y <= m->door.y + 2)
+	{
+		if ((int)(player->x) == x && (int)(player->y) == y)
+			door = 1;
+		printf("player y = %d, player x = %d\ny = %d, x = %d\n", (int)(player->y), (int)(player->x), y, x);
+		while (x <= m->door.x + 2)
+			x++;
+		y++;
+	}
+	x = m->door.x - 2;
+	y = m->door.y - 2;
+	while (x <= m->door.x + 2)
+	{
+		if ((int)(player->x) == x )
+			door = 1;
+		// printf("player y = %d, player x = %d\ny = %d, x = %d\n", (int)(player->y), (int)(player->x), y, x);
+		while (y <= m->door.y + 2)
+			y++;
+		x++;
+	}
+	if (door == 1)
+		map[m->door.y][m->door.x] = '0';
+}
+
 void	draw_gameplay(t_data *data)
 {
 	data->params.test = 0;
+	int i = 0;
+	check_door(data->map.map, &data -> player, &data->map);
 	loop(data);
+	check_door(data->map.map, &data -> player, &data->map);
 	begin_sprite(data, &data->player, &data->params);
 	mini_map(data);
 	draw_buff(data);

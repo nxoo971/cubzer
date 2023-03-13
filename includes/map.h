@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 02:12:14 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/27 01:09:40 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/03/13 18:21:19 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,13 @@
 # define WEST	'W'
 # define EAST	'E'
 # define SOUTH	'S'
+
+typedef struct s_vect
+{
+	int x;
+	int y;
+}				t_vect;
+
 
 typedef struct s_map
 {
@@ -60,6 +67,10 @@ typedef struct s_map
 
 //	map
 	char		**map;
+
+// door
+	t_vect door;
+
 }	t_map;
 
 typedef struct s_player	t_player;

@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:41 by jewancti          #+#    #+#             */
-/*   Updated: 2023/03/12 18:00:40 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/03/13 18:51:18 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,27 @@ int	launch_game(t_data *data)
 	return (0);
 }
 
+void	stock_door(char **map, t_map *m)
+{
+	int	i;
+	int j;
+
+	i = -1;
+	while (map[++i])
+	{
+		j = -1;
+		while (map[i][++j])
+		{
+			if (map[i][j] == 'D')
+			{
+				printf("door found at %d %d\n", i, j);
+				m->door.y = i;
+				m->door.x = j;
+			}
+		}
+	}
+}
+
 int	main(int ac, char **av, char **env)
 {
 	static t_data	data = {0};
@@ -62,6 +83,7 @@ int	main(int ac, char **av, char **env)
 	{
 		data.player = player;
 		print_map(data);
+		stock_door(data.map.map, &data.map);
 		launch_game(& data);
 	}
 	else
