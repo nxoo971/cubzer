@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:41 by jewancti          #+#    #+#             */
-/*   Updated: 2023/03/14 18:56:10 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/03/14 19:05:55 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int	stock_door(char **map, t_map *m)
 	i = -1;
 	k = 0;
 
+	count_door(map, m);
 	if (m->nb_door == 0)
 		return (EXIT_FAILURE);
 	m->door = malloc(sizeof(t_vect) * m->nb_door);

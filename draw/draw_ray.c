@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:35:35 by jewancti          #+#    #+#             */
-/*   Updated: 2023/03/14 18:51:34 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/03/14 19:12:09 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,21 +121,37 @@ void	loop(t_data *data)
 	}
 }
 
-
-
-void	check_door(char **map, t_player *player, t_map *m, t_vect door)
+void	check_door2(t_player *player, t_map *m, t_vect door, int *d)
 {
-	int i = 0;
-	int x, y;
-	int isdoor = 0;
+	int	x;
+	int	y;
 
 	x = door.x - 2;
 	y = door.y - 2;
-	map[door.y][door.x] = 'D';
-	if (y<0)
-		y = 0;
-	if (x<0)
-		x = 0;
+	while (x <= door.x + 2)
+	{
+		if ((int)(player->x) == x )
+			*d = 1;
+		while (y <= door.y + 2)
+			y++;
+		x++;
+	}
+	if (*d == 1)
+		m->map[door.y][door.x] = '0';
+}
+
+
+
+void	check_door(t_player *player, t_map *m, t_vect door)
+{
+	int x;
+	int	y;
+	int isdoor;
+
+	m->map[door.y][door.x] = 'D';
+	x = door.x - 2;
+	y = door.y - 2;
+	isdoor = 0;
 	while (y <= door.y + 2)
 	{
 		if ((int)(player->x) == x && (int)(player->y) == y)
@@ -144,18 +160,7 @@ void	check_door(char **map, t_player *player, t_map *m, t_vect door)
 			x++;
 		y++;
 	}
-	x = door.x - 2;
-	y = door.y - 2;
-	while (x <= door.x + 2)
-	{
-		if ((int)(player->x) == x )
-			isdoor = 1;
-		while (y <= door.y + 2)
-			y++;
-		x++;
-	}
-	if (isdoor == 1)
-		map[door.y][door.x] = '0';
+	check_door2(player, m, door, &isdoor);
 }
 
 void	draw_gameplay(t_data *data)
@@ -163,7 +168,7 @@ void	draw_gameplay(t_data *data)
 	data->params.test = 0;
 	int i = -1;
 	while (++i < data->map.nb_door)
-		check_door(data->map.map, &data -> player, &data->map, data->map.door[i]);
+		check_door(&data -> player, &data->map, data->map.door[i]);
 	loop(data);
 	begin_sprite(data, &data->player, &data->params);
 	mini_map(data);
