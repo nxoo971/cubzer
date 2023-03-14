@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 02:47:36 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/27 02:57:33 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/03/14 23:21:15 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	free_cub3d(t_data *data)
 	ft_memdel((void **)& data -> map.path_no);
 	ft_memdel((void **)& data -> map.path_we);
 	ft_memdel((void **)& data -> map.path_ea);
+	ft_memdel((void **)& data -> map.door);
 	if (data -> img)
 		mlx_destroy_image(data -> mlx_ptr, data -> img);
 	free_textures(data);

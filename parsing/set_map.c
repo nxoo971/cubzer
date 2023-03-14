@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 21:33:12 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/27 04:16:21 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/03/14 23:22:36 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int	set_map(t_map *map, t_player *player, const char *src_map)
 					"{blue}set_map: {red}FAILED -- wrong chars{reset}\n"));
 		i++;
 	}
+	map->y = i;
 	return (EXIT_SUCCESS);
 }
 

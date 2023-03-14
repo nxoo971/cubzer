@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 21:39:55 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/26 22:02:03 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/03/13 17:27:29 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,25 @@ int	get_color_from_texture(t_data *data, double *texture_pos,
 	color = 0x0;
 	texture_y = (int)*texture_pos & (TEXTURE_HEIGHT - 1);
 	*texture_pos += data -> params.step;
-	if (data -> params.side == 1)
+	if (data -> params.test == 1)
+	{
+		color = data -> texture[11][TEXTURE_HEIGHT * texture_y + texture_x];
+	}
+	else if (data -> params.side == 1)
 	{
 		if (data -> params.ray_y > 0)
-			color = data -> texture[0][TEXTURE_HEIGHT * texture_y + texture_x];
+				color = data -> texture[0][TEXTURE_HEIGHT * texture_y + texture_x];
 		else
-			color = data -> texture[1][TEXTURE_HEIGHT * texture_y + texture_x];
+				color = data -> texture[1][TEXTURE_HEIGHT * texture_y + texture_x];
 	}
 	else
 	{
 		if (data -> params.ray_x > 0)
-			color = data -> texture[3][TEXTURE_HEIGHT * texture_y + texture_x];
+				color = data -> texture[3][TEXTURE_HEIGHT * texture_y + texture_x];
 		else
-			color = data -> texture[2][TEXTURE_HEIGHT * texture_y + texture_x];
+				color = data -> texture[2][TEXTURE_HEIGHT * texture_y + texture_x];
 	}
+	// data->params.test = 0;
 	return (color);
 }
 
@@ -60,6 +65,7 @@ void	end_textures(t_data *data, int x, double text_pos, const int colors[3])
 		data -> buf[y][x] = color;
 		data -> params.re_buf = true;
 	}
+
 }
 
 void	begin_textures(t_data *data, int x,

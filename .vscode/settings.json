@@ -3,6 +3,7 @@
         "math.h": "c",
         "type_traits": "c",
         "limits": "c",
-        "cub3d.h": "c"
+        "cub3d.h": "c",
+        "xlib.h": "c"
     }
 }

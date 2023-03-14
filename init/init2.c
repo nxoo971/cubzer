@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 01:22:58 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/27 03:06:03 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/03/14 23:21:53 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,9 @@ void	set_textures(int *texture, const void *xpm_addr,
 int	init_images(t_data *data)
 {
 	const char	*path_textures[TEXTURE_SIZE] = {
-		data -> map.path_no, data -> map.path_so,
-		data -> map.path_we, data -> map.path_ea
+		data -> map.path_no, data -> map.path_so, data -> map.path_we, data -> map.path_ea, "textures/bluestone.xpm", 
+		"textures/mossy.xpm", "textures/wood.xpm", "textures/colorstone.xpm", "textures/barrel.xpm", "textures/pillar.xpm",
+		"textures/greenlight.xpm", "textures/door.xpm" 
 	};
 	int			index;
 	int			h;
