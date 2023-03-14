@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 02:12:14 by jewancti          #+#    #+#             */
-/*   Updated: 2023/03/13 18:21:19 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/03/14 17:15:35 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ typedef struct s_map
 	char		**map;
 
 // door
-	t_vect door;
+	t_vect *door;
+	int nb_door;
 
 }	t_map;
 

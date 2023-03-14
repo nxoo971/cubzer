@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:41 by jewancti          #+#    #+#             */
-/*   Updated: 2023/03/13 18:51:18 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/03/14 18:56:10 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ int	launch_game(t_data *data)
 	return (0);
 }
 
-void	stock_door(char **map, t_map *m)
+void	count_door(char **map, t_map *m)
 {
 	int	i;
-	int j;
+	int	j;
 
 	i = -1;
 	while (map[++i])
@@ -60,13 +60,37 @@ void	stock_door(char **map, t_map *m)
 		while (map[i][++j])
 		{
 			if (map[i][j] == 'D')
+				m->nb_door++;
+		}
+	}
+}
+
+int	stock_door(char **map, t_map *m)
+{
+	int	i;
+	int j;
+	int k;
+
+	i = -1;
+	k = 0;
+
+	if (m->nb_door == 0)
+		return (EXIT_FAILURE);
+	m->door = malloc(sizeof(t_vect) * m->nb_door);
+	while (map[++i])
+	{
+		j = -1;
+		while (map[i][++j])
+		{
+			if (map[i][j] == 'D')
 			{
 				printf("door found at %d %d\n", i, j);
-				m->door.y = i;
-				m->door.x = j;
+				m->door[k].y = i;
+				m->door[k++].x = j;
 			}
 		}
 	}
+	return (EXIT_SUCCESS);
 }
 
 int	main(int ac, char **av, char **env)
@@ -79,11 +103,10 @@ int	main(int ac, char **av, char **env)
 		return (EXIT_FAILURE);
 	data.map.filename = av[1];
 	ret = parse_map(& data.map, & player) + malloc_sprite(&data);
-	if (ret == EXIT_SUCCESS)
+	if (ret == EXIT_SUCCESS && stock_door(data.map.map, &data.map) == 0)
 	{
 		data.player = player;
 		print_map(data);
-		stock_door(data.map.map, &data.map);
 		launch_game(& data);
 	}
 	else
