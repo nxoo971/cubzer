@@ -6,11 +6,13 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 00:35:35 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/27 02:51:27 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/03/14 23:23:22 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../includes/cub3d.h"
+
+
 
 void	draw_buff(t_data *data)
 {
@@ -87,6 +89,12 @@ double	dda(t_data *data, t_params *params, int *map_y, int *map_x)
 			*map_y += params -> step_y;
 			params -> side = 1;
 		}
+		if (data -> map.map[*map_y][*map_x] == 'D')
+		{
+			params->test = 1;
+			break;
+		}
+			params->test = 0;
 		if (data -> map.map[*map_y][*map_x] == WALL)
 			break ;
 	}
@@ -118,6 +126,60 @@ void	draw_gameplay(t_data *data)
 		if (data -> params.draw_end >= HEIGHT)
 			data -> params.draw_end = HEIGHT - 1;
 		begin_textures(data, x, perp_wall_dist, line_height);
+		data->zbuffer[x] = perp_wall_dist;
 	}
+}
+
+void	check_door2(t_player *player, t_map *m, t_vect door, int *d)
+{
+	int	x;
+	int	y;
+
+	x = door.x - 2;
+	y = door.y - 2;
+	while (x <= door.x + 2)
+	{
+		if ((int)(player->x) == x )
+			*d = 1;
+		while (y <= door.y + 2)
+			y++;
+		x++;
+	}
+	if (*d == 1)
+		m->map[door.y][door.x] = '0';
+}
+
+
+
+void	check_door(t_player *player, t_map *m, t_vect door)
+{
+	int x;
+	int	y;
+	int isdoor;
+
+	m->map[door.y][door.x] = 'D';
+	x = door.x - 2;
+	y = door.y - 2;
+	isdoor = 0;
+	while (y <= door.y + 2)
+	{
+		if ((int)(player->x) == x && (int)(player->y) == y)
+			isdoor = 1;
+		while (x <= door.x + 2)
+			x++;
+		y++;
+	}
+	check_door2(player, m, door, &isdoor);
+}
+
+void	draw_gameplay(t_data *data)
+{
+	data->params.test = 0;
+	int i = -1;
+	while (++i < data->map.nb_door)
+		check_door(&data -> player, &data->map, data->map.door[i]);
+	loop(data);
+	begin_sprite(data, &data->player, &data->params);
+	mini_map(data);
 	draw_buff(data);
 }

@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 02:12:14 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/27 03:00:29 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/03/14 23:21:41 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,13 @@
 # define EAST	'E'
 # define SOUTH	'S'
 
+typedef struct s_vect
+{
+	int x;
+	int y;
+}				t_vect;
+
+
 typedef struct s_map
 {
 	const char	*filename;
@@ -33,6 +40,11 @@ typedef struct s_map
 	int			height;
 	int			width;
 
+// X_Y
+	int			x;
+	int			y;
+
+//	textures
 	bool		no_is_defined;
 	char		*path_no;
 
@@ -52,6 +64,11 @@ typedef struct s_map
 	int			color_ceil[3];
 
 	char		**map;
+
+// door
+	t_vect *door;
+	int nb_door;
+
 }	t_map;
 
 typedef struct s_player	t_player;

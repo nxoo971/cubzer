@@ -6,7 +6,7 @@
 /*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:57 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/27 04:09:17 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/03/14 23:21:36 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,41 @@
 # include <math.h>
 # include "./../libft/includes/libft.h"
 # include "./../mlx/mlx/mlx.h"
+# include "./../mlx/mlx/mlx_int.h"
 # include "map.h"
 
 # define WIDTH	1280
 # define HEIGHT	720
-# define MAP_PIXEL 10
 
-# define TEXTURE_SIZE		4
+// MINI MAP
+#define  PIXEL 15
+#define LENMAP 20
+#define OFFSET 3
+
+// SPRITE
+#define uDiv 1
+#define vDiv 1
+#define vMove 1.0
+#define numSprites 2
+
+
+
+typedef struct	s_sprite
+{
+	double		x;
+	double		y;
+	int			texture;
+}			t_sprite;
+
+typedef struct		s_pair
+{
+	double	first;
+	int		second;
+}					t_pair;
+
+
+
+# define TEXTURE_SIZE		12
 # define TEXTURE_WIDTH		64
 # define TEXTURE_HEIGHT		64
 
@@ -93,6 +121,7 @@ typedef struct s_params
 {
 	double	dir_y;
 	double	dir_x;
+	int test;
 
 	double	plane_y;
 	double	plane_x;
@@ -115,26 +144,58 @@ typedef struct s_params
 	double	draw_end;
 
 	bool	re_buf;
+
+	// sprite
+	double sprite_x;
+	double sprite_y;
+	double invdet;
+	double transform_x;
+	double transform_y;
+	int sprite_screen_x;
+	int vmovescreen;
+	int sprite_height;
+	int draw_start_y;
+	int draw_end_y;
+	int sprite_width;
+	int draw_start_x;
+	int draw_end_x;
+	int tex_x;
+	int tex_y;
+	int d;
+	int color;
 }	t_params;
 
 typedef struct s_data
 {
 	void		*mlx_ptr;
 	void		*win_ptr;
-	int			*texture[4];
+	int 		*texture[TEXTURE_SIZE];
 	int			*buf[HEIGHT];
+	int			zbuffer[WIDTH];
+
+	double		*perpwalldist;
 
 	void		*img;
+	void		*xpm[TEXTURE_SIZE];
+	void		*xpm_addr[TEXTURE_SIZE];
 	void		*addr;
 
 	void		*xpm[4];
 	void		*xpm_addr[4];
 
+	// sprite
+	int		numsprite;
+	int		*sprite_ord;
+	double	*sprite_dis;
+
+	int mouse;
+	int mousebool;
+
 	t_mlx		mlx;
 	t_map		map;
 	t_press		press;
 	t_params	params;
-	t_player	player;
+	t_sprite	*sprite;
 }	t_data;
 
 /*
@@ -193,5 +254,19 @@ void	free_cub3d(t_data *data);
 void	mlx_put_pixel(t_mlx mlx, int x, int y, int color);
 //	print.c
 void	print_map(const t_data data);
+
+void	mini_map(t_data *data);
+void begin_sprite(t_data *data, t_player *player, t_params *params);
+
+
+
+void load_texture(t_data *data);
+
+// SPRITE
+int	malloc_sprite(t_data *data);
+
+// Mouse move
+int   mouse_move(int sign_y, int sign_x, void *data);
+
 
 #endif
