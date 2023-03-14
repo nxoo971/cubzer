@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:48:11 by rferradi          #+#    #+#             */
-/*   Updated: 2023/03/02 01:27:02 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/03/14 19:21:25 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,13 +101,13 @@ int malloc_sprite(t_data *data)
 {
 	int i;
 
-	data->numhamoud = count_hamoud(data->map.map);
-	if (data->numhamoud <= 0)
+	data->numsprite = count_hamoud(data->map.map);
+	if (data->numsprite <= 0)
 		return (EXIT_FAILURE);
-	ft_printf("numhamoud = %d\n", data->numhamoud);
-	data->sprite = (t_sprite *)malloc(sizeof(t_sprite) * (data->numhamoud));
-	data->sprite_ord = malloc(sizeof(int) * (data->numhamoud));
-	data->sprite_dis = malloc(sizeof(double) * (data->numhamoud));
+	ft_printf("numsprite = %d\n", data->numsprite);
+	data->sprite = (t_sprite *)malloc(sizeof(t_sprite) * (data->numsprite));
+	data->sprite_ord = malloc(sizeof(int) * (data->numsprite));
+	data->sprite_dis = malloc(sizeof(double) * (data->numsprite));
 	if (!data->sprite_ord || !data->sprite_dis || !data->sprite)
 		return (EXIT_FAILURE);
 	parse_sprite(data, data->map.map);
@@ -118,12 +118,12 @@ void sprite_casting(t_data *data, t_player *player, t_params *params)
 {
 	int i;
 	i = -1;
-	while (++i < data->numhamoud)
+	while (++i < data->numsprite)
 	{
 		data->sprite_ord[i] = i;
 		data->sprite_dis[i] = ((player->x - data->sprite[i].x) * (player->x - data->sprite[i].x) + (player->y - data->sprite[i].y) * (player->y - data->sprite[i].y)); // sqrt not taken, unneeded
 	}
-	sortSprites(data->sprite_ord, data->sprite_dis, data->numhamoud - 1);
+	sortSprites(data->sprite_ord, data->sprite_dis, data->numsprite - 1);
 }
 
 void sprite_cast2(t_data *data, t_player *player, t_params *p, int i)
@@ -177,7 +177,7 @@ void begin_sprite(t_data *data, t_player *player, t_params *p)
 
 	sprite_casting(data, player, p);
 	i = -1;
-	while (++i < data->numhamoud)
+	while (++i < data->numsprite)
 	{
 		sprite_cast2(data, player, p, i);
 		stripe = p->draw_start_x;

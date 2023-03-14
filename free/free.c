@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 02:47:36 by jewancti          #+#    #+#             */
-/*   Updated: 2023/02/25 05:07:19 by jewancti         ###   ########.fr       */
+/*   Updated: 2023/03/14 19:15:49 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	free_cub3d(t_data *data)
 	ft_memdel((void **)& data -> map.path_no);
 	ft_memdel((void **)& data -> map.path_we);
 	ft_memdel((void **)& data -> map.path_ea);
+	ft_memdel((void **)& data -> map.door);
 	if (data -> img)
 		mlx_destroy_image(data -> mlx_ptr, data -> img);
 	if (data -> img_map)

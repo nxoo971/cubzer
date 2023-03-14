@@ -6,7 +6,7 @@
 /*   By: rferradi <rferradi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:36:57 by jewancti          #+#    #+#             */
-/*   Updated: 2023/03/12 18:44:31 by rferradi         ###   ########.fr       */
+/*   Updated: 2023/03/14 19:20:10 by rferradi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,7 @@ typedef struct s_data
 	void		*game_addr;
 
 	// sprite
-	int		numhamoud;
+	int		numsprite;
 	int		*sprite_ord;
 	double	*sprite_dis;
 
